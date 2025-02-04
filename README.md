@@ -1,8 +1,11 @@
+
 <div align="center">
 
-[![Header](https://capsule-render.vercel.app/api?type=venom&color=gradient&customColorList=6,11,20&height=300&section=header&text=Davis%20Ogega&fontSize=90&animation=scaleIn&fontAlignY=38&desc=Flutter%20Developer%20%7C%20AI%20Engineer%20%7C%20Mental%20Health%20Advocate&descAlignY=51&descAlign=62)](https://github.com/davytheprogrammer)
+[![Header](https://capsule-render.vercel.app/api?type=venom&color=gradient&customColorList=6,11,20&height=300&section=header&text=Davis%20Ogega&fontSize=90&animation=scaleIn&fontAlignY=38&desc=Flutter%20Developer%20%7C%20AI%20Engineer%20%7C%20Mental%20Health%20Advocate&descAlignY=51&descAlign=62&textBg=false&fontColor=6AD7F7)](https://github.com/davytheprogrammer)
 
 <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=28&duration=4000&pause=1000&color=6AD7F7&center=true&vCenter=true&random=false&width=635&lines=Co-Founder+of+Rax+Foundation;Champion+for+Mental+Health;Building+Intelligent+Solutions;4%2B+Years+of+Development+Excellence" alt="Typing SVG" />
+
+
 
 </div>
 
