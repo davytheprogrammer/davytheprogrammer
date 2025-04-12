@@ -1,158 +1,206 @@
 
 <div align="center">
-
-[![Header](https://capsule-render.vercel.app/api?type=venom&color=gradient&customColorList=6,11,20&height=300&section=header&text=Davis%20Ogega&fontSize=90&animation=scaleIn&fontAlignY=38&desc=Flutter%20Developer%20%7C%20AI%20Engineer%20%7C%20Mental%20Health%20Advocate&descAlignY=51&descAlign=62&textBg=false&fontColor=6AD7F7)](https://github.com/davytheprogrammer)
-
-<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=28&duration=4000&pause=1000&color=6AD7F7&center=true&vCenter=true&random=false&width=635&lines=Co-Founder+of+Rax+Foundation;Champion+for+Mental+Health;Building+Intelligent+Solutions;4%2B+Years+of+Development+Excellence" alt="Typing SVG" />
-
-
-
+  <img src="https://raw.githubusercontent.com/davytheprogrammer/davytheprogrammer/main/assets/futuristic-banner.gif" alt="Futuristic Banner" width="100%"/>
+  
+  [![Typing SVG](https://readme-typing-svg.demolab.com?font=Space+Mono&weight=800&size=28&duration=4000&pause=1000&color=00F0FF&center=true&vCenter=true&width=800&lines=Full-Stack+Flutter+Developer;AI+Engineer+%26+Researcher;Web+Architecture+Specialist;Mental+Health+Technologist)](https://github.com/davytheprogrammer)
 </div>
 
 <div align="center">
-  <a href="https://linkedin.com/in/davismachinogega">
-    <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn" />
-  </a>
-  <a href="https://twitter.com/officialogega">
-    <img src="https://img.shields.io/badge/Twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white" alt="Twitter" />
-  </a>
-  <a href="https://instagram.com/ogegadavis254">
-    <img src="https://img.shields.io/badge/Instagram-E4405F?style=for-the-badge&logo=instagram&logoColor=white" alt="Instagram" />
-  </a>
+  <img src="https://komarev.com/ghpvc/?username=davytheprogrammer&label=COSMIC+VISITORS&color=0d75f7&style=flat-square" alt="Profile views" />
 </div>
 
 <br/>
 
 <div align="center">
-  <img src="https://komarev.com/ghpvc/?username=davytheprogrammer&label=Profile%20Views&color=brightgreen&style=for-the-badge" alt="Profile Views" />
+  <a href="https://linkedin.com/in/davismachinogega">
+    <img src="https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn" />
+  </a>
+  <a href="https://twitter.com/officialogega">
+    <img src="https://img.shields.io/badge/Twitter-1D9BF0?style=for-the-badge&logo=twitter&logoColor=white" alt="Twitter" />
+  </a>
+  <a href="https://ogegadavis.dev">
+    <img src="https://img.shields.io/badge/Portfolio-FF4088?style=for-the-badge&logo=hackerrank&logoColor=white" alt="Portfolio" />
+  </a>
+  <a href="mailto:davis@raxfoundation.org">
+    <img src="https://img.shields.io/badge/Email-EA4335?style=for-the-badge&logo=gmail&logoColor=white" alt="Email" />
+  </a>
 </div>
 
-<h2 align="center">🎯 Mission & Impact</h2>
+---
 
-<table>
-  <tr>
-    <td width="50%">
-      <h3 align="center">👨‍💻 Tech Innovation</h3>
-      <p align="center">
-        Building intelligent Flutter applications that transform user experiences and push the boundaries of mobile development.
-      </p>
-    </td>
-    <td width="50%">
-      <h3 align="center">🌟 Social Impact</h3>
-      <p align="center">
-        Co-founding Rax Foundation to champion mental health awareness and create technological solutions for mental wellness.
-      </p>
-    </td>
-  </tr>
-</table>
-
-<div align="center">
-  <img src="https://github-profile-trophy.vercel.app/?username=davytheprogrammer&theme=algolia&no-frame=true&no-bg=true&margin-w=15&column=7" width="100%" alt="Trophy" />
-</div>
-
-<h2 align="center">📊 GitHub Analytics</h2>
-
-<table>
-  <tr>
-    <td width="50%">
-      <img src="https://github-readme-stats.vercel.app/api?username=davytheprogrammer&show_icons=true&theme=tokyonight&hide_border=true&bg_color=0D1117&ring_color=6AD7F7" />
-    </td>
-    <td width="50%">
-      <img src="https://github-readme-streak-stats.herokuapp.com/?user=davytheprogrammer&theme=tokyonight&hide_border=true&background=0D1117&ring=6AD7F7" />
-    </td>
-  </tr>
-</table>
-
-<div align="center">
-  <img src="https://github-readme-activity-graph.vercel.app/graph?username=davytheprogrammer&custom_title=Contribution%20Graph&bg_color=0D1117&color=6AD7F7&line=6AD7F7&point=FFFFFF&hide_border=true" width="100%" />
-</div>
-
-<h2 align="center">🛠️ Technology Arsenal</h2>
-
-<div align="center">
-  <img src="https://skillicons.dev/icons?i=flutter,dart,python,tensorflow,pytorch,firebase,aws,gcp" /><br/>
-  <img src="https://skillicons.dev/icons?i=git,docker,kubernetes,vscode,androidstudio,figma,xd" />
-</div>
-
-<h2 align="center">🚀 Flagship Projects</h2>
-
-<div align="center">
-<a href="https://github.com/davytheprogrammer/rax-mental-health">
-  <img align="center" src="https://github-readme-stats.vercel.app/api/pin/?username=davytheprogrammer&repo=rax-mental-health&theme=tokyonight&hide_border=true&bg_color=0D1117" />
-</a>
-<a href="https://github.com/davytheprogrammer/flutter-ai-assistant">
-  <img align="center" src="https://github-readme-stats.vercel.app/api/pin/?username=davytheprogrammer&repo=flutter-ai-assistant&theme=tokyonight&hide_border=true&bg_color=0D1117" />
-</a>
-</div>
-
-<h2 align="center">💡 Innovation Focus</h2>
-
-```dart
-class Innovations {
-  final Map<String, List<String>> current = {
-    "🧠 Mental Health Tech": [
-      "AI-Powered Therapy Assistance",
-      "Mood Tracking Analytics",
-      "Community Support Platforms"
-    ],
-    "🤖 AI & ML": [
-      "Natural Language Processing",
-      "Emotion Recognition",
-      "Predictive Analytics"
-    ],
-    "📱 Mobile Development": [
-      "Cross-Platform Excellence",
-      "Neural Engine Integration",
-      "Real-time Processing"
-    ]
-  };
-  
-  final String mission = "Leveraging technology to improve mental wellness";
-}
-```
-
-<div align="center">
-  <img src="https://github.com/davytheprogrammer/davytheprogrammer/blob/output/github-contribution-grid-snake-dark.svg" width="100%" />
-</div>
-
-<h2 align="center">🤝 Let's Connect</h2>
+## 🚀 Multi-Dimensional Expertise
 
 <div align="center">
   <table>
     <tr>
-      <td>
-        <a href="https://linkedin.com/in/davismachinogega">
-          <img width="64" height="64" src="https://img.icons8.com/nolan/64/linkedin.png" alt="LinkedIn"/>
-        </a>
+      <td width="33%" align="center">
+        <img src="https://raw.githubusercontent.com/davytheprogrammer/davytheprogrammer/main/assets/mobile-icon.gif" width="80"/>
+        <h3>Cross-Platform Development</h3>
+        <p>Building performant Flutter applications with native feel</p>
       </td>
-      <td>
-        <a href="https://twitter.com/officialogega">
-          <img width="64" height="64" src="https://img.icons8.com/nolan/64/twitter.png" alt="Twitter"/>
-        </a>
+      <td width="33%" align="center">
+        <img src="https://raw.githubusercontent.com/davytheprogrammer/davytheprogrammer/main/assets/ai-icon.gif" width="80"/>
+        <h3>AI Engineering</h3>
+        <p>From research to production-grade ML models</p>
       </td>
-      <td>
-        <a href="https://instagram.com/ogegadavis254">
-          <img width="64" height="64" src="https://img.icons8.com/nolan/64/instagram-new.png" alt="Instagram"/>
-        </a>
+      <td width="33%" align="center">
+        <img src="https://raw.githubusercontent.com/davytheprogrammer/davytheprogrammer/main/assets/web-icon.gif" width="80"/>
+        <h3>Web Architecture</h3>
+        <p>Modern full-stack web solutions</p>
       </td>
     </tr>
   </table>
 </div>
 
-<div align="center">
-  <h3>✨ Open for Collaborations ✨</h3>
-  <p>Mental Health Tech • AI Solutions • Flutter Development</p>
-</div>
+---
+
+## 🔮 Technology Matrix
+
+### 🛠 Core Development Stack
 
 <div align="center">
-  <img src="https://quotes-github-readme.vercel.app/api?type=horizontal&theme=tokyonight" />
+  <img src="https://skillicons.dev/icons?i=flutter,dart,py,tensorflow,pytorch,keras,fastapi,nodejs,react,nextjs,tailwind,graphql" alt="Tech Stack"/>
 </div>
 
+### ☁️ Cloud & DevOps
+
 <div align="center">
-  <h3>Support My Work</h3>
-  <a href="https://www.buymeacoffee.com/davytheprogrammer">
-    <img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=davytheprogrammer&button_colour=6AD7F7&font_colour=000000&font_family=Poppins&outline_colour=000000&coffee_colour=FFDD00" />
+  <img src="https://skillicons.dev/icons?i=aws,gcp,azure,firebase,docker,kubernetes,githubactions,terraform,nginx" alt="Cloud Stack"/>
+</div>
+
+### 🧠 AI/ML Specialization
+
+<div align="center">
+  <img src="https://raw.githubusercontent.com/davytheprogrammer/davytheprogrammer/main/assets/ai-ml-stack.png" width="600" alt="AI Stack"/>
+</div>
+
+---
+
+## 📊 GitHub Quantum Analytics
+
+<div align="center">
+  <table>
+    <tr>
+      <td>
+        <img src="https://github-readme-stats.vercel.app/api?username=davytheprogrammer&show_icons=true&theme=vision-friendly-dark&hide_border=true&bg_color=0d1117&title_color=00f0ff&icon_color=00f0ff&text_color=ffffff" alt="Stats"/>
+      </td>
+      <td>
+        <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=davytheprogrammer&layout=compact&theme=vision-friendly-dark&hide_border=true&bg_color=0d1117&title_color=00f0ff&text_color=ffffff" alt="Top Langs"/>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        <img src="https://github-readme-streak-stats.herokuapp.com/?user=davytheprogrammer&theme=vision-friendly-dark&hide_border=true&background=0d1117&ring=00f0ff&fire=00f0ff&currStreakNum=ffffff&currStreakLabel=00f0ff" alt="Streak"/>
+      </td>
+    </tr>
+  </table>
+</div>
+
+---
+
+## 🌌 Project Constellations
+
+### 🤖 AI/ML Projects
+
+<table>
+  <tr>
+    <td width="50%">
+      <h3 align="center">NeuroMind Framework</h3>
+      <div align="center">
+        <img src="https://raw.githubusercontent.com/davytheprogrammer/davytheprogrammer/main/assets/neuromind-preview.gif" width="400"/>
+        <p>Production-grade framework for mental health AI models</p>
+        <a href="https://github.com/davytheprogrammer/neuromind-framework">
+          <img src="https://img.shields.io/badge/EXPLORE-00F0FF?style=for-the-badge" alt="Explore"/>
+        </a>
+      </div>
+    </td>
+    <td width="50%">
+      <h3 align="center">SentimentX</h3>
+      <div align="center">
+        <img src="https://raw.githubusercontent.com/davytheprogrammer/davytheprogrammer/main/assets/sentimentx-preview.gif" width="400"/>
+        <p>Real-time emotion detection API</p>
+        <a href="https://github.com/davytheprogrammer/sentimentx">
+          <img src="https://img.shields.io/badge/EXPLORE-00F0FF?style=for-the-badge" alt="Explore"/>
+        </a>
+      </div>
+    </td>
+  </tr>
+</table>
+
+### 🌐 Web Projects
+
+<table>
+  <tr>
+    <td width="50%">
+      <h3 align="center">MindScape Web</h3>
+      <div align="center">
+        <img src="https://raw.githubusercontent.com/davytheprogrammer/davytheprogrammer/main/assets/mindscape-preview.gif" width="400"/>
+        <p>Interactive mental health portal</p>
+        <a href="https://github.com/davytheprogrammer/mindscape-web">
+          <img src="https://img.shields.io/badge/EXPLORE-00F0FF?style=for-the-badge" alt="Explore"/>
+        </a>
+      </div>
+    </td>
+    <td width="50%">
+      <h3 align="center">Quantum UI</h3>
+      <div align="center">
+        <img src="https://raw.githubusercontent.com/davytheprogrammer/davytheprogrammer/main/assets/quantumui-preview.gif" width="400"/>
+        <p>Next-gen component library</p>
+        <a href="https://github.com/davytheprogrammer/quantum-ui">
+          <img src="https://img.shields.io/badge/EXPLORE-00F0FF?style=for-the-badge" alt="Explore"/>
+        </a>
+      </div>
+    </td>
+  </tr>
+</table>
+
+---
+
+## 🧬 Development DNA
+
+```python
+class Developer:
+    def __init__(self):
+        self.name = "Davis Ogega"
+        self.role = "Full-Stack Flutter Developer | AI Engineer"
+        self.skills = {
+            "Mobile": ["Flutter", "Dart", "Native Integration"],
+            "AI/ML": ["TensorFlow", "PyTorch", "NLP", "Computer Vision"],
+            "Web": ["Next.js", "React", "Node.js", "GraphQL"],
+            "DevOps": ["Docker", "Kubernetes", "CI/CD", "Cloud Architecture"],
+            "Specialties": ["Mental Health Tech", "AI Ethics", "UX Optimization"]
+        }
+        
+    def build(self):
+        while True:
+            yield "scalable solutions"
+            yield "ethical AI systems"
+            yield "impactful products"
+            
+    def __str__(self):
+        return "Engineering the future with code and compassion"
+```
+
+---
+
+## 📡 Connect With My Digital Orbit
+
+<div align="center">
+  <a href="https://ogegadavis.dev">
+    <img src="https://img.shields.io/badge/Website-00F0FF?style=for-the-badge&logo=google-chrome&logoColor=white" alt="Website"/>
+  </a>
+  <a href="https://calendly.com/davisogega">
+    <img src="https://img.shields.io/badge/Meeting-00F0FF?style=for-the-badge&logo=google-meet&logoColor=white" alt="Meeting"/>
+  </a>
+  <a href="https://medium.com/@davisogega">
+    <img src="https://img.shields.io/badge/Blog-00F0FF?style=for-the-badge&logo=medium&logoColor=white" alt="Blog"/>
   </a>
 </div>
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=6,11,20&height=170&section=footer" width="100%" />
+<div align="center">
+  <img src="https://raw.githubusercontent.com/davytheprogrammer/davytheprogrammer/main/assets/futuristic-divider.gif" width="100%"/>
+</div>
+
+<div align="center">
+  <img src="https://raw.githubusercontent.com/davytheprogrammer/davytheprogrammer/output/github-contribution-grid-snake.svg" width="100%"/>
+</div>
