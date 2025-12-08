@@ -92,21 +92,9 @@ Cloud     ━━━━━━━━━━━━ 85%  █████████�
 
 <br/>
 
-<table>
-  <tr>
-    <td>
-      <img src="https://github-readme-stats-git-masterrstaa-rickstaa.vercel.app/api?username=davytheprogrammer&show_icons=true&theme=dark&hide_border=true" alt="GitHub Stats" width="100%"/>
-    </td>
-    <td>
-      <img src="https://github-readme-streak-stats.herokuapp.com/?user=davytheprogrammer&theme=dark&hide_border=true" alt="GitHub Streak" width="100%"/>
-    </td>
-    <td>
-      <img src="https://github-readme-stats-git-masterrstaa-rickstaa.vercel.app/api/top-langs/?username=davytheprogrammer&layout=compact&theme=dark&hide_border=true" alt="Top Languages" width="100%"/>
-    </td>
-  </tr>
-</table>
-
-<em><sub>Note: The stats are fetched automatically. If they don't show, refresh the page.</sub></em>
+| [![GitHub Stats](https://github-readme-stats.vercel.app/api?username=davytheprogrammer&show_icons=true&theme=dark&hide_border=true)](https://github.com/davytheprogrammer) | [![GitHub Streak](https://github-readme-streak-stats.herokuapp.com/?user=davytheprogrammer&theme=dark&hide_border=true)](https://github.com/davytheprogrammer) | [![Top Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=davytheprogrammer&layout=compact&theme=dark&hide_border=true)](https://github.com/davytheprogrammer) |
+| :--: | :--: | :--: |
+| **📈 Stats Card** | **🔥 Streak** | **💻 Top Languages** |
 
 </div>
 
