@@ -1,7 +1,13 @@
 <div align="center">
   <img src="https://raw.githubusercontent.com/davytheprogrammer/davytheprogrammer/main/assets/cosmic-gateway.gif" width="100%"/>
-  
-  [![Typing SVG](https://readme-typing-svg.demolab.com?font=Orbitron&weight=900&size=32&duration=4500&pause=1000&color=00F7FF&center=true&vCenter=true&width=900&lines=DAVIS+OGEGA;SOFTWARE+ENGINEER;AI+DEVELOPER;DIGITAL+INNOVATION+SPECIALIST)](https://github.com/davytheprogrammer)
+
+  [![Typing SVG](https://readme-typing-svg.demolab.com?font=Orbitron&weight=900&size=32&duration=4500&pause=1000&color=00F7FF&center=true&vCenter=true&width=900&lines=DAVIS+OGEGA;NEXT.JS+ARCHITECT;CERTIFIED+PROMPT+ENGINEER;PROFESSIONAL+VIBE+CΦDER;APP+INNOVATION+SPECIALIST)](https://github.com/davytheprogrammer)
+</div>
+
+<div align="center">
+  <p align="center">
+    <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=18&duration=4000&pause=1000&color=00FF88&width=600&lines=Crafting+the+future+with+c ode%2C+one+vibe+at+a+time" alt="Vibe Coder Tagline"/>
+  </p>
 </div>
 
 <div align="center">
@@ -24,30 +30,30 @@
 
 ---
 
-## 💫 Professional Focus Areas
+## 💫 Professional Expertise Matrix
 
 <div align="center">
   <table>
     <tr>
       <td width="25%" align="center">
+        <img src="https://raw.githubusercontent.com/davytheprogrammer/davytheprogrammer/main/assets/web-matrix.gif" width="80"/>
+        <h3>🚀 Next.js Architecture</h3>
+        <p>Full-stack React applications with App Router, RSC, and performance optimization</p>
+      </td>
+      <td width="25%" align="center">
         <img src="https://raw.githubusercontent.com/davytheprogrammer/davytheprogrammer/main/assets/quantum-flutter.gif" width="80"/>
-        <h3>Mobile Development</h3>
-        <p>Cross-platform and native experiences with Flutter and Dart</p>
+        <h3>📱 App Development</h3>
+        <p>Cross-platform and native experiences with Flutter, Dart & modern frameworks</p>
       </td>
       <td width="25%" align="center">
         <img src="https://raw.githubusercontent.com/davytheprogrammer/davytheprogrammer/main/assets/neural-core.gif" width="80"/>
-        <h3>AI Engineering</h3>
-        <p>ML/DL model development and deployment</p>
-      </td>
-      <td width="25%" align="center">
-        <img src="https://raw.githubusercontent.com/davytheprogrammer/davytheprogrammer/main/assets/web-matrix.gif" width="80"/>
-        <h3>Web Systems</h3>
-        <p>Full-stack architecture and implementation</p>
+        <h3>🎨 Vibe Coding</h3>
+        <p>Rapid prototyping with AI pair programming and intuitive development workflows</p>
       </td>
       <td width="25%" align="center">
         <img src="https://raw.githubusercontent.com/davytheprogrammer/davytheprogrammer/main/assets/mind-tech.gif" width="80"/>
-        <h3>Digital Health</h3>
-        <p>Health tech solutions and innovations</p>
+        <h3>🧠 Prompt Engineering</h3>
+        <p>Certified LLM orchestration, AI system design, and optimal prompt architecture</p>
       </td>
     </tr>
   </table>
@@ -60,7 +66,17 @@
 ### 🛰 Core Technologies
 
 <div align="center">
-  <img src="https://skillicons.dev/icons?i=flutter,dart,py,tensorflow,pytorch,keras,fastapi,nodejs,react,nextjs,tailwind,graphql,aws,gcp,azure,firebase,docker,kubernetes,githubactions,terraform,nginx" alt="Tech Stack" style="background-color:0d1117"/>
+  <img src="https://skillicons.dev/icons?i=nextjs,react,tailwind,ts,nodejs,flutter,dart,py,tensorflow,pytorch,fastapi,graphql,mongodb,postgresql,aws,gcp,firebase,docker,kubernetes,githubactions,vscode,vercel,git" alt="Tech Stack" style="background-color:0d1117"/>
+</div>
+
+### 🤖 AI & Vibe Coding Arsenal
+
+<div align="center">
+  <img src="https://skillicons.dev/icons?i=openai,claude,llama,pandas" alt="AI Stack" style="background-color:0d1117"/>
+  <br/>
+  <img src="https://img.shields.io/badge/Claude_Code-FF6B6B?style=flat-square&logo=claude&logoColor=white&labelColor=0d1117" alt="Claude Code"/>
+  <img src="https://img.shields.io/badge/Cursor_AI-00E5FF?style=flat-square&logo=cursor&logoColor=white&labelColor=0d1117" alt="Cursor AI"/>
+  <img src="https://img.shields.io/badge/Windsurf-FF6B35?style=flat-square&logo=windsurf&logoColor=white&labelColor=0d1117" alt="Windsurf"/>
 </div>
 
 ---
@@ -95,28 +111,113 @@
 
 ## 💻 Code Showcase
 
-```dart
-class SoftwareEngineer {
-  final String name = "DAVIS OGEGA";
-  final String version = "2025.1";
-  
-  List<String> get specializations => [
-    "Advanced mobile UI development with Flutter",
-    "Machine learning models for real-world applications",
-    "Scalable cloud architectures",
-    "Digital health technology innovation"
-  ];
-  
-  Future<void> createSolution(Problem problem) async {
-    final approach = analyzeRequirements(problem);
-    final design = createArchitecture(approach);
-    final solution = await implementSolution(design);
-    
-    deployToProduction(solution);
-    continuouslyImprove(solution);
-  }
+### 🎨 Vibe Coding Vision
+
+```typescript
+interface VibeCoder {
+  username: "davytheprogrammer";
+  approach: "AI-augmented development";
+  speed: "ludicrous";
+  stack: ["Next.js", "TypeScript", "Tailwind", "Vercel"];
 }
+
+const createNextGenApp = async (prompt: string) => {
+  const intent = await analyzeUserIntent(prompt);
+  const architecture = generateOptimalArchitecture(intent);
+  const ui = vibeCodeInterface(architecture);
+  const backend = generateApiRoutes(architecture);
+  const deployment = deployToEdge(ui, backend);
+
+  return {
+    success: true,
+    timeSaved: "90%",
+    vibes: "immaculate",
+    url: deployment.url
+  };
+};
+
+// Output: Production-ready app in minutes, not hours
 ```
-🔮 Future Focus
-<div align="center"> <table> <tr> <td width="33%" align="center"> <h3>🧠 Advanced AI</h3> <p>Exploring emerging ML/DL frameworks and developing innovative AI solutions for complex problems</p> </td> <td width="33%" align="center"> <h3>🌐 Next-Gen Web</h3> <p>Building with edge computing, Web3 technologies, and progressive enhancement techniques</p> </td> <td width="33%" align="center"> <h3>📱 Immersive Mobile</h3> <p>Creating cutting-edge AR/VR experiences and high-performance cross-platform applications</p> </td> </tr> </table> </div>
+
+---
+
+## ⚡ Current Vibe: Active Projects
+
+<div align="center">
+  <table>
+    <tr>
+      <td width="50%" align="center">
+        <h3>🎯 Next.js 15 + React 19</h3>
+        <p>Building production apps with Server Actions, Server Components & partial prerendering</p>
+      </td>
+      <td width="50%" align="center">
+        <h3>🤖 AI Agent Systems</h3>
+        <p>Developing autonomous workflows with multi-agent architectures and function calling</p>
+      </td>
+    </tr>
+  </table>
+
+  <p align="center">
+    <img src="https://img.shields.io/badge/Status-Vibing%20High-00FF88?style=flat-square&labelColor=0d1117" alt="Status" />
+    <img src="https://img.shields.io/badge/Focus-Next.js%20Development-FF6B6B?style=flat-square&labelColor=0d1117" alt="Focus" />
+    <img src="https://img.shields.io/badge/Flow-Maximum-00F7FF?style=flat-square&labelColor=0d1117" alt="Flow" />
+  </p>
+</div>
+
+---
+
+## 🔮 Future Focus: Next-Gen Frontiers
+
+<div align="center">
+  <table>
+    <tr>
+      <td width="33%" align="center">
+        <h3>🧠 Advanced AI Engineering</h3>
+        <p>Developing custom LLMs, fine-tuning models, and creating autonomous agent systems</p>
+      </td>
+      <td width="33%" align="center">
+        <h3>🌐 Edge Computing & Web3</h3>
+        <p>Building on the edge with Vercel, Cloudflare Workers, and exploring decentralized web</p>
+      </td>
+      <td width="33%" align="center">
+        <h3>📱 Next-Gen Experiences</h3>
+        <p>AR/VR applications, 3D web with React Three Fiber, and immersive mobile experiences</p>
+      </td>
+    </tr>
+  </table>
+
+  <br/>
+
+  <p align="center">
+    <img src="https://readme-typing-svg.demolab.com?font=Orbitron&weight=600&size=20&duration=3000&pause=1000&color=FF6B6B&width=500&lines=Building+the+future%2C+one+line+of+code+at+a+time" alt="Future Vision" />
+  </p>
+</div>
+
+---
+
+## 📬 Connect & Collaborate
+
+<div align="center">
+  <p align="center">
+    <a href="https://linkedin.com/in/davismachinogega">
+      <img src="https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white&labelColor=0d1117" />
+    </a>
+    <a href="mailto:your.email@example.com">
+      <img src="https://img.shields.io/badge/Email-Contact-00A8FF?style=for-the-badge&logo=gmail&logoColor=white&labelColor=0d1117" />
+    </a>
+    <a href="https://ogegadavis.dev">
+      <img src="https://img.shields.io/badge/Portfolio-Visit-FF4088?style=for-the-badge&logo=web&logoColor=white&labelColor=0d1117" />
+    </a>
+  </p>
+
+  <br/>
+
+  <p align="center">
+    <img src="https://capsule-render.vercel.app/api?type=waving&color=timeGradient&height=60&section=footer&text=&fontColor=ffffff" alt="Footer Separator" />
+  </p>
+
+  <p align="center">
+    <code>Keep vibing, keep building</code> ✨
+  </p>
+</div>
 
