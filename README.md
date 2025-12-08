@@ -6,7 +6,7 @@
 
 <div align="center">
   <p align="center">
-    <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=18&duration=4000&pause=1000&color=00FF88&width=600&lines=Crafting+the+future+with+c ode%2C+one+vibe+at+a+time" alt="Vibe Coder Tagline"/>
+    <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=20&duration=3500&pause=1000&color=00FF88&width=600&lines=Crafting+the+future+with+code%2C+one+vibe+at+a+time" alt="Vibe Coder Tagline"/>
   </p>
 </div>
 
@@ -37,12 +37,11 @@
 ### 🎖️ **Unlocked Proficiencies**
 
 ```
-Frontend  ━━━━━━━━━━━━ 100% ████████████████████
 Next.js   ━━━━━━━━━━━━ 100% ████████████████████
-AI/ML     ━━━━━━━━━━━━ 95%  ███████████████████▌
-Mobile    ━━━━━━━━━━━━ 90%  ███████████████████▌
-Backend   ━━━━━━━━━━━━ 95%  ███████████████████▌
-Cloud     ━━━━━━━━━━━━ 85%  ██████████████████▌
+Mobile    ━━━━━━━━━━━━ 95%  ███████████████████▌
+AI/ML     ━━━━━━━━━━━━ 85%  █████████████████▌
+Backend   ━━━━━━━━━━━━ 80%  █████████████████▌
+Cloud     ━━━━━━━━━━━━ 85%  █████████████████▌
 ```
 
 </div>
