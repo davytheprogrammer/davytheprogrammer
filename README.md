@@ -21,7 +21,7 @@
 <div align="center">
   <a href="https://github.com/davytheprogrammer"><img src="assets/badge-github.svg" height="58" alt="GitHub"/></a>
   <a href="https://linkedin.com/in/davismachinogega"><img src="assets/badge-linkedin.svg" height="58" alt="LinkedIn"/></a>
-  <a href="https://twitter.com/officialogega"><img src="assets/badge-x.svg" height="58" alt="Twitter / X"/></a>
+  <a href="https://twitter.com/ogega_ogega"><img src="assets/badge-x.svg" height="58" alt="Twitter / X"/></a>
   <a href="https://ogegadavis.dev"><img src="assets/badge-portfolio.svg" height="58" alt="Portfolio"/></a>
 </div>
 
@@ -95,7 +95,7 @@
 
 <a href="https://github.com/davytheprogrammer"><img src="assets/badge-github.svg" height="58" alt="GitHub"/></a>
 <a href="https://linkedin.com/in/davismachinogega"><img src="assets/badge-linkedin.svg" height="58" alt="LinkedIn"/></a>
-<a href="https://twitter.com/officialogega"><img src="assets/badge-x.svg" height="58" alt="Twitter / X"/></a>
+<a href="https://twitter.com/ogega_ogega"><img src="assets/badge-x.svg" height="58" alt="Twitter / X"/></a>
 <a href="https://ogegadavis.dev"><img src="assets/badge-portfolio.svg" height="58" alt="Portfolio"/></a>
 <a href="https://davytheprogrammer.github.io/davytheprogrammer/"><img src="assets/badge-3d.svg" height="58" alt="3D Command Center"/></a>
 

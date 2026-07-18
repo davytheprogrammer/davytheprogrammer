@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
-<title>DAVIS OGEGA :: 3D COMMAND CENTER</title>
-<meta name="description" content="Interactive 3D command center — Davis Ogega, Next-Gen Code Architect"/>
+<title>DAVIS OGEGA :: PORTFOLIO WORLD</title>
+<meta name="description" content="Drivable 3D portfolio world — Davis Ogega, Next-Gen Code Architect"/>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='40' fill='none' stroke='%2300f7ff' stroke-width='8'/%3E%3C/svg%3E">
 <style>
   :root {
@@ -13,69 +13,85 @@
     --purple: #7b2fff;
     --green: #00ff88;
   }
-  * { box-sizing: border-box; }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; user-select: none; }
   html, body {
     margin: 0; padding: 0; width: 100%; height: 100%;
-    background: radial-gradient(ellipse at 50% 20%, #0d1730 0%, #05060c 55%, #020204 100%);
+    background: #020204;
     color: #dff8ff;
     font-family: 'Consolas', 'SFMono-Regular', 'Courier New', monospace;
     overflow: hidden;
+    overscroll-behavior: none;
   }
-  #app-canvas { position: fixed; inset: 0; display: block; }
+  #app-canvas { position: fixed; inset: 0; display: block; touch-action: none; }
 
   .vignette {
     position: fixed; inset: 0; pointer-events: none; z-index: 5;
-    background: radial-gradient(ellipse at center, rgba(0,0,0,0) 45%, rgba(0,0,0,0.75) 100%);
+    background: radial-gradient(ellipse at center, rgba(0,0,0,0) 40%, rgba(0,0,0,0.8) 100%);
   }
   .scanlines {
-    position: fixed; inset: 0; pointer-events: none; z-index: 6; opacity: .06;
+    position: fixed; inset: 0; pointer-events: none; z-index: 6; opacity: .05;
     background: repeating-linear-gradient(to bottom, #00f7ff 0px, #00f7ff 1px, transparent 2px, transparent 4px);
-    animation: scanShift 6s linear infinite;
   }
-  @keyframes scanShift { from { background-position-y: 0; } to { background-position-y: 200px; } }
 
   .hud { position: fixed; inset: 0; z-index: 10; pointer-events: none; }
   .hud a, .hud button { pointer-events: auto; }
 
   .hud-top {
-    position: absolute; top: 18px; left: 18px; right: 18px;
+    position: absolute; top: 14px; left: 14px; right: 14px;
     display: flex; justify-content: space-between; align-items: flex-start;
-    font-size: 11px; letter-spacing: 2px; color: var(--cyan); opacity: .85;
+    font-size: 10.5px; letter-spacing: 2px; color: var(--cyan); opacity: .85;
   }
-  .hud-top .status-dot {
+  .status-dot {
     display: inline-block; width: 7px; height: 7px; border-radius: 50%;
     background: var(--green); margin-right: 6px; box-shadow: 0 0 8px var(--green);
     animation: dotPulse 1.6s ease-in-out infinite;
   }
   @keyframes dotPulse { 0%,100% { opacity: 1; } 50% { opacity: .35; } }
 
-  .title-block {
-    position: absolute; left: 50%; top: 14%; transform: translate(-50%, 0);
-    text-align: center; width: 90%; max-width: 900px;
+  .corner-nav {
+    display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; max-width: 46vw;
   }
+  .corner-nav a {
+    text-decoration: none; color: var(--cyan);
+    border: 1px solid rgba(0,247,255,0.35);
+    background: rgba(3,10,20,0.5);
+    padding: 5px 9px; font-size: 9.5px; letter-spacing: 1.5px;
+    border-radius: 3px; white-space: nowrap;
+  }
+  .corner-nav a:hover { background: rgba(0,247,255,0.15); }
+  .corner-nav .back-link { color: var(--green) !important; border-color: rgba(0,255,136,0.4) !important; }
+
+  /* ---- Boot ---- */
+  #boot {
+    position: fixed; inset: 0; z-index: 100;
+    background: #020204; color: var(--cyan);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; letter-spacing: 2px;
+    transition: opacity .6s ease;
+  }
+  #boot pre { margin: 0; white-space: pre-wrap; text-align: left; max-width: 90vw; }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  /* ---- Start gate ---- */
+  #start-gate {
+    position: fixed; inset: 0; z-index: 90;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; opacity: 0; pointer-events: none;
+    transition: opacity .8s ease;
+  }
+  #start-gate.visible { opacity: 1; pointer-events: auto; }
   .glitch-name {
-    font-size: clamp(28px, 6.5vw, 68px);
+    font-size: clamp(26px, 6vw, 60px);
     font-weight: 800; letter-spacing: 6px;
-    color: #eafcff;
-    position: relative;
+    color: #eafcff; position: relative; margin: 0;
     text-shadow: 0 0 18px rgba(0,247,255,0.55);
-    margin: 0;
   }
   .glitch-name::before, .glitch-name::after {
     content: 'DAVIS OGEGA';
-    position: absolute; left: 0; right: 0; top: 0;
-    overflow: hidden;
+    position: absolute; left: 0; right: 0; top: 0; overflow: hidden;
   }
-  .glitch-name::before {
-    color: var(--cyan);
-    animation: glitchA 4.5s infinite;
-    clip-path: inset(0 0 60% 0);
-  }
-  .glitch-name::after {
-    color: var(--magenta);
-    animation: glitchB 4.5s infinite;
-    clip-path: inset(60% 0 0 0);
-  }
+  .glitch-name::before { color: var(--cyan); animation: glitchA 4.5s infinite; clip-path: inset(0 0 60% 0); }
+  .glitch-name::after { color: var(--magenta); animation: glitchB 4.5s infinite; clip-path: inset(60% 0 0 0); }
   @keyframes glitchA {
     0%, 90%, 100% { transform: translate(0,0); opacity: 0; }
     91% { transform: translate(-4px,-1px); opacity: .8; }
@@ -89,61 +105,102 @@
     96% { transform: translate(2px,0); opacity: 0; }
   }
   .subtitle {
-    margin-top: 14px; font-size: clamp(11px, 1.6vw, 15px);
+    margin-top: 12px; font-size: clamp(11px, 1.6vw, 14px);
     letter-spacing: 3px; color: var(--green);
     text-shadow: 0 0 10px rgba(0,255,136,.6);
   }
-  .hint {
-    margin-top: 10px; font-size: 10px; letter-spacing: 2px; color: #7fd9ff; opacity: .6;
+  #start-btn {
+    margin-top: 34px; pointer-events: auto; cursor: pointer;
+    font-family: inherit; font-size: 13px; letter-spacing: 3px; font-weight: 700;
+    color: #020204; background: linear-gradient(135deg, var(--cyan), var(--purple));
+    border: none; padding: 14px 30px; border-radius: 6px;
+    box-shadow: 0 0 24px rgba(0,247,255,0.45);
+    animation: btnPulse 2s ease-in-out infinite;
+  }
+  @keyframes btnPulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.04); } }
+  .start-hint { margin-top: 16px; font-size: 10px; letter-spacing: 2px; color: #7fd9ff; opacity: .65; }
+
+  /* ---- Driving HUD ---- */
+  #drive-hud { position: fixed; inset: 0; z-index: 10; pointer-events: none; opacity: 0; transition: opacity .8s ease; }
+  #drive-hud.visible { opacity: 1; }
+
+  #minimap-wrap {
+    position: absolute; top: 46px; right: 14px; width: 140px; height: 140px;
+    border-radius: 50%; border: 1px solid rgba(0,247,255,0.4);
+    background: rgba(3,10,20,0.55); overflow: hidden;
+  }
+  #minimap { width: 100%; height: 100%; }
+
+  #control-hint {
+    position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
+    font-size: 10px; letter-spacing: 2px; color: #7fd9ff; opacity: .75;
+    text-align: center; transition: opacity .6s ease; white-space: nowrap;
+  }
+  #control-hint.faded { opacity: 0; }
+
+  #speed-hud {
+    position: absolute; bottom: 20px; right: 14px; text-align: right;
+  }
+  #speed-value { font-size: 26px; font-weight: 800; color: #eafcff; text-shadow: 0 0 12px rgba(0,247,255,.6); }
+  #speed-unit { font-size: 10px; letter-spacing: 2px; color: var(--cyan); opacity: .8; }
+  #boost-label { font-size: 9px; letter-spacing: 2px; color: var(--magenta); opacity: 0; margin-top: 2px; transition: opacity .2s ease; }
+  #boost-label.active { opacity: 1; }
+
+  #proximity-hint {
+    position: absolute; bottom: 96px; left: 50%; transform: translateX(-50%);
+    font-size: 11px; letter-spacing: 2px; color: var(--green); opacity: 0;
+    transition: opacity .3s ease; text-shadow: 0 0 8px rgba(0,255,136,.7);
+  }
+  #proximity-hint.visible { opacity: 1; }
+
+  /* ---- Project detail panel ---- */
+  #project-panel {
+    position: absolute; left: 50%; bottom: 0; transform: translate(-50%, 100%);
+    width: min(560px, 92vw);
+    background: rgba(5,7,13,0.92); border: 1px solid rgba(0,247,255,0.35);
+    border-bottom: none; border-radius: 12px 12px 0 0;
+    padding: 18px 22px 20px; backdrop-filter: blur(6px);
+    transition: transform .45s cubic-bezier(.2,.9,.25,1);
+    pointer-events: auto;
+  }
+  #project-panel.visible { transform: translate(-50%, 0); }
+  #project-panel .cat-dot {
+    display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 8px;
+    box-shadow: 0 0 8px currentColor;
+  }
+  #project-panel h3 { margin: 0 0 4px; font-size: 16px; letter-spacing: 3px; color: #eafcff; display: flex; align-items: center; }
+  #project-panel .tag { font-size: 9.5px; letter-spacing: 2px; opacity: .8; margin: 0 0 10px 16px; }
+  #project-panel p { font-size: 12px; line-height: 1.6; color: #b9e7f5; margin: 0 0 14px; }
+  #project-panel .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+  #project-panel .tags span {
+    font-size: 9px; letter-spacing: 1px; color: #7fd9ff;
+    border: 1px solid rgba(127,217,255,0.3); padding: 3px 7px; border-radius: 3px;
+  }
+  #project-panel a.visit {
+    display: inline-block; text-decoration: none; font-size: 11px; letter-spacing: 2px; font-weight: 700;
+    color: #020204; background: var(--cyan); padding: 9px 16px; border-radius: 5px;
   }
 
-  .hud-bottom {
-    position: absolute; bottom: 18px; left: 0; right: 0;
-    display: flex; flex-direction: column; align-items: center; gap: 12px;
+  /* ---- Mobile joystick ---- */
+  #touch-controls { position: absolute; inset: 0; display: none; }
+  #touch-controls.active { display: block; }
+  #joystick-zone {
+    position: absolute; left: 22px; bottom: 22px; width: 116px; height: 116px;
+    border-radius: 50%; border: 1px solid rgba(0,247,255,0.35); background: rgba(3,10,20,0.4);
+    pointer-events: auto; transition: bottom .3s ease;
   }
-  .nav-links {
-    display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;
+  #joystick-nub {
+    position: absolute; left: 38px; top: 38px; width: 40px; height: 40px; border-radius: 50%;
+    background: rgba(0,247,255,0.35); border: 1px solid rgba(0,247,255,0.7);
   }
-  .nav-links a {
-    text-decoration: none; color: var(--cyan);
-    border: 1px solid rgba(0,247,255,0.4);
-    background: rgba(0,20,30,0.35);
-    backdrop-filter: blur(4px);
-    padding: 8px 14px; font-size: 11px; letter-spacing: 2px;
-    border-radius: 4px; transition: all .2s ease;
+  #boost-btn {
+    position: absolute; right: 22px; bottom: 30px; width: 76px; height: 76px; border-radius: 50%;
+    background: rgba(255,46,154,0.18); border: 1px solid rgba(255,46,154,0.55);
+    color: var(--magenta); font-size: 10px; letter-spacing: 1.5px; font-family: inherit; font-weight: 700;
+    pointer-events: auto; transition: bottom .3s ease;
   }
-  .nav-links a:hover {
-    background: rgba(0,247,255,0.15);
-    box-shadow: 0 0 14px rgba(0,247,255,0.5);
-    transform: translateY(-1px);
-  }
-  .back-link { color: var(--green) !important; border-color: rgba(0,255,136,0.4) !important; }
-  .back-link:hover { box-shadow: 0 0 14px rgba(0,255,136,0.5) !important; }
-
-  .footer-ticker {
-    font-size: 10px; letter-spacing: 2px; color: #6fb8d9; opacity: .7;
-  }
-
-  .tech-label {
-    font-size: 10px; letter-spacing: 1px; color: var(--cyan);
-    background: rgba(3,10,20,0.55);
-    border: 1px solid rgba(0,247,255,0.35);
-    padding: 3px 7px; border-radius: 3px; white-space: nowrap;
-    text-shadow: 0 0 6px rgba(0,247,255,0.7);
-    pointer-events: none;
-    transform: translate(10px, -10px);
-  }
-
-  #boot {
-    position: fixed; inset: 0; z-index: 100;
-    background: #020204; color: var(--cyan);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 13px; letter-spacing: 2px;
-    transition: opacity .6s ease;
-  }
-  #boot pre { margin: 0; white-space: pre-wrap; text-align: left; max-width: 90vw; }
-  #boot .cursor2 { animation: blink 1s steps(1) infinite; }
-  @keyframes blink { 50% { opacity: 0; } }
+  #touch-controls.panel-open #joystick-zone { bottom: 232px; }
+  #touch-controls.panel-open #boost-btn { bottom: 240px; }
 
   #fallback {
     position: fixed; inset: 0; z-index: 200; display: none;
@@ -154,8 +211,8 @@
   #fallback a { color: var(--green); }
 
   @media (max-width: 640px) {
-    .title-block { top: 10%; }
-    .hud-top { font-size: 9px; }
+    .corner-nav { max-width: 44vw; }
+    #minimap-wrap { width: 100px; height: 100px; top: 82px; }
   }
 </style>
 </head>
@@ -172,7 +229,7 @@
 <div id="fallback">
   <div>
     ⚠ WEBGL CORE OFFLINE<br/><br/>
-    Your device can't render the 3D command center.<br/>
+    Your device can't render the portfolio world.<br/>
     <a href="https://github.com/davytheprogrammer">← Return to the profile README</a>
   </div>
 </div>
@@ -180,24 +237,41 @@
 <div class="hud">
   <div class="hud-top">
     <div><span class="status-dot"></span>SYSTEM: DAVIS_OGEGA_OS v2026.07 :: ONLINE</div>
-    <div id="clock">--:--:--</div>
-  </div>
-
-  <div class="title-block">
-    <h1 class="glitch-name" data-text="DAVIS OGEGA">DAVIS OGEGA</h1>
-    <div class="subtitle">NEXT-GEN CODE ARCHITECT // AI-AUGMENTED SYSTEMS BUILDER</div>
-    <div class="hint">DRAG TO ROTATE · SCROLL TO ZOOM · MOVE MOUSE TO LOOK AROUND</div>
-  </div>
-
-  <div class="hud-bottom">
-    <div class="nav-links">
+    <div class="corner-nav">
       <a href="https://github.com/davytheprogrammer">GITHUB</a>
       <a href="https://linkedin.com/in/davismachinogega">LINKEDIN</a>
-      <a href="https://twitter.com/officialogega">TWITTER</a>
-      <a href="https://ogegadavis.dev">PORTFOLIO</a>
-      <a class="back-link" href="https://github.com/davytheprogrammer">← BACK TO README</a>
+      <a href="https://twitter.com/ogega_ogega">X</a>
+      <a class="back-link" href="https://github.com/davytheprogrammer">← README</a>
     </div>
-    <div class="footer-ticker">STATUS: SHIPPING CODE · STACK: NEXT.JS + THREE.JS + EDGE · MODE: PRODUCTION</div>
+  </div>
+</div>
+
+<div id="start-gate">
+  <h1 class="glitch-name" data-text="DAVIS OGEGA">DAVIS OGEGA</h1>
+  <div class="subtitle">INTERACTIVE PORTFOLIO WORLD // 8 PROJECTS TO EXPLORE</div>
+  <button id="start-btn">▶ START ENGINE</button>
+  <div class="start-hint">DRIVE UP TO EACH MONUMENT TO SEE THE PROJECT</div>
+</div>
+
+<div id="drive-hud">
+  <div id="minimap-wrap"><canvas id="minimap" width="140" height="140"></canvas></div>
+  <div id="control-hint">WASD / ARROWS TO DRIVE · SHIFT TO BOOST · TOUCH JOYSTICK ON MOBILE</div>
+  <div id="proximity-hint">◆ PROJECT NEARBY</div>
+  <div id="speed-hud">
+    <div id="speed-value">0</div>
+    <div id="speed-unit">KM/H</div>
+    <div id="boost-label">▲ BOOST</div>
+  </div>
+  <div id="project-panel">
+    <h3><span class="cat-dot" id="panel-dot"></span><span id="panel-name"></span></h3>
+    <div class="tag" id="panel-tag"></div>
+    <p id="panel-desc"></p>
+    <div class="tags" id="panel-tags"></div>
+    <a class="visit" id="panel-link" href="#" target="_blank" rel="noopener">OPEN PROJECT →</a>
+  </div>
+  <div id="touch-controls">
+    <div id="joystick-zone"><div id="joystick-nub"></div></div>
+    <button id="boost-btn">BOOST</button>
   </div>
 </div>
 
@@ -212,47 +286,81 @@
 
 <script type="module">
 import * as THREE from 'three';
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
 import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
 import { CSS2DRenderer, CSS2DObject } from 'three/addons/renderers/CSS2DRenderer.js';
 
+/* ---------------------------------------------------------------- */
+/* Boot sequence                                                     */
+/* ---------------------------------------------------------------- */
 const bootLines = [
   'INITIALIZING NEURAL CORE...',
-  'COMPILING REALITY.TSX...',
-  'MOUNTING TECH STACK ORBIT...',
-  'CALIBRATING BLOOM SHADERS...',
+  'GENERATING TERRAIN GRID...',
+  'PLACING PROJECT MONUMENTS...',
+  'CALIBRATING VEHICLE PHYSICS...',
   'READY.'
 ];
 const bootEl = document.getElementById('boot-text');
 let bootI = 0;
+let started = false;
 function typeBoot() {
   if (bootI >= bootLines.length) {
     setTimeout(() => {
       const boot = document.getElementById('boot');
       boot.style.opacity = '0';
-      setTimeout(() => boot.remove(), 650);
-    }, 350);
+      setTimeout(() => {
+        boot.remove();
+        if (!started) document.getElementById('start-gate').classList.add('visible');
+      }, 650);
+    }, 300);
     return;
   }
   bootEl.textContent += (bootI ? '\n' : '') + '> ' + bootLines[bootI];
   bootI++;
-  setTimeout(typeBoot, 260);
+  setTimeout(typeBoot, 240);
 }
 typeBoot();
 
-function updateClock() {
-  const el = document.getElementById('clock');
-  if (el) el.textContent = new Date().toUTCString().split(' ')[4] + ' UTC';
-}
-updateClock();
-setInterval(updateClock, 1000);
+/* ---------------------------------------------------------------- */
+/* Project data                                                      */
+/* ---------------------------------------------------------------- */
+const PROJECTS = [
+  { name: 'RAX AI', tag: 'AI PLATFORM', color: '#00f7ff',
+    desc: 'Advanced AI model & API provider — pre-trained models, custom training, real-time inference, scalable APIs.',
+    tags: ['AI MODELS', 'INFERENCE API', 'SCALABLE'], link: 'https://rax.ai' },
+  { name: 'ANIWISE', tag: 'AGRITECH AI', color: '#00ff88',
+    desc: 'AI-driven animal care & farm management with real-time expertise, offline support, and record management.',
+    tags: ['AI EXPERTISE', 'OFFLINE-FIRST', 'ANALYTICS'], link: 'https://raxcore.dev/projects/aniwise' },
+  { name: 'SENTISAFE', tag: 'SAFETY APP', color: '#ff2e9a',
+    desc: 'Personal safety app with SOS emergency alerts, a fake-call feature, wearable integration, and AI threat detection.',
+    tags: ['SOS ALERTS', 'WEARABLE', 'AI THREAT DETECT'], link: 'https://raxcore.dev/projects/sentisafe' },
+  { name: 'HEALTHSYNC', tag: 'TELEMEDICINE', color: '#00ff88',
+    desc: 'Telemedicine platform with AI diagnostics, video consultations, prescription management, and health records.',
+    tags: ['AI DIAGNOSTICS', 'VIDEO CALLS', 'RECORDS'], link: 'https://raxcore.dev/projects/healthsync' },
+  { name: 'NEURALCOMMERCE', tag: 'AI E-COMMERCE', color: '#7b2fff',
+    desc: 'AI-powered e-commerce platform — recommendations, dynamic pricing, fraud detection, behavior analytics.',
+    tags: ['RECOMMENDATIONS', 'FRAUD DETECT', 'ANALYTICS'], link: 'https://raxcore.dev/projects/neuralcommerce' },
+  { name: 'SMART IOT FARM', tag: 'AGRITECH IOT', color: '#00ff88',
+    desc: 'Advanced agricultural monitoring & control — soil sensing, weather integration, automated irrigation, yield forecasting.',
+    tags: ['SOIL SENSORS', 'AUTO-IRRIGATION', 'FORECASTING'], link: 'https://raxcore.dev/projects/smart-iot-farm-management' },
+  { name: 'CYBERAUDIT', tag: 'SECURITY R&D', color: '#ff2e9a',
+    desc: 'Educational web vulnerability scanner, recon engine, and exploitation kill-chain visualizer built with FastAPI + Tauri.',
+    tags: ['RECON ENGINE', 'FASTAPI', 'TAURI SANDBOX'], link: 'https://github.com/davytheprogrammer/web-vulnerability-scanner' },
+  { name: 'RAX-CLI', tag: 'AI DEV TOOL', color: '#00f7ff',
+    desc: 'Next-gen offline AI assistant — a Claude-Code-style CLI with persistent chat history.',
+    tags: ['CLI', 'OFFLINE AI', 'DEV TOOLING'], link: 'https://github.com/davytheprogrammer/rax-cli' },
+];
 
+const SKILLS = ['NEXT.JS', 'REACT', 'TYPESCRIPT', 'FLUTTER', 'PYTHON', 'THREE.JS', 'AWS', 'CLAUDE AI'];
+
+/* ---------------------------------------------------------------- */
+/* Renderer setup                                                    */
+/* ---------------------------------------------------------------- */
 let renderer;
 try {
-  renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('app-canvas'), antialias: true, alpha: true, powerPreference: 'high-performance' });
+  renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('app-canvas'), antialias: true, alpha: false, powerPreference: 'high-performance' });
 } catch (e) {
   renderer = null;
 }
@@ -265,145 +373,381 @@ if (!renderer || !renderer.getContext()) {
 }
 
 function init() {
-  const isMobile = window.innerWidth < 768;
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  const isMobile = window.innerWidth < 820 || matchMedia('(pointer: coarse)').matches;
+  const qa = new URLSearchParams(location.search).has('qa'); // test-only fast-forward, harmless in normal use
+  if (isMobile) document.getElementById('touch-controls').classList.add('active');
+
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1.6 : 2));
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.15;
+  renderer.toneMappingExposure = 1.05;
+  renderer.shadowMap.enabled = false;
 
   const scene = new THREE.Scene();
-  scene.fog = new THREE.FogExp2(0x030409, 0.0016);
+  scene.fog = new THREE.FogExp2(0x03040a, 0.0058);
+  scene.background = new THREE.Color(0x03040a);
 
-  const camera = new THREE.PerspectiveCamera(58, window.innerWidth / window.innerHeight, 0.1, 2000);
-  camera.position.set(0, 6, 46);
+  const camera = new THREE.PerspectiveCamera(62, window.innerWidth / window.innerHeight, 0.1, 900);
 
   const labelRenderer = new CSS2DRenderer();
   labelRenderer.setSize(window.innerWidth, window.innerHeight);
-  labelRenderer.domElement.style.position = 'fixed';
-  labelRenderer.domElement.style.top = '0';
-  labelRenderer.domElement.style.left = '0';
-  labelRenderer.domElement.style.pointerEvents = 'none';
-  labelRenderer.domElement.style.zIndex = '4';
+  Object.assign(labelRenderer.domElement.style, { position: 'fixed', top: '0', left: '0', pointerEvents: 'none', zIndex: '4' });
   document.body.appendChild(labelRenderer.domElement);
 
-  // ---- Starfield ----
-  const starCount = isMobile ? 1800 : 4200;
+  /* ---- Lighting ---- */
+  scene.add(new THREE.HemisphereLight(0x2a3a66, 0x040608, 0.9));
+  const sun = new THREE.DirectionalLight(0x8fd8ff, 0.55);
+  sun.position.set(60, 90, -40);
+  scene.add(sun);
+
+  /* ---- Starfield sky ---- */
+  const starCount = isMobile ? 1400 : 3000;
   const starGeo = new THREE.BufferGeometry();
   const starPos = new Float32Array(starCount * 3);
   for (let i = 0; i < starCount; i++) {
-    const r = 120 + Math.random() * 380;
+    const r = 260 + Math.random() * 400;
     const theta = Math.random() * Math.PI * 2;
-    const phi = Math.acos((Math.random() * 2) - 1);
-    starPos[i*3] = r * Math.sin(phi) * Math.cos(theta);
-    starPos[i*3+1] = r * Math.sin(phi) * Math.sin(theta);
-    starPos[i*3+2] = r * Math.cos(phi);
+    const phi = Math.acos(Math.random() * 0.9);
+    starPos[i * 3] = r * Math.sin(phi) * Math.cos(theta);
+    starPos[i * 3 + 1] = Math.abs(r * Math.cos(phi)) + 30;
+    starPos[i * 3 + 2] = r * Math.sin(phi) * Math.sin(theta);
   }
   starGeo.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
-  const starMat = new THREE.PointsMaterial({ color: 0x9fe8ff, size: 0.6, sizeAttenuation: true, transparent: true, opacity: 0.75, blending: THREE.AdditiveBlending });
-  const stars = new THREE.Points(starGeo, starMat);
+  const stars = new THREE.Points(starGeo, new THREE.PointsMaterial({ color: 0x9fe8ff, size: 0.9, transparent: true, opacity: 0.8, blending: THREE.AdditiveBlending }));
   scene.add(stars);
 
-  // ---- Core hologram ----
-  const coreGroup = new THREE.Group();
-  scene.add(coreGroup);
+  /* ---- Ground: neon grid island ---- */
+  const WORLD_RADIUS = 175;
+  const gridCanvas = document.createElement('canvas');
+  gridCanvas.width = gridCanvas.height = 512;
+  const gctx = gridCanvas.getContext('2d');
+  gctx.fillStyle = '#040810';
+  gctx.fillRect(0, 0, 512, 512);
+  gctx.strokeStyle = 'rgba(0,247,255,0.35)';
+  gctx.lineWidth = 1.4;
+  for (let i = 0; i <= 512; i += 32) {
+    gctx.beginPath(); gctx.moveTo(i, 0); gctx.lineTo(i, 512); gctx.stroke();
+    gctx.beginPath(); gctx.moveTo(0, i); gctx.lineTo(512, i); gctx.stroke();
+  }
+  const gridTex = new THREE.CanvasTexture(gridCanvas);
+  gridTex.wrapS = gridTex.wrapT = THREE.RepeatWrapping;
+  gridTex.repeat.set(28, 28);
+  gridTex.colorSpace = THREE.SRGBColorSpace;
 
-  const coreGeo = new THREE.IcosahedronGeometry(7, 1);
-  const coreEdges = new THREE.EdgesGeometry(coreGeo);
-  const coreLines = new THREE.LineSegments(coreEdges, new THREE.LineBasicMaterial({ color: 0x00f7ff, transparent: true, opacity: 0.85 }));
-  coreGroup.add(coreLines);
-
-  const coreInner = new THREE.Mesh(
-    new THREE.IcosahedronGeometry(6.6, 1),
-    new THREE.MeshBasicMaterial({ color: 0x0a2540, transparent: true, opacity: 0.25 })
+  const ground = new THREE.Mesh(
+    new THREE.CircleGeometry(WORLD_RADIUS + 30, 64),
+    new THREE.MeshStandardMaterial({ map: gridTex, color: 0x334455, emissiveMap: gridTex, emissive: 0x00f7ff, emissiveIntensity: 0.65, roughness: 0.85, metalness: 0.1 })
   );
-  coreGroup.add(coreInner);
+  ground.rotation.x = -Math.PI / 2;
+  scene.add(ground);
 
-  const outerGeo = new THREE.IcosahedronGeometry(10.5, 0);
-  const outerEdges = new THREE.EdgesGeometry(outerGeo);
-  const outerLines = new THREE.LineSegments(outerEdges, new THREE.LineBasicMaterial({ color: 0x7b2fff, transparent: true, opacity: 0.35 }));
-  coreGroup.add(outerLines);
+  const edgeRing = new THREE.Mesh(
+    new THREE.TorusGeometry(WORLD_RADIUS, 0.4, 8, 128),
+    new THREE.MeshBasicMaterial({ color: 0xff2e9a })
+  );
+  edgeRing.rotation.x = Math.PI / 2;
+  scene.add(edgeRing);
 
-  // ---- Orbit rings + tech nodes ----
-  const techStack = [
-    { name: 'NEXT.JS', color: 0x00f7ff },
-    { name: 'REACT', color: 0x00f7ff },
-    { name: 'TYPESCRIPT', color: 0x00f7ff },
-    { name: 'FLUTTER', color: 0x00ff88 },
-    { name: 'PYTHON', color: 0x00ff88 },
-    { name: 'NODE.JS', color: 0x00ff88 },
-    { name: 'AWS', color: 0xff2e9a },
-    { name: 'DOCKER', color: 0xff2e9a },
-    { name: 'CLAUDE AI', color: 0xff2e9a }
-  ];
+  /* ---- Central spawn hub ---- */
+  const hub = new THREE.Group();
+  scene.add(hub);
+  const hubCoreGeo = new THREE.IcosahedronGeometry(6, 1);
+  const hubCore = new THREE.LineSegments(new THREE.EdgesGeometry(hubCoreGeo), new THREE.LineBasicMaterial({ color: 0x00f7ff }));
+  hubCore.position.y = 9;
+  hub.add(hubCore);
+  const hubBase = new THREE.Mesh(new THREE.CylinderGeometry(3.2, 4.2, 2, 24), new THREE.MeshStandardMaterial({ color: 0x0c1524, emissive: 0x00f7ff, emissiveIntensity: 0.25, roughness: 0.5 }));
+  hubBase.position.y = 1;
+  hub.add(hubBase);
 
-  const orbitDefs = [
-    { radius: 16, tilt: 0.25, speed: 0.06, items: techStack.slice(0, 3) },
-    { radius: 22, tilt: -0.4, speed: -0.045, items: techStack.slice(3, 6) },
-    { radius: 28, tilt: 0.55, speed: 0.03, items: techStack.slice(6, 9) }
-  ];
+  const nameDiv = document.createElement('div');
+  nameDiv.className = 'tech-label';
+  nameDiv.style.cssText = 'font-size:12px;letter-spacing:2px;color:#eafcff;background:rgba(3,10,20,0.6);border:1px solid rgba(0,247,255,0.4);padding:5px 10px;border-radius:4px;text-shadow:0 0 8px rgba(0,247,255,.8);';
+  nameDiv.textContent = 'DAVIS OGEGA — SPAWN HUB';
+  const nameLabel = new CSS2DObject(nameDiv);
+  nameLabel.position.set(0, 15, 0);
+  hub.add(nameLabel);
 
-  const orbitGroups = [];
-  orbitDefs.forEach(def => {
+  const skillsGroup = new THREE.Group();
+  hub.add(skillsGroup);
+  SKILLS.forEach((s, i) => {
+    const angle = (i / SKILLS.length) * Math.PI * 2;
+    const radius = 13;
+    const node = new THREE.Mesh(new THREE.SphereGeometry(0.4, 12, 12), new THREE.MeshBasicMaterial({ color: 0x00ff88 }));
+    node.position.set(Math.cos(angle) * radius, 10, Math.sin(angle) * radius);
+    skillsGroup.add(node);
+    const div = document.createElement('div');
+    div.className = 'tech-label';
+    div.style.cssText = 'font-size:9.5px;letter-spacing:1px;color:#00ff88;background:rgba(3,10,20,0.55);border:1px solid rgba(0,255,136,0.35);padding:3px 6px;border-radius:3px;';
+    div.textContent = s;
+    const label = new CSS2DObject(div);
+    label.position.set(0, 0.9, 0);
+    node.add(label);
+  });
+
+  /* ---- Project monuments ---- */
+  const monuments = [];
+  const monRadius = 118;
+  PROJECTS.forEach((p, i) => {
+    const angle = (i / PROJECTS.length) * Math.PI * 2;
+    const pos = new THREE.Vector3(Math.cos(angle) * monRadius, 0, Math.sin(angle) * monRadius);
+    const color = new THREE.Color(p.color);
+
     const group = new THREE.Group();
-    group.rotation.x = def.tilt;
+    group.position.copy(pos);
     scene.add(group);
 
-    const ringGeo = new THREE.TorusGeometry(def.radius, 0.02, 8, 96);
-    const ringMat = new THREE.MeshBasicMaterial({ color: 0x2a4a66, transparent: true, opacity: 0.35 });
-    const ring = new THREE.Mesh(ringGeo, ringMat);
-    ring.rotation.x = Math.PI / 2;
+    const ring = new THREE.Mesh(new THREE.RingGeometry(4.6, 5.2, 32), new THREE.MeshBasicMaterial({ color, side: THREE.DoubleSide, transparent: true, opacity: 0.8 }));
+    ring.rotation.x = -Math.PI / 2;
+    ring.position.y = 0.05;
     group.add(ring);
 
-    def.items.forEach((tech, i) => {
-      const angle = (i / def.items.length) * Math.PI * 2 + Math.random() * 0.4;
-      const node = new THREE.Mesh(
-        new THREE.SphereGeometry(0.45, 16, 16),
-        new THREE.MeshBasicMaterial({ color: tech.color })
-      );
-      node.position.set(Math.cos(angle) * def.radius, 0, Math.sin(angle) * def.radius);
-      node.userData.angle = angle;
-      node.userData.radius = def.radius;
-      group.add(node);
+    const pylon = new THREE.Mesh(new THREE.CylinderGeometry(0.5, 0.7, 7, 8), new THREE.MeshStandardMaterial({ color: 0x0c1524, emissive: color, emissiveIntensity: 0.4, roughness: 0.5 }));
+    pylon.position.y = 3.5;
+    group.add(pylon);
 
-      const div = document.createElement('div');
-      div.className = 'tech-label';
-      div.textContent = tech.name;
-      const label = new CSS2DObject(div);
-      label.position.set(0, 0.8, 0);
-      node.add(label);
+    const gemGeo = new THREE.OctahedronGeometry(1.6, 0);
+    const gem = new THREE.Mesh(gemGeo, new THREE.MeshStandardMaterial({ color, emissive: color, emissiveIntensity: 0.9, roughness: 0.2, metalness: 0.3 }));
+    gem.position.y = 8.2;
+    group.add(gem);
+    const gemEdges = new THREE.LineSegments(new THREE.EdgesGeometry(gemGeo), new THREE.LineBasicMaterial({ color: 0xffffff }));
+    gemEdges.position.y = 8.2;
+    group.add(gemEdges);
+
+    const div = document.createElement('div');
+    div.className = 'tech-label';
+    div.style.cssText = `font-size:11px;letter-spacing:1.5px;color:#eafcff;background:rgba(3,10,20,0.65);border:1px solid ${p.color};padding:4px 9px;border-radius:4px;text-shadow:0 0 8px ${p.color};`;
+    div.textContent = p.name;
+    const label = new CSS2DObject(div);
+    label.position.set(0, 11, 0);
+    group.add(label);
+
+    monuments.push({ group, pos, data: p, gem });
+  });
+
+  /* ---- Vehicle ---- */
+  const car = new THREE.Group();
+  car.position.set(0, 0, 26);
+  if (qa) car.position.copy(monuments[2].group.position).add(new THREE.Vector3(0, 0, -8));
+  if (qa) window.__car = car;
+  scene.add(car);
+
+  const bodyMat = new THREE.MeshStandardMaterial({ color: 0x0d1420, roughness: 0.35, metalness: 0.6 });
+  const trimMat = new THREE.MeshBasicMaterial({ color: 0x00f7ff });
+
+  const chassis = new THREE.Mesh(new THREE.BoxGeometry(2.2, 0.5, 4), bodyMat);
+  chassis.position.y = 0.55;
+  car.add(chassis);
+  const cabinShape = new THREE.Mesh(new THREE.BoxGeometry(1.5, 0.55, 2), bodyMat);
+  cabinShape.position.set(0, 1.05, -0.2);
+  car.add(cabinShape);
+  const trimFront = new THREE.Mesh(new THREE.BoxGeometry(2.24, 0.08, 0.1), trimMat);
+  trimFront.position.set(0, 0.55, -2);
+  car.add(trimFront);
+  const trimBack = new THREE.Mesh(new THREE.BoxGeometry(2.24, 0.08, 0.1), new THREE.MeshBasicMaterial({ color: 0xff2e9a }));
+  trimBack.position.set(0, 0.55, 2);
+  car.add(trimBack);
+
+  const thrusterGeo = new THREE.CylinderGeometry(0.28, 0.28, 0.2, 12);
+  const thrusterMat = new THREE.MeshBasicMaterial({ color: 0x00f7ff });
+  const thrusterPositions = [[-0.9, 0.2, -1.5], [0.9, 0.2, -1.5], [-0.9, 0.2, 1.5], [0.9, 0.2, 1.5]];
+  thrusterPositions.forEach(([x, y, z]) => {
+    const t = new THREE.Mesh(thrusterGeo, thrusterMat);
+    t.position.set(x, y, z);
+    car.add(t);
+  });
+
+  const headlight = new THREE.PointLight(0xbfefff, 1.4, 22);
+  headlight.position.set(0, 0.8, -2.4);
+  car.add(headlight);
+
+  /* ---- Vehicle physics (kinematic arcade model) ---- */
+  const input = { fwd: 0, turn: 0, boost: false };
+  const vehicle = { speed: 0, heading: 0 };
+  const MAX_SPEED = 34, MAX_BOOST = 54, MAX_REVERSE = -14, ACCEL = 26, BRAKE = 46, FRICTION = 14, TURN_RATE = 2.1;
+
+  const keys = {};
+  window.addEventListener('keydown', (e) => {
+    keys[e.key.toLowerCase()] = true;
+    if (['arrowup','arrowdown','arrowleft','arrowright',' '].includes(e.key.toLowerCase())) e.preventDefault();
+  });
+  window.addEventListener('keyup', (e) => { keys[e.key.toLowerCase()] = false; });
+
+  function readKeyboard() {
+    let fwd = 0, turn = 0;
+    if (keys['w'] || keys['arrowup']) fwd += 1;
+    if (keys['s'] || keys['arrowdown']) fwd -= 1;
+    if (keys['a'] || keys['arrowleft']) turn += 1;
+    if (keys['d'] || keys['arrowright']) turn -= 1;
+    input.fwd = fwd;
+    input.turn = turn;
+    input.boost = !!keys['shift'];
+  }
+
+  /* touch joystick */
+  const joyZone = document.getElementById('joystick-zone');
+  const joyNub = document.getElementById('joystick-nub');
+  let joyActive = false, joyId = null;
+  const joyCenter = { x: 58, y: 58 };
+  function handleJoyMove(clientX, clientY) {
+    const rect = joyZone.getBoundingClientRect();
+    let dx = clientX - (rect.left + rect.width / 2);
+    let dy = clientY - (rect.top + rect.height / 2);
+    const max = rect.width / 2;
+    const dist = Math.min(Math.hypot(dx, dy), max);
+    const ang = Math.atan2(dy, dx);
+    dx = Math.cos(ang) * dist; dy = Math.sin(ang) * dist;
+    joyNub.style.left = (joyCenter.x - 20 + dx) + 'px';
+    joyNub.style.top = (joyCenter.y - 20 + dy) + 'px';
+    input.fwd = THREE.MathUtils.clamp(-dy / max, -1, 1);
+    input.turn = THREE.MathUtils.clamp(-dx / max, -1, 1);
+  }
+  function resetJoy() {
+    joyActive = false; joyId = null;
+    joyNub.style.left = '38px'; joyNub.style.top = '38px';
+    input.fwd = 0; input.turn = 0;
+  }
+  joyZone.addEventListener('pointerdown', (e) => { joyActive = true; joyId = e.pointerId; joyZone.setPointerCapture(e.pointerId); handleJoyMove(e.clientX, e.clientY); });
+  joyZone.addEventListener('pointermove', (e) => { if (joyActive && e.pointerId === joyId) handleJoyMove(e.clientX, e.clientY); });
+  joyZone.addEventListener('pointerup', resetJoy);
+  joyZone.addEventListener('pointercancel', resetJoy);
+
+  const boostBtn = document.getElementById('boost-btn');
+  boostBtn.addEventListener('pointerdown', () => { input.boost = true; });
+  boostBtn.addEventListener('pointerup', () => { input.boost = false; });
+  boostBtn.addEventListener('pointercancel', () => { input.boost = false; });
+
+  function updateVehicle(dt) {
+    if (!isMobile) readKeyboard();
+    const maxFwd = input.boost ? MAX_BOOST : MAX_SPEED;
+
+    if (input.fwd > 0) vehicle.speed += ACCEL * dt;
+    else if (input.fwd < 0) vehicle.speed -= BRAKE * dt;
+    else vehicle.speed -= Math.sign(vehicle.speed) * FRICTION * dt;
+
+    vehicle.speed = THREE.MathUtils.clamp(vehicle.speed, MAX_REVERSE, maxFwd);
+    if (Math.abs(vehicle.speed) < 0.05 && input.fwd === 0) vehicle.speed = 0;
+
+    const speedFrac = THREE.MathUtils.clamp(Math.abs(vehicle.speed) / MAX_SPEED, 0, 1);
+    vehicle.heading += input.turn * TURN_RATE * speedFrac * dt * Math.sign(vehicle.speed || 1);
+
+    const dir = new THREE.Vector3(Math.sin(vehicle.heading), 0, Math.cos(vehicle.heading));
+    car.position.addScaledVector(dir, vehicle.speed * dt);
+
+    const distFromCenter = Math.hypot(car.position.x, car.position.z);
+    if (distFromCenter > WORLD_RADIUS) {
+      const clampPos = car.position.clone().setY(0).normalize().multiplyScalar(WORLD_RADIUS);
+      car.position.x = clampPos.x; car.position.z = clampPos.z;
+      vehicle.speed *= 0.4;
+    }
+
+    car.rotation.y = vehicle.heading;
+    const targetRoll = -input.turn * speedFrac * 0.18;
+    car.rotation.z = THREE.MathUtils.lerp(car.rotation.z, targetRoll, 0.15);
+
+    document.getElementById('speed-value').textContent = Math.round(Math.abs(vehicle.speed) * 6);
+    document.getElementById('boost-label').classList.toggle('active', input.boost && vehicle.speed > MAX_SPEED * 0.8);
+  }
+
+  /* ---- Camera (chase cam) ---- */
+  const camOffset = new THREE.Vector3(0, 5.2, 11);
+  const camLookOffset = new THREE.Vector3(0, 1.2, -6);
+  let cameraEngaged = false;
+
+  function updateCamera(dt) {
+    const dir = new THREE.Vector3(Math.sin(vehicle.heading), 0, Math.cos(vehicle.heading));
+    const desired = car.position.clone().addScaledVector(dir, -camOffset.z).add(new THREE.Vector3(0, camOffset.y, 0));
+    camera.position.lerp(desired, 1 - Math.pow(0.001, dt));
+    const lookAt = car.position.clone().addScaledVector(dir, camLookOffset.z).add(new THREE.Vector3(0, camLookOffset.y, 0));
+    const currentLook = camera.getWorldDirection(new THREE.Vector3()).add(camera.position);
+    const smoothLook = currentLook.lerp(lookAt, 1 - Math.pow(0.0005, dt));
+    camera.lookAt(smoothLook);
+  }
+
+  /* ---- Intro flythrough ---- */
+  let introT = 0;
+  const introDuration = qa ? 0.05 : 3.2;
+  function updateIntro(dt) {
+    introT += dt;
+    const t = Math.min(introT / introDuration, 1);
+    const ease = 1 - Math.pow(1 - t, 3);
+    const angle = -Math.PI * 0.6 + ease * Math.PI * 0.9;
+    const r = 150 - ease * 30;
+    camera.position.set(Math.cos(angle) * r, 70 - ease * 45, Math.sin(angle) * r);
+    camera.lookAt(0, 5, 0);
+    if (t >= 1) {
+      cameraEngaged = true;
+      camera.position.copy(car.position).add(new THREE.Vector3(0, camOffset.y, camOffset.z));
+    }
+  }
+
+  /* ---- Proximity / project panel ---- */
+  const panel = document.getElementById('project-panel');
+  const proximityHint = document.getElementById('proximity-hint');
+  let activeProject = null;
+  const PROX_RADIUS = 15;
+
+  function updateProximity() {
+    let nearest = null, nearestDist = Infinity;
+    for (const m of monuments) {
+      const d = car.position.distanceTo(m.group.position);
+      if (d < PROX_RADIUS && d < nearestDist) { nearest = m; nearestDist = d; }
+    }
+    if (nearest && nearest !== activeProject) {
+      activeProject = nearest;
+      const p = nearest.data;
+      document.getElementById('panel-dot').style.color = p.color;
+      document.getElementById('panel-name').textContent = p.name;
+      document.getElementById('panel-tag').textContent = p.tag;
+      document.getElementById('panel-desc').textContent = p.desc;
+      document.getElementById('panel-link').href = p.link;
+      const tagsEl = document.getElementById('panel-tags');
+      tagsEl.innerHTML = '';
+      p.tags.forEach((t) => { const s = document.createElement('span'); s.textContent = t; tagsEl.appendChild(s); });
+      panel.classList.add('visible');
+      proximityHint.classList.add('visible');
+      document.getElementById('touch-controls').classList.add('panel-open');
+    } else if (!nearest && activeProject) {
+      activeProject = null;
+      panel.classList.remove('visible');
+      proximityHint.classList.remove('visible');
+      document.getElementById('touch-controls').classList.remove('panel-open');
+    }
+  }
+
+  /* ---- Minimap ---- */
+  const mmCanvas = document.getElementById('minimap');
+  const mmCtx = mmCanvas.getContext('2d');
+  function drawMinimap() {
+    const w = mmCanvas.width, h = mmCanvas.height, cx = w / 2, cy = h / 2;
+    const scale = (w / 2 - 8) / WORLD_RADIUS;
+    mmCtx.clearRect(0, 0, w, h);
+    mmCtx.fillStyle = 'rgba(3,10,20,0.4)';
+    mmCtx.beginPath(); mmCtx.arc(cx, cy, w / 2, 0, Math.PI * 2); mmCtx.fill();
+    mmCtx.strokeStyle = 'rgba(0,247,255,0.5)';
+    mmCtx.beginPath(); mmCtx.arc(cx, cy, WORLD_RADIUS * scale, 0, Math.PI * 2); mmCtx.stroke();
+
+    monuments.forEach((m) => {
+      mmCtx.fillStyle = m.data.color;
+      mmCtx.beginPath();
+      mmCtx.arc(cx + m.group.position.x * scale, cy + m.group.position.z * scale, 3, 0, Math.PI * 2);
+      mmCtx.fill();
     });
 
-    orbitGroups.push({ group, speed: def.speed });
-  });
+    mmCtx.save();
+    mmCtx.translate(cx + car.position.x * scale, cy + car.position.z * scale);
+    mmCtx.rotate(vehicle.heading);
+    mmCtx.fillStyle = '#eafcff';
+    mmCtx.beginPath();
+    mmCtx.moveTo(0, -6); mmCtx.lineTo(4, 5); mmCtx.lineTo(-4, 5); mmCtx.closePath();
+    mmCtx.fill();
+    mmCtx.restore();
+  }
 
-  // ---- Lights (subtle, mostly for potential future solid meshes) ----
-  scene.add(new THREE.AmbientLight(0x334466, 0.6));
-  const point = new THREE.PointLight(0x00f7ff, 1.2, 100);
-  point.position.set(20, 20, 20);
-  scene.add(point);
-
-  // ---- Controls ----
-  const controls = new OrbitControls(camera, renderer.domElement);
-  controls.enableDamping = true;
-  controls.dampingFactor = 0.06;
-  controls.enablePan = false;
-  controls.minDistance = 20;
-  controls.maxDistance = 90;
-  controls.autoRotate = true;
-  controls.autoRotateSpeed = 0.6;
-
-  // ---- Mouse parallax (subtle, blends with orbit controls) ----
-  const mouse = { x: 0, y: 0 };
-  window.addEventListener('pointermove', (e) => {
-    mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
-    mouse.y = (e.clientY / window.innerHeight) * 2 - 1;
-  });
-
-  // ---- Post-processing ----
+  /* ---- Post-processing ---- */
   const composer = new EffectComposer(renderer);
   composer.addPass(new RenderPass(scene, camera));
-  const bloom = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), isMobile ? 0.8 : 1.15, 0.55, 0.12);
+  const bloom = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), isMobile ? 0.7 : 1.0, 0.55, 0.2);
   composer.addPass(bloom);
   composer.addPass(new OutputPass());
 
@@ -416,25 +760,44 @@ function init() {
     composer.setSize(w, h);
   });
 
+  /* ---- Start gate ---- */
+  document.getElementById('start-btn').addEventListener('click', () => {
+    if (started) return;
+    started = true;
+    document.getElementById('start-gate').classList.remove('visible');
+    document.getElementById('drive-hud').classList.add('visible');
+    setTimeout(() => document.getElementById('control-hint').classList.add('faded'), 6000);
+  });
+
+  /* ---- Main loop ---- */
   const clock = new THREE.Clock();
+  let frame = 0;
   function animate() {
     requestAnimationFrame(animate);
-    const t = clock.getElapsedTime();
+    const dt = Math.min(clock.getDelta(), 0.05);
+    const t = clock.elapsedTime;
 
-    coreGroup.rotation.y = t * 0.18;
-    coreGroup.rotation.x = Math.sin(t * 0.15) * 0.15;
-    outerLines.rotation.y = -t * 0.1;
-
-    orbitGroups.forEach(({ group, speed }) => {
-      group.rotation.y += speed * 0.016;
+    hub.rotation.y = t * 0.1;
+    skillsGroup.rotation.y = -t * 0.15;
+    monuments.forEach((m, i) => {
+      m.gem.rotation.y = t * 0.6 + i;
+      m.gem.position.y = 8.2 + Math.sin(t * 1.4 + i) * 0.3;
     });
+    stars.rotation.y = t * 0.003;
 
-    stars.rotation.y = t * 0.005;
+    if (!started) {
+      camera.position.set(Math.cos(t * 0.05) * 150, 70, Math.sin(t * 0.05) * 150);
+      camera.lookAt(0, 8, 0);
+    } else if (!cameraEngaged) {
+      updateIntro(dt);
+    } else {
+      updateVehicle(dt);
+      updateCamera(dt);
+      updateProximity();
+      frame++;
+      if (frame % 2 === 0) drawMinimap();
+    }
 
-    camera.position.x += (mouse.x * 4 - camera.position.x * 0.06) * 0.02;
-    camera.position.y += (6 - mouse.y * 3 - camera.position.y) * 0.01 + 0;
-
-    controls.update();
     composer.render();
     labelRenderer.render(scene, camera);
   }
