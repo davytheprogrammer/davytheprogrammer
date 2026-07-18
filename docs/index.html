@@ -14,9 +14,7 @@
     --green: #00ff88;
   }
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-  html {
-    overscroll-behavior-y: none;
-  }
+  html { overscroll-behavior-y: none; }
   html, body {
     margin: 0; padding: 0; width: 100%;
     background: #020204;
@@ -27,10 +25,10 @@
 
   .vignette {
     position: fixed; inset: 0; pointer-events: none; z-index: 5;
-    background: radial-gradient(ellipse at center, rgba(0,0,0,0) 40%, rgba(0,0,0,0.8) 100%);
+    background: radial-gradient(ellipse at center, rgba(0,0,0,0) 40%, rgba(0,0,0,0.82) 100%);
   }
   .scanlines {
-    position: fixed; inset: 0; pointer-events: none; z-index: 6; opacity: .05;
+    position: fixed; inset: 0; pointer-events: none; z-index: 6; opacity: .04;
     background: repeating-linear-gradient(to bottom, #00f7ff 0px, #00f7ff 1px, transparent 2px, transparent 4px);
   }
 
@@ -76,15 +74,17 @@
     font-size: 9px; letter-spacing: 1px; color: var(--cyan); opacity: .7; z-index: 10;
   }
 
-  /* ---- Boot ---- */
+  /* ---- Boot / loading ---- */
   #boot {
     position: fixed; inset: 0; z-index: 100;
     background: #020204; color: var(--cyan);
     display: flex; align-items: center; justify-content: center;
     font-size: 13px; letter-spacing: 2px;
-    transition: opacity .6s ease;
+    transition: opacity .7s ease;
   }
-  #boot pre { margin: 0; white-space: pre-wrap; text-align: left; max-width: 90vw; }
+  #boot pre { margin: 0; white-space: pre-wrap; text-align: left; max-width: 90vw; min-width: min(480px, 90vw); }
+  #boot .loading-bar-track { margin-top: 14px; width: 100%; height: 3px; background: rgba(0,247,255,0.15); border-radius: 2px; }
+  #boot .loading-bar-fill { height: 100%; width: 0%; background: linear-gradient(to right, var(--cyan), var(--purple)); border-radius: 2px; transition: width .2s ease; }
 
   /* ---- Scroll content ---- */
   #scroll-content { position: relative; z-index: 2; }
@@ -240,7 +240,7 @@
     <div class="card">
       <div class="eyebrow">// ABOUT</div>
       <h2>BUILDING ACROSS THE STACK</h2>
-      <p>I design and ship full-stack products end to end — web, mobile, AI, and the infrastructure underneath. This world holds eight things I've actually shipped, from AI platforms to security research tools.</p>
+      <p>I design and ship full-stack products end to end — web, mobile, AI, and the infrastructure underneath. Eight things I've actually shipped are ahead, from AI platforms to security research tools.</p>
       <div class="chip-row" id="skills-chips"></div>
     </div>
   </section>
@@ -251,7 +251,7 @@
     <div class="card outro-card">
       <div class="eyebrow">// END OF TOUR</div>
       <h2>LET'S BUILD SOMETHING</h2>
-      <p>That's the world. Reach out on any of these, or head back to the profile.</p>
+      <p>That's the tour. Reach out on any of these, or head back to the profile.</p>
       <div class="nav-links">
         <a href="https://github.com/davytheprogrammer">GITHUB</a>
         <a href="https://linkedin.com/in/davismachinogega">LINKEDIN</a>
@@ -274,11 +274,17 @@
 
 <script type="module">
 import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { RGBELoader } from 'three/addons/loaders/RGBELoader.js';
+import { Reflector } from 'three/addons/objects/Reflector.js';
 import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+import { BokehPass } from 'three/addons/postprocessing/BokehPass.js';
 import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
-import { CSS2DRenderer, CSS2DObject } from 'three/addons/renderers/CSS2DRenderer.js';
+
+const HELMET_URL = 'https://cdn.jsdelivr.net/gh/KhronosGroup/glTF-Sample-Models@main/2.0/DamagedHelmet/glTF-Binary/DamagedHelmet.glb';
+const HDRI_URL = 'https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/neon_photostudio_1k.hdr';
 
 /* ---------------------------------------------------------------- */
 /* Project data                                                      */
@@ -348,31 +354,57 @@ const io = new IntersectionObserver((entries) => {
 document.querySelectorAll('.card:not(.in-view)').forEach((el) => io.observe(el));
 
 /* ---------------------------------------------------------------- */
-/* Boot sequence                                                     */
+/* Boot sequence (types fixed lines, then tracks real asset loading) */
 /* ---------------------------------------------------------------- */
 const bootLines = [
   'INITIALIZING NEURAL CORE...',
-  'GENERATING TERRAIN GRID...',
-  'PLACING PROJECT MONUMENTS...',
-  'MAPPING SCROLL TIMELINE...',
-  'READY.'
+  'CONNECTING TO ASSET CDN...',
 ];
 const bootEl = document.getElementById('boot-text');
 let bootI = 0;
+let loadingLineEl = null;
+let barFillEl = null;
+let sceneClock = null;
+let revealTime = null;
+
 function typeBoot() {
   if (bootI >= bootLines.length) {
-    setTimeout(() => {
-      const boot = document.getElementById('boot');
-      boot.style.opacity = '0';
-      setTimeout(() => boot.remove(), 650);
-    }, 300);
+    loadingLineEl = document.createElement('div');
+    loadingLineEl.textContent = '> LOADING ARTIFACT... 0%';
+    bootEl.appendChild(loadingLineEl);
+    const track = document.createElement('div');
+    track.className = 'loading-bar-track';
+    barFillEl = document.createElement('div');
+    barFillEl.className = 'loading-bar-fill';
+    track.appendChild(barFillEl);
+    bootEl.appendChild(track);
     return;
   }
-  bootEl.textContent += (bootI ? '\n' : '') + '> ' + bootLines[bootI];
+  const line = document.createElement('div');
+  line.textContent = '> ' + bootLines[bootI];
+  bootEl.appendChild(line);
   bootI++;
-  setTimeout(typeBoot, 240);
+  setTimeout(typeBoot, 260);
 }
 typeBoot();
+
+function setLoadProgress(pct) {
+  if (!loadingLineEl) return;
+  const clamped = Math.min(100, Math.round(pct));
+  loadingLineEl.textContent = `> LOADING ARTIFACT... ${clamped}%`;
+  if (barFillEl) barFillEl.style.width = clamped + '%';
+}
+
+function finishBoot() {
+  setLoadProgress(100);
+  if (sceneClock) revealTime = sceneClock.getElapsedTime();
+  setTimeout(() => {
+    const boot = document.getElementById('boot');
+    if (!boot) return;
+    boot.style.opacity = '0';
+    setTimeout(() => boot.remove(), 700);
+  }, 300);
+}
 
 /* ---------------------------------------------------------------- */
 /* Renderer setup                                                    */
@@ -398,166 +430,147 @@ function init() {
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.05;
+  renderer.toneMappingExposure = 0.95;
   renderer.shadowMap.enabled = false;
 
   const scene = new THREE.Scene();
-  scene.fog = new THREE.FogExp2(0x03040a, 0.0042);
+  scene.fog = new THREE.FogExp2(0x03040a, 0.028);
   scene.background = new THREE.Color(0x03040a);
 
-  const camera = new THREE.PerspectiveCamera(58, window.innerWidth / window.innerHeight, 0.1, 900);
+  const camera = new THREE.PerspectiveCamera(36, window.innerWidth / window.innerHeight, 0.05, 200);
 
-  const labelRenderer = new CSS2DRenderer();
-  labelRenderer.setSize(window.innerWidth, window.innerHeight);
-  Object.assign(labelRenderer.domElement.style, { position: 'fixed', top: '0', left: '0', pointerEvents: 'none', zIndex: '1' });
-  document.body.appendChild(labelRenderer.domElement);
+  /* ---- Lighting: neutral fill + brand-colored rim lights ---- */
+  scene.add(new THREE.HemisphereLight(0x1c2a44, 0x040608, 0.5));
+  const keyLight = new THREE.PointLight(0x66d9ff, 1.6, 30, 2);
+  keyLight.position.set(-3.2, 3.5, 3.2);
+  scene.add(keyLight);
+  const rimLight = new THREE.PointLight(0xff2e9a, 1.2, 30, 2);
+  rimLight.position.set(3.5, 1.8, -3);
+  scene.add(rimLight);
 
-  /* ---- Lighting ---- */
-  scene.add(new THREE.HemisphereLight(0x2a3a66, 0x040608, 0.9));
-  const sun = new THREE.DirectionalLight(0x8fd8ff, 0.55);
-  sun.position.set(60, 90, -40);
-  scene.add(sun);
-
-  /* ---- Starfield sky ---- */
-  const starCount = isMobile ? 1400 : 3000;
+  /* ---- Starfield (distant, dim) ---- */
+  const starCount = isMobile ? 900 : 1800;
   const starGeo = new THREE.BufferGeometry();
   const starPos = new Float32Array(starCount * 3);
   for (let i = 0; i < starCount; i++) {
-    const r = 260 + Math.random() * 400;
+    const r = 60 + Math.random() * 120;
     const theta = Math.random() * Math.PI * 2;
     const phi = Math.acos(Math.random() * 0.9);
     starPos[i * 3] = r * Math.sin(phi) * Math.cos(theta);
-    starPos[i * 3 + 1] = Math.abs(r * Math.cos(phi)) + 30;
+    starPos[i * 3 + 1] = Math.abs(r * Math.cos(phi)) + 4;
     starPos[i * 3 + 2] = r * Math.sin(phi) * Math.sin(theta);
   }
   starGeo.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
-  const stars = new THREE.Points(starGeo, new THREE.PointsMaterial({ color: 0x9fe8ff, size: 0.9, transparent: true, opacity: 0.8, blending: THREE.AdditiveBlending }));
+  const stars = new THREE.Points(starGeo, new THREE.PointsMaterial({ color: 0x9fe8ff, size: 0.05, transparent: true, opacity: 0.55, blending: THREE.AdditiveBlending }));
   scene.add(stars);
 
-  /* ---- Ground: neon grid island ---- */
-  const WORLD_RADIUS = 175;
-  const gridCanvas = document.createElement('canvas');
-  gridCanvas.width = gridCanvas.height = 512;
-  const gctx = gridCanvas.getContext('2d');
-  gctx.fillStyle = '#040810';
-  gctx.fillRect(0, 0, 512, 512);
-  gctx.strokeStyle = 'rgba(0,247,255,0.35)';
-  gctx.lineWidth = 1.4;
-  for (let i = 0; i <= 512; i += 32) {
-    gctx.beginPath(); gctx.moveTo(i, 0); gctx.lineTo(i, 512); gctx.stroke();
-    gctx.beginPath(); gctx.moveTo(0, i); gctx.lineTo(512, i); gctx.stroke();
+  /* ---- Dust motes near the artifact ---- */
+  const moteCount = isMobile ? 120 : 260;
+  const moteGeo = new THREE.BufferGeometry();
+  const motePos = new Float32Array(moteCount * 3);
+  for (let i = 0; i < moteCount; i++) {
+    motePos[i * 3] = (Math.random() - 0.5) * 10;
+    motePos[i * 3 + 1] = Math.random() * 5;
+    motePos[i * 3 + 2] = (Math.random() - 0.5) * 10;
   }
-  const gridTex = new THREE.CanvasTexture(gridCanvas);
-  gridTex.wrapS = gridTex.wrapT = THREE.RepeatWrapping;
-  gridTex.repeat.set(28, 28);
-  gridTex.colorSpace = THREE.SRGBColorSpace;
+  moteGeo.setAttribute('position', new THREE.BufferAttribute(motePos, 3));
+  const motes = new THREE.Points(moteGeo, new THREE.PointsMaterial({ color: 0x8be9ff, size: 0.012, transparent: true, opacity: 0.5, blending: THREE.AdditiveBlending }));
+  scene.add(motes);
 
-  const ground = new THREE.Mesh(
-    new THREE.CircleGeometry(WORLD_RADIUS + 30, 64),
-    new THREE.MeshStandardMaterial({ map: gridTex, color: 0x334455, emissiveMap: gridTex, emissive: 0x00f7ff, emissiveIntensity: 0.65, roughness: 0.85, metalness: 0.1 })
+  /* ---- Floor: real mirror reflection on desktop, cheap glossy disc on mobile ---- */
+  const floorGeo = new THREE.CircleGeometry(22, 64);
+  let floor;
+  if (!isMobile) {
+    floor = new Reflector(floorGeo, {
+      color: 0x0b0e16,
+      textureWidth: Math.min(window.innerWidth * window.devicePixelRatio, 1600),
+      textureHeight: Math.min(window.innerHeight * window.devicePixelRatio, 1600),
+      clipBias: 0.003,
+    });
+  } else {
+    floor = new THREE.Mesh(floorGeo, new THREE.MeshStandardMaterial({ color: 0x0b0e16, roughness: 0.25, metalness: 0.85 }));
+  }
+  floor.rotation.x = -Math.PI / 2;
+  floor.position.y = 0;
+  scene.add(floor);
+
+  const floorRing = new THREE.Mesh(new THREE.RingGeometry(1.9, 1.98, 64), new THREE.MeshBasicMaterial({ color: 0x00f7ff, transparent: true, opacity: 0.5, side: THREE.DoubleSide }));
+  floorRing.rotation.x = -Math.PI / 2;
+  floorRing.position.y = 0.01;
+  scene.add(floorRing);
+
+  /* ---- Post-processing ---- */
+  const composer = new EffectComposer(renderer);
+  composer.addPass(new RenderPass(scene, camera));
+  const bloom = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), isMobile ? 0.12 : 0.18, 0.4, 0.94);
+  composer.addPass(bloom);
+  let bokeh = null;
+  if (!isMobile) {
+    bokeh = new BokehPass(scene, camera, { focus: 4.5, aperture: 0.0011, maxblur: 0.009 });
+    composer.addPass(bokeh);
+  }
+  composer.addPass(new OutputPass());
+
+  /* ---- Load HDRI + helmet ---- */
+  let helmetLoaded = false, hdriLoaded = false;
+  const helmetGroup = new THREE.Group();
+  helmetGroup.position.set(0, 1.35, 0);
+  scene.add(helmetGroup);
+
+  const rgbeLoader = new RGBELoader();
+  const pmrem = new THREE.PMREMGenerator(renderer);
+  pmrem.compileEquirectangularShader();
+
+  rgbeLoader.load(
+    HDRI_URL,
+    (hdriTex) => {
+      const envMap = pmrem.fromEquirectangular(hdriTex).texture;
+      scene.environment = envMap;
+      hdriTex.dispose();
+      pmrem.dispose();
+      hdriLoaded = true;
+      if (helmetLoaded) finishBoot();
+    },
+    (xhr) => { if (xhr.total) setLoadProgress((xhr.loaded / xhr.total) * 50); },
+    () => { hdriLoaded = true; if (helmetLoaded) finishBoot(); }
   );
-  ground.rotation.x = -Math.PI / 2;
-  scene.add(ground);
 
-  const edgeRing = new THREE.Mesh(
-    new THREE.TorusGeometry(WORLD_RADIUS, 0.4, 8, 128),
-    new THREE.MeshBasicMaterial({ color: 0xff2e9a })
+  const gltfLoader = new GLTFLoader();
+  gltfLoader.load(
+    HELMET_URL,
+    (gltf) => {
+      const model = gltf.scene;
+      model.rotation.y = Math.PI * 0.15;
+      model.traverse((child) => {
+        if (child.isMesh && child.material) child.material.envMapIntensity = 1.3;
+      });
+      helmetGroup.add(model);
+      helmetLoaded = true;
+      if (hdriLoaded) finishBoot();
+    },
+    (xhr) => { if (xhr.total) setLoadProgress(50 + (xhr.loaded / xhr.total) * 50); },
+    () => { helmetLoaded = true; if (hdriLoaded) finishBoot(); }
   );
-  edgeRing.rotation.x = Math.PI / 2;
-  scene.add(edgeRing);
-
-  /* ---- Central hub ---- */
-  const hub = new THREE.Group();
-  scene.add(hub);
-  const hubCoreGeo = new THREE.IcosahedronGeometry(6, 1);
-  const hubCore = new THREE.LineSegments(new THREE.EdgesGeometry(hubCoreGeo), new THREE.LineBasicMaterial({ color: 0x00f7ff }));
-  hubCore.position.y = 9;
-  hub.add(hubCore);
-  const hubBase = new THREE.Mesh(new THREE.CylinderGeometry(3.2, 4.2, 2, 24), new THREE.MeshStandardMaterial({ color: 0x0c1524, emissive: 0x00f7ff, emissiveIntensity: 0.25, roughness: 0.5 }));
-  hubBase.position.y = 1;
-  hub.add(hubBase);
-
-  const nameDiv = document.createElement('div');
-  nameDiv.style.cssText = 'font-size:12px;letter-spacing:2px;color:#eafcff;background:rgba(3,10,20,0.6);border:1px solid rgba(0,247,255,0.4);padding:5px 10px;border-radius:4px;text-shadow:0 0 8px rgba(0,247,255,.8);white-space:nowrap;';
-  nameDiv.textContent = 'DAVIS OGEGA — CORE';
-  const nameLabel = new CSS2DObject(nameDiv);
-  nameLabel.position.set(0, 15, 0);
-  hub.add(nameLabel);
-
-  const skillsGroup = new THREE.Group();
-  hub.add(skillsGroup);
-  SKILLS.forEach((s, i) => {
-    const angle = (i / SKILLS.length) * Math.PI * 2;
-    const radius = 13;
-    const node = new THREE.Mesh(new THREE.SphereGeometry(0.4, 12, 12), new THREE.MeshBasicMaterial({ color: 0x00ff88 }));
-    node.position.set(Math.cos(angle) * radius, 10, Math.sin(angle) * radius);
-    skillsGroup.add(node);
-    const div = document.createElement('div');
-    div.style.cssText = 'font-size:9.5px;letter-spacing:1px;color:#00ff88;background:rgba(3,10,20,0.55);border:1px solid rgba(0,255,136,0.35);padding:3px 6px;border-radius:3px;white-space:nowrap;';
-    div.textContent = s;
-    const label = new CSS2DObject(div);
-    label.position.set(0, 0.9, 0);
-    node.add(label);
-  });
-
-  /* ---- Project monuments ---- */
-  const monuments = [];
-  const monRadius = 118;
-  PROJECTS.forEach((p, i) => {
-    const angle = (i / PROJECTS.length) * Math.PI * 2;
-    const pos = new THREE.Vector3(Math.cos(angle) * monRadius, 0, Math.sin(angle) * monRadius);
-    const color = new THREE.Color(p.color);
-
-    const group = new THREE.Group();
-    group.position.copy(pos);
-    scene.add(group);
-
-    const ring = new THREE.Mesh(new THREE.RingGeometry(4.6, 5.2, 32), new THREE.MeshBasicMaterial({ color, side: THREE.DoubleSide, transparent: true, opacity: 0.8 }));
-    ring.rotation.x = -Math.PI / 2;
-    ring.position.y = 0.05;
-    group.add(ring);
-
-    const pylon = new THREE.Mesh(new THREE.CylinderGeometry(0.5, 0.7, 7, 8), new THREE.MeshStandardMaterial({ color: 0x0c1524, emissive: color, emissiveIntensity: 0.4, roughness: 0.5 }));
-    pylon.position.y = 3.5;
-    group.add(pylon);
-
-    const gemGeo = new THREE.OctahedronGeometry(1.6, 0);
-    const gem = new THREE.Mesh(gemGeo, new THREE.MeshStandardMaterial({ color, emissive: color, emissiveIntensity: 0.9, roughness: 0.2, metalness: 0.3 }));
-    gem.position.y = 8.2;
-    group.add(gem);
-    const gemEdges = new THREE.LineSegments(new THREE.EdgesGeometry(gemGeo), new THREE.LineBasicMaterial({ color: 0xffffff }));
-    gemEdges.position.y = 8.2;
-    group.add(gemEdges);
-
-    const div = document.createElement('div');
-    div.style.cssText = `font-size:11px;letter-spacing:1.5px;color:#eafcff;background:rgba(3,10,20,0.65);border:1px solid ${p.color};padding:4px 9px;border-radius:4px;text-shadow:0 0 8px ${p.color};white-space:nowrap;`;
-    div.textContent = p.name;
-    const label = new CSS2DObject(div);
-    label.position.set(0, 11, 0);
-    group.add(label);
-
-    monuments.push({ group, pos, data: p, gem });
-  });
 
   /* ---------------------------------------------------------------- */
-  /* Scroll-driven camera path                                         */
+  /* Scroll-driven camera orbit around the artifact                    */
   /* ---------------------------------------------------------------- */
-  const UP = new THREE.Vector3(0, 1, 0);
+  const target = new THREE.Vector3(0, 1.35, 0);
   const waypoints = [];
-  waypoints.push({ pos: new THREE.Vector3(0, 95, 235), look: new THREE.Vector3(0, 15, 0) }); // 0 hero
-  waypoints.push({ pos: new THREE.Vector3(0, 15, 42), look: new THREE.Vector3(0, 11, 0) });  // 1 about/hub
-
-  monuments.forEach((m, i) => {
-    const angle = (i / monuments.length) * Math.PI * 2;
-    const camPos = new THREE.Vector3(Math.cos(angle) * (monRadius + 30), 13, Math.sin(angle) * (monRadius + 30));
-    const lookAt = m.group.position.clone().add(new THREE.Vector3(0, 8, 0));
-    waypoints.push({ pos: camPos, look: lookAt });
-  });
-
-  waypoints.push({ pos: new THREE.Vector3(0, 130, 4), look: new THREE.Vector3(0, 0, 0) }); // 10 outro — top-down overview
+  const numBeats = 11; // hero, about, 8 projects, outro
+  const startAngle = -0.6, totalSweep = 4.9; // radians, ~280 degrees total
+  for (let i = 0; i < numBeats; i++) {
+    const f = i / (numBeats - 1);
+    const angle = startAngle + f * totalSweep;
+    const radius = THREE.MathUtils.lerp(3.1, 7.2, Math.pow(f, 0.85));
+    const height = 1.3 + Math.sin(f * Math.PI * 1.6) * 0.5 + f * 1.1;
+    waypoints.push({
+      pos: new THREE.Vector3(Math.cos(angle) * radius, height, Math.sin(angle) * radius),
+      radius,
+    });
+  }
 
   const numSegments = waypoints.length - 1;
-
   function smoothstep(t) { return t * t * (3 - 2 * t); }
 
   function getScrollFrac() {
@@ -567,7 +580,6 @@ function init() {
   }
 
   const tmpPos = new THREE.Vector3();
-  const tmpLook = new THREE.Vector3();
   function updateCameraFromScroll(t) {
     const frac = getScrollFrac();
     const p = frac * numSegments;
@@ -577,12 +589,13 @@ function init() {
 
     const a = waypoints[idx], b = waypoints[idx + 1];
     tmpPos.lerpVectors(a.pos, b.pos, localT);
-    tmpLook.lerpVectors(a.look, b.look, localT);
+    const radius = THREE.MathUtils.lerp(a.radius, b.radius, localT);
 
-    tmpPos.y += Math.sin(t * 0.5) * 0.5;
-
+    tmpPos.y += Math.sin(t * 0.4) * 0.04;
     camera.position.copy(tmpPos);
-    camera.lookAt(tmpLook);
+    camera.lookAt(target);
+
+    if (bokeh) bokeh.uniforms['focus'].value = radius;
 
     const progressPct = Math.round(frac * 100);
     const fill = document.getElementById('progress-fill');
@@ -591,42 +604,35 @@ function init() {
     if (pctLabel) pctLabel.textContent = progressPct + '%';
   }
 
-  /* ---- Post-processing ---- */
-  const composer = new EffectComposer(renderer);
-  composer.addPass(new RenderPass(scene, camera));
-  const bloom = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), isMobile ? 0.7 : 1.0, 0.55, 0.2);
-  composer.addPass(bloom);
-  composer.addPass(new OutputPass());
-
   window.addEventListener('resize', () => {
     const w = window.innerWidth, h = window.innerHeight;
     camera.aspect = w / h;
     camera.updateProjectionMatrix();
     renderer.setSize(w, h);
-    labelRenderer.setSize(w, h);
     composer.setSize(w, h);
   });
 
   /* ---- Main loop ---- */
-  const clock = new THREE.Clock();
+  sceneClock = new THREE.Clock();
+  const clock = sceneClock;
   function animate() {
     requestAnimationFrame(animate);
-    const t = clock.elapsedTime;
+    const t = clock.getElapsedTime();
+    const rotT = revealTime !== null ? Math.max(0, t - revealTime) : 0;
 
-    hub.rotation.y = t * 0.1;
-    skillsGroup.rotation.y = -t * 0.15;
-    monuments.forEach((m, i) => {
-      m.gem.rotation.y = t * 0.6 + i;
-      m.gem.position.y = 8.2 + Math.sin(t * 1.4 + i) * 0.3;
-    });
-    stars.rotation.y = t * 0.003;
+    helmetGroup.rotation.y = rotT * 0.12;
+    motes.rotation.y = t * 0.02;
+    stars.rotation.y = t * 0.004;
+    floorRing.material.opacity = 0.35 + Math.sin(t * 1.4) * 0.15;
 
     updateCameraFromScroll(t);
 
     composer.render();
-    labelRenderer.render(scene, camera);
   }
   animate();
+
+  // Safety net: if assets take unusually long, don't leave the visitor stuck on the boot screen forever.
+  setTimeout(() => { if (!(helmetLoaded && hdriLoaded)) finishBoot(); }, 20000);
 }
 </script>
 </body>
