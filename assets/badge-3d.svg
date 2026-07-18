@@ -1,0 +1,23 @@
+<svg viewBox="0 0 210 58" xmlns="http://www.w3.org/2000/svg" font-family="Consolas, 'Courier New', monospace">
+  <defs>
+    <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="2" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <linearGradient id="sheen" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.07"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+    <style><![CDATA[
+      .chip-hit rect.bg { transition: none; }
+    ]]></style>
+  </defs>
+  <rect x="1" y="1" width="208" height="56" rx="12" fill="#0a0e18" stroke="#7b2fff" stroke-opacity="0.5"/>
+  <rect x="1" y="1" width="208" height="56" rx="12" fill="url(#sheen)"/>
+  <g transform="translate(18,18)" fill="#7b2fff" filter="url(#glow)">
+    <polygon points="12,3 20,8 12,13 4,8" fill="#7b2fff" fill-opacity="0.85"/>
+    <polygon points="4,8 12,13 12,21 4,16" fill="#7b2fff" fill-opacity="0.5"/>
+    <polygon points="20,8 12,13 12,21 20,16" fill="#7b2fff" fill-opacity="0.3"/>
+  </g>
+  <text x="52" y="34" font-size="13" letter-spacing="2" font-weight="700" fill="#eafcff">3D COMMAND CTR</text>
+</svg>

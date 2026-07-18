@@ -1,0 +1,40 @@
+<svg viewBox="0 0 900 452" xmlns="http://www.w3.org/2000/svg" font-family="Consolas, 'Courier New', monospace">
+  <defs>
+    <linearGradient id="barGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#141a28"/>
+      <stop offset="100%" stop-color="#0c1119"/>
+    </linearGradient>
+    <clipPath id="frame"><rect width="900" height="452" rx="12"/></clipPath>
+    <style><![CDATA[
+      .cursor { animation: blink 1s steps(1) infinite; }
+      @keyframes blink { 50% { opacity: 0; } }
+    ]]></style>
+  </defs>
+  <g clip-path="url(#frame)">
+    <rect width="900" height="452" fill="#0a0e18"/>
+    <rect width="900" height="40" fill="url(#barGrad)"/>
+    <circle cx="22" cy="20" r="6" fill="#ff5f56"/>
+    <circle cx="44" cy="20" r="6" fill="#ffbd2e"/>
+    <circle cx="66" cy="20" r="6" fill="#27c93f"/>
+    <text x="450" y="24" font-size="12" letter-spacing="1.5" fill="#7fd9ff" text-anchor="middle" opacity="0.8">davis@architect: ~/portfolio</text>
+    <text x="22" y="58" font-size="13" xml:space="preserve"><tspan fill="#5f7085">// davytheprogrammer.ts</tspan></text>
+<text x="22" y="98" font-size="13" xml:space="preserve"><tspan fill="#ff2e9a">class </tspan><tspan dx="0" fill="#ffd166">CodeArchitect </tspan><tspan dx="0" fill="#dff8ff">{</tspan></text>
+<text x="22" y="118" font-size="13" xml:space="preserve"><tspan fill="#dff8ff">  constructor(</tspan></text>
+<text x="22" y="138" font-size="13" xml:space="preserve"><tspan fill="#dff8ff">    public alias: </tspan><tspan dx="0" fill="#ffd166">string</tspan><tspan dx="0" fill="#dff8ff"> = </tspan><tspan dx="0" fill="#00ff88">"davytheprogrammer"</tspan><tspan dx="0" fill="#dff8ff">,</tspan></text>
+<text x="22" y="158" font-size="13" xml:space="preserve"><tspan fill="#dff8ff">    public version: </tspan><tspan dx="0" fill="#ffd166">string</tspan><tspan dx="0" fill="#dff8ff"> = </tspan><tspan dx="0" fill="#00ff88">"2026.07"</tspan><tspan dx="0" fill="#dff8ff">,</tspan></text>
+<text x="22" y="178" font-size="13" xml:space="preserve"><tspan fill="#dff8ff">    public mode: </tspan><tspan dx="0" fill="#ffd166">string</tspan><tspan dx="0" fill="#dff8ff"> = </tspan><tspan dx="0" fill="#00ff88">"production"</tspan></text>
+<text x="22" y="198" font-size="13" xml:space="preserve"><tspan fill="#dff8ff">  ) {}</tspan></text>
+<text x="22" y="238" font-size="13" xml:space="preserve"><tspan fill="#dff8ff">  </tspan><tspan dx="0" fill="#00f7ff">build</tspan><tspan dx="0" fill="#dff8ff">(productIdea: </tspan><tspan dx="0" fill="#ffd166">string</tspan><tspan dx="0" fill="#dff8ff">): </tspan><tspan dx="0" fill="#ffd166">Solution</tspan><tspan dx="0" fill="#dff8ff"> {</tspan></text>
+<text x="22" y="258" font-size="13" xml:space="preserve"><tspan fill="#dff8ff">    const architecture = </tspan><tspan dx="0" fill="#ff2e9a">this</tspan><tspan dx="0" fill="#dff8ff">.designNextJSArchitecture(productIdea);</tspan></text>
+<text x="22" y="278" font-size="13" xml:space="preserve"><tspan fill="#dff8ff">    const scene = </tspan><tspan dx="0" fill="#ff2e9a">this</tspan><tspan dx="0" fill="#dff8ff">.renderThreeJSExperience(architecture);</tspan></text>
+<text x="22" y="298" font-size="13" xml:space="preserve"><tspan fill="#dff8ff">    const deployed = </tspan><tspan dx="0" fill="#ff2e9a">this</tspan><tspan dx="0" fill="#dff8ff">.deployToVercel(scene);</tspan></text>
+<text x="22" y="318" font-size="13" xml:space="preserve"><tspan fill="#dff8ff">    </tspan><tspan dx="0" fill="#ff2e9a">return</tspan><tspan dx="0" fill="#dff8ff"> { deployed, vibes: </tspan><tspan dx="0" fill="#00ff88">"immaculate"</tspan><tspan dx="0" fill="#dff8ff"> };</tspan></text>
+<text x="22" y="338" font-size="13" xml:space="preserve"><tspan fill="#dff8ff">  }</tspan></text>
+<text x="22" y="358" font-size="13" xml:space="preserve"><tspan fill="#dff8ff">}</tspan></text>
+<text x="22" y="398" font-size="13" xml:space="preserve"><tspan fill="#ff2e9a">const </tspan><tspan dx="0" fill="#dff8ff">davis = </tspan><tspan dx="0" fill="#ff2e9a">new </tspan><tspan dx="0" fill="#00f7ff">CodeArchitect</tspan><tspan dx="0" fill="#dff8ff">();</tspan></text>
+<text x="22" y="418" font-size="13" xml:space="preserve"><tspan fill="#00f7ff">console</tspan><tspan dx="0" fill="#dff8ff">.</tspan><tspan dx="0" fill="#00f7ff">log</tspan><tspan dx="0" fill="#dff8ff">(</tspan><tspan dx="0" fill="#00ff88">`🚀 SHIPPING CODE`</tspan><tspan dx="0" fill="#dff8ff">);</tspan></text>
+
+    <rect class="cursor" x="22" y="426" width="8" height="14" fill="#00f7ff"/>
+    <rect x="0.5" y="0.5" width="899" height="451" rx="12" fill="none" stroke="#1c2436"/>
+  </g>
+</svg>

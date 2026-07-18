@@ -1,0 +1,76 @@
+<svg viewBox="0 0 1160 410" xmlns="http://www.w3.org/2000/svg" font-family="Consolas, 'Courier New', monospace">
+  <defs>
+    <linearGradient id="flowGrad" gradientUnits="userSpaceOnUse" x1="260" y1="0" x2="900" y2="0">
+      <stop offset="0%" stop-color="#00f7ff" stop-opacity="0.75"/>
+      <stop offset="100%" stop-color="#ff2e9a" stop-opacity="0.75"/>
+    </linearGradient>
+    <filter id="glow" x="-200%" y="-200%" width="500%" height="500%">
+      <feGaussianBlur stdDeviation="2.4" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <rect width="1160" height="410" rx="14" fill="#05070d" stroke="#161e2e"/>
+  <text x="260" y="28" font-size="12" letter-spacing="4" fill="#00f7ff" text-anchor="middle" opacity="0.85">NOW</text>
+  <text x="900" y="28" font-size="12" letter-spacing="4" fill="#ff2e9a" text-anchor="middle" opacity="0.85">FUTURE</text>
+  
+  <g transform="translate(0,72)">
+    <text x="240" y="5" font-size="13" fill="#dff8ff" text-anchor="end">Building AI Agents</text>
+    <circle cx="260" cy="0" r="4" fill="#00f7ff" filter="url(#glow)"/>
+    <line x1="260" y1="0" x2="900" y2="0" stroke="url(#flowGrad)" stroke-width="1.5"/>
+    <circle r="2.6" fill="#ffffff" filter="url(#glow)">
+      <animateMotion dur="3.2s" begin="0.00s" repeatCount="indefinite" path="M260,0 L900,0"/>
+    </circle>
+    <circle cx="900" cy="0" r="4" fill="#ff2e9a" filter="url(#glow)"/>
+    <text x="920" y="5" font-size="13" fill="#ffd7ec">Autonomous Systems</text>
+  </g>
+  <g transform="translate(0,128)">
+    <text x="240" y="5" font-size="13" fill="#dff8ff" text-anchor="end">Next.js Ecosystem</text>
+    <circle cx="260" cy="0" r="4" fill="#00f7ff" filter="url(#glow)"/>
+    <line x1="260" y1="0" x2="900" y2="0" stroke="url(#flowGrad)" stroke-width="1.5"/>
+    <circle r="2.6" fill="#ffffff" filter="url(#glow)">
+      <animateMotion dur="3.2s" begin="0.50s" repeatCount="indefinite" path="M260,0 L900,0"/>
+    </circle>
+    <circle cx="900" cy="0" r="4" fill="#ff2e9a" filter="url(#glow)"/>
+    <text x="920" y="5" font-size="13" fill="#ffd7ec">Edge Computing</text>
+  </g>
+  <g transform="translate(0,184)">
+    <text x="240" y="5" font-size="13" fill="#dff8ff" text-anchor="end">Full-Stack Apps</text>
+    <circle cx="260" cy="0" r="4" fill="#00f7ff" filter="url(#glow)"/>
+    <line x1="260" y1="0" x2="900" y2="0" stroke="url(#flowGrad)" stroke-width="1.5"/>
+    <circle r="2.6" fill="#ffffff" filter="url(#glow)">
+      <animateMotion dur="3.2s" begin="1.00s" repeatCount="indefinite" path="M260,0 L900,0"/>
+    </circle>
+    <circle cx="900" cy="0" r="4" fill="#ff2e9a" filter="url(#glow)"/>
+    <text x="920" y="5" font-size="13" fill="#ffd7ec">Distributed Apps</text>
+  </g>
+  <g transform="translate(0,240)">
+    <text x="240" y="5" font-size="13" fill="#dff8ff" text-anchor="end">ML / DL Models</text>
+    <circle cx="260" cy="0" r="4" fill="#00f7ff" filter="url(#glow)"/>
+    <line x1="260" y1="0" x2="900" y2="0" stroke="url(#flowGrad)" stroke-width="1.5"/>
+    <circle r="2.6" fill="#ffffff" filter="url(#glow)">
+      <animateMotion dur="3.2s" begin="1.50s" repeatCount="indefinite" path="M260,0 L900,0"/>
+    </circle>
+    <circle cx="900" cy="0" r="4" fill="#ff2e9a" filter="url(#glow)"/>
+    <text x="920" y="5" font-size="13" fill="#ffd7ec">Custom LLMs</text>
+  </g>
+  <g transform="translate(0,296)">
+    <text x="240" y="5" font-size="13" fill="#dff8ff" text-anchor="end">Mobile Development</text>
+    <circle cx="260" cy="0" r="4" fill="#00f7ff" filter="url(#glow)"/>
+    <line x1="260" y1="0" x2="900" y2="0" stroke="url(#flowGrad)" stroke-width="1.5"/>
+    <circle r="2.6" fill="#ffffff" filter="url(#glow)">
+      <animateMotion dur="3.2s" begin="2.00s" repeatCount="indefinite" path="M260,0 L900,0"/>
+    </circle>
+    <circle cx="900" cy="0" r="4" fill="#ff2e9a" filter="url(#glow)"/>
+    <text x="920" y="5" font-size="13" fill="#ffd7ec">AR / VR Experiences</text>
+  </g>
+  <g transform="translate(0,352)">
+    <text x="240" y="5" font-size="13" fill="#dff8ff" text-anchor="end">2D Interfaces</text>
+    <circle cx="260" cy="0" r="4" fill="#00f7ff" filter="url(#glow)"/>
+    <line x1="260" y1="0" x2="900" y2="0" stroke="url(#flowGrad)" stroke-width="1.5"/>
+    <circle r="2.6" fill="#ffffff" filter="url(#glow)">
+      <animateMotion dur="3.2s" begin="2.50s" repeatCount="indefinite" path="M260,0 L900,0"/>
+    </circle>
+    <circle cx="900" cy="0" r="4" fill="#ff2e9a" filter="url(#glow)"/>
+    <text x="920" y="5" font-size="13" fill="#ffd7ec">Real-Time 3D / WebGL</text>
+  </g>
+</svg>

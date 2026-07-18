@@ -1,0 +1,21 @@
+<svg viewBox="0 0 210 58" xmlns="http://www.w3.org/2000/svg" font-family="Consolas, 'Courier New', monospace">
+  <defs>
+    <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="2" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <linearGradient id="sheen" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.07"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+    <style><![CDATA[
+      .chip-hit rect.bg { transition: none; }
+    ]]></style>
+  </defs>
+  <rect x="1" y="1" width="208" height="56" rx="12" fill="#0a0e18" stroke="#00f7ff" stroke-opacity="0.5"/>
+  <rect x="1" y="1" width="208" height="56" rx="12" fill="url(#sheen)"/>
+  <g transform="translate(18,18)" fill="#00f7ff" filter="url(#glow)">
+    <path transform="scale(0.92)" d="M14.234 10.162 22.977 0h-2.072l-7.591 8.824L7.251 0H.258l9.168 13.343L.258 24H2.33l8.016-9.318L16.749 24h6.993zm-2.837 3.299-.929-1.329L3.076 1.56h3.182l5.965 8.532.929 1.329 7.754 11.09h-3.182z"/>
+  </g>
+  <text x="52" y="34" font-size="13" letter-spacing="2" font-weight="700" fill="#eafcff">TWITTER / X</text>
+</svg>

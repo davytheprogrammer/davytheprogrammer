@@ -1,0 +1,62 @@
+<svg viewBox="0 0 1160 342" xmlns="http://www.w3.org/2000/svg" font-family="Consolas, 'Courier New', monospace">
+  <defs>
+    <filter id="glow" x="-200%" y="-200%" width="500%" height="500%">
+      <feGaussianBlur stdDeviation="2.5" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="textGlow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="0.6" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <style><![CDATA[
+      .dot-live { animation: pulseLive 1.6s ease-in-out infinite; }
+      @keyframes pulseLive { 0%,100% { opacity: 1; r: 4; } 50% { opacity: .4; r: 5; } }
+      .dot { animation: pulseIdle 3.4s ease-in-out infinite; }
+      @keyframes pulseIdle { 0%,100% { opacity: .9; } 50% { opacity: .45; } }
+    ]]></style>
+  </defs>
+  <rect width="1160" height="342" rx="14" fill="#05070d" stroke="#161e2e"/>
+  
+  <g transform="translate(0,24)">
+    <circle class="dot" cx="28" cy="21" r="4" fill="#00f7ff" filter="url(#glow)" style="animation-delay:0.00s"/>
+    <text x="44" y="26" font-size="12.5" letter-spacing="2" fill="#7fd9ff" opacity="0.85">CURRENT FOCUS</text>
+    <text x="1136" y="26" font-size="13.5" letter-spacing="1.5" font-weight="700" fill="#eafcff" text-anchor="end" filter="url(#textGlow)">NEXT.JS 15 + REACT 19</text>
+    <line x1="24" y1="42" x2="1136" y2="42" stroke="#1c2436" stroke-width="1"/>
+  </g>
+  <g transform="translate(0,66)">
+    <circle class="dot" cx="28" cy="21" r="4" fill="#00f7ff" filter="url(#glow)" style="animation-delay:0.15s"/>
+    <text x="44" y="26" font-size="12.5" letter-spacing="2" fill="#7fd9ff" opacity="0.85">ARCHITECTURE</text>
+    <text x="1136" y="26" font-size="13.5" letter-spacing="1.5" font-weight="700" fill="#eafcff" text-anchor="end" filter="url(#textGlow)">APP ROUTER + RSC</text>
+    <line x1="24" y1="42" x2="1136" y2="42" stroke="#1c2436" stroke-width="1"/>
+  </g>
+  <g transform="translate(0,108)">
+    <circle class="dot" cx="28" cy="21" r="4" fill="#00ff88" filter="url(#glow)" style="animation-delay:0.30s"/>
+    <text x="44" y="26" font-size="12.5" letter-spacing="2" fill="#7fd9ff" opacity="0.85">SPEED</text>
+    <text x="1136" y="26" font-size="13.5" letter-spacing="1.5" font-weight="700" fill="#eafcff" text-anchor="end" filter="url(#textGlow)">LUDICROUS MODE</text>
+    <line x1="24" y1="42" x2="1136" y2="42" stroke="#1c2436" stroke-width="1"/>
+  </g>
+  <g transform="translate(0,150)">
+    <circle class="dot" cx="28" cy="21" r="4" fill="#ff2e9a" filter="url(#glow)" style="animation-delay:0.45s"/>
+    <text x="44" y="26" font-size="12.5" letter-spacing="2" fill="#7fd9ff" opacity="0.85">AI AUGMENTATION</text>
+    <text x="1136" y="26" font-size="13.5" letter-spacing="1.5" font-weight="700" fill="#eafcff" text-anchor="end" filter="url(#textGlow)">CLAUDE CODE</text>
+    <line x1="24" y1="42" x2="1136" y2="42" stroke="#1c2436" stroke-width="1"/>
+  </g>
+  <g transform="translate(0,192)">
+    <circle class="dot" cx="28" cy="21" r="4" fill="#7b2fff" filter="url(#glow)" style="animation-delay:0.60s"/>
+    <text x="44" y="26" font-size="12.5" letter-spacing="2" fill="#7fd9ff" opacity="0.85">DEPLOY TARGET</text>
+    <text x="1136" y="26" font-size="13.5" letter-spacing="1.5" font-weight="700" fill="#eafcff" text-anchor="end" filter="url(#textGlow)">VERCEL EDGE</text>
+    <line x1="24" y1="42" x2="1136" y2="42" stroke="#1c2436" stroke-width="1"/>
+  </g>
+  <g transform="translate(0,234)">
+    <circle class="dot-live" cx="28" cy="21" r="4" fill="#00ff88" filter="url(#glow)" style="animation-delay:0.75s"/>
+    <text x="44" y="26" font-size="12.5" letter-spacing="2" fill="#7fd9ff" opacity="0.85">3D COMMAND CENTER</text>
+    <text x="1136" y="26" font-size="13.5" letter-spacing="1.5" font-weight="700" fill="#eafcff" text-anchor="end" filter="url(#textGlow)">ONLINE</text>
+    <line x1="24" y1="42" x2="1136" y2="42" stroke="#1c2436" stroke-width="1"/>
+  </g>
+  <g transform="translate(0,276)">
+    <circle class="dot-live" cx="28" cy="21" r="4" fill="#00ff88" filter="url(#glow)" style="animation-delay:0.90s"/>
+    <text x="44" y="26" font-size="12.5" letter-spacing="2" fill="#7fd9ff" opacity="0.85">STATUS</text>
+    <text x="1136" y="26" font-size="13.5" letter-spacing="1.5" font-weight="700" fill="#eafcff" text-anchor="end" filter="url(#textGlow)">SHIPPING CODE</text>
+    
+  </g>
+</svg>
