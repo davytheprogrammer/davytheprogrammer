@@ -31,6 +31,9 @@ jobs:
         with:
           node-version: 20
 
+      - name: Fix dist/ ownership
+        run: sudo chown -R "$(id -u):$(id -g)" dist
+
       - name: Generate live stats panel
         run: node .github/scripts/generate-stats.mjs
         env:
