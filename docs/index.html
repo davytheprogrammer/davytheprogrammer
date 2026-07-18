@@ -1,0 +1,445 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+<title>DAVIS OGEGA :: 3D COMMAND CENTER</title>
+<meta name="description" content="Interactive 3D command center — Davis Ogega, Next-Gen Code Architect"/>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='40' fill='none' stroke='%2300f7ff' stroke-width='8'/%3E%3C/svg%3E">
+<style>
+  :root {
+    --cyan: #00f7ff;
+    --magenta: #ff2e9a;
+    --purple: #7b2fff;
+    --green: #00ff88;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0; width: 100%; height: 100%;
+    background: radial-gradient(ellipse at 50% 20%, #0d1730 0%, #05060c 55%, #020204 100%);
+    color: #dff8ff;
+    font-family: 'Consolas', 'SFMono-Regular', 'Courier New', monospace;
+    overflow: hidden;
+  }
+  #app-canvas { position: fixed; inset: 0; display: block; }
+
+  .vignette {
+    position: fixed; inset: 0; pointer-events: none; z-index: 5;
+    background: radial-gradient(ellipse at center, rgba(0,0,0,0) 45%, rgba(0,0,0,0.75) 100%);
+  }
+  .scanlines {
+    position: fixed; inset: 0; pointer-events: none; z-index: 6; opacity: .06;
+    background: repeating-linear-gradient(to bottom, #00f7ff 0px, #00f7ff 1px, transparent 2px, transparent 4px);
+    animation: scanShift 6s linear infinite;
+  }
+  @keyframes scanShift { from { background-position-y: 0; } to { background-position-y: 200px; } }
+
+  .hud { position: fixed; inset: 0; z-index: 10; pointer-events: none; }
+  .hud a, .hud button { pointer-events: auto; }
+
+  .hud-top {
+    position: absolute; top: 18px; left: 18px; right: 18px;
+    display: flex; justify-content: space-between; align-items: flex-start;
+    font-size: 11px; letter-spacing: 2px; color: var(--cyan); opacity: .85;
+  }
+  .hud-top .status-dot {
+    display: inline-block; width: 7px; height: 7px; border-radius: 50%;
+    background: var(--green); margin-right: 6px; box-shadow: 0 0 8px var(--green);
+    animation: dotPulse 1.6s ease-in-out infinite;
+  }
+  @keyframes dotPulse { 0%,100% { opacity: 1; } 50% { opacity: .35; } }
+
+  .title-block {
+    position: absolute; left: 50%; top: 14%; transform: translate(-50%, 0);
+    text-align: center; width: 90%; max-width: 900px;
+  }
+  .glitch-name {
+    font-size: clamp(28px, 6.5vw, 68px);
+    font-weight: 800; letter-spacing: 6px;
+    color: #eafcff;
+    position: relative;
+    text-shadow: 0 0 18px rgba(0,247,255,0.55);
+    margin: 0;
+  }
+  .glitch-name::before, .glitch-name::after {
+    content: 'DAVIS OGEGA';
+    position: absolute; left: 0; right: 0; top: 0;
+    overflow: hidden;
+  }
+  .glitch-name::before {
+    color: var(--cyan);
+    animation: glitchA 4.5s infinite;
+    clip-path: inset(0 0 60% 0);
+  }
+  .glitch-name::after {
+    color: var(--magenta);
+    animation: glitchB 4.5s infinite;
+    clip-path: inset(60% 0 0 0);
+  }
+  @keyframes glitchA {
+    0%, 90%, 100% { transform: translate(0,0); opacity: 0; }
+    91% { transform: translate(-4px,-1px); opacity: .8; }
+    94% { transform: translate(3px,1px); opacity: .5; }
+    97% { transform: translate(-2px,0); opacity: 0; }
+  }
+  @keyframes glitchB {
+    0%, 88%, 100% { transform: translate(0,0); opacity: 0; }
+    89% { transform: translate(4px,1px); opacity: .75; }
+    93% { transform: translate(-3px,-1px); opacity: .45; }
+    96% { transform: translate(2px,0); opacity: 0; }
+  }
+  .subtitle {
+    margin-top: 14px; font-size: clamp(11px, 1.6vw, 15px);
+    letter-spacing: 3px; color: var(--green);
+    text-shadow: 0 0 10px rgba(0,255,136,.6);
+  }
+  .hint {
+    margin-top: 10px; font-size: 10px; letter-spacing: 2px; color: #7fd9ff; opacity: .6;
+  }
+
+  .hud-bottom {
+    position: absolute; bottom: 18px; left: 0; right: 0;
+    display: flex; flex-direction: column; align-items: center; gap: 12px;
+  }
+  .nav-links {
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;
+  }
+  .nav-links a {
+    text-decoration: none; color: var(--cyan);
+    border: 1px solid rgba(0,247,255,0.4);
+    background: rgba(0,20,30,0.35);
+    backdrop-filter: blur(4px);
+    padding: 8px 14px; font-size: 11px; letter-spacing: 2px;
+    border-radius: 4px; transition: all .2s ease;
+  }
+  .nav-links a:hover {
+    background: rgba(0,247,255,0.15);
+    box-shadow: 0 0 14px rgba(0,247,255,0.5);
+    transform: translateY(-1px);
+  }
+  .back-link { color: var(--green) !important; border-color: rgba(0,255,136,0.4) !important; }
+  .back-link:hover { box-shadow: 0 0 14px rgba(0,255,136,0.5) !important; }
+
+  .footer-ticker {
+    font-size: 10px; letter-spacing: 2px; color: #6fb8d9; opacity: .7;
+  }
+
+  .tech-label {
+    font-size: 10px; letter-spacing: 1px; color: var(--cyan);
+    background: rgba(3,10,20,0.55);
+    border: 1px solid rgba(0,247,255,0.35);
+    padding: 3px 7px; border-radius: 3px; white-space: nowrap;
+    text-shadow: 0 0 6px rgba(0,247,255,0.7);
+    pointer-events: none;
+    transform: translate(10px, -10px);
+  }
+
+  #boot {
+    position: fixed; inset: 0; z-index: 100;
+    background: #020204; color: var(--cyan);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; letter-spacing: 2px;
+    transition: opacity .6s ease;
+  }
+  #boot pre { margin: 0; white-space: pre-wrap; text-align: left; max-width: 90vw; }
+  #boot .cursor2 { animation: blink 1s steps(1) infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  #fallback {
+    position: fixed; inset: 0; z-index: 200; display: none;
+    background: #05060c; color: var(--cyan);
+    align-items: center; justify-content: center; text-align: center;
+    padding: 24px; font-size: 14px; letter-spacing: 1px; line-height: 1.7;
+  }
+  #fallback a { color: var(--green); }
+
+  @media (max-width: 640px) {
+    .title-block { top: 10%; }
+    .hud-top { font-size: 9px; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="app-canvas"></canvas>
+<div class="vignette"></div>
+<div class="scanlines"></div>
+
+<div id="boot">
+  <pre id="boot-text"></pre>
+</div>
+
+<div id="fallback">
+  <div>
+    ⚠ WEBGL CORE OFFLINE<br/><br/>
+    Your device can't render the 3D command center.<br/>
+    <a href="https://github.com/davytheprogrammer">← Return to the profile README</a>
+  </div>
+</div>
+
+<div class="hud">
+  <div class="hud-top">
+    <div><span class="status-dot"></span>SYSTEM: DAVIS_OGEGA_OS v2026.07 :: ONLINE</div>
+    <div id="clock">--:--:--</div>
+  </div>
+
+  <div class="title-block">
+    <h1 class="glitch-name" data-text="DAVIS OGEGA">DAVIS OGEGA</h1>
+    <div class="subtitle">NEXT-GEN CODE ARCHITECT // AI-AUGMENTED SYSTEMS BUILDER</div>
+    <div class="hint">DRAG TO ROTATE · SCROLL TO ZOOM · MOVE MOUSE TO LOOK AROUND</div>
+  </div>
+
+  <div class="hud-bottom">
+    <div class="nav-links">
+      <a href="https://github.com/davytheprogrammer">GITHUB</a>
+      <a href="https://linkedin.com/in/davismachinogega">LINKEDIN</a>
+      <a href="https://twitter.com/officialogega">TWITTER</a>
+      <a href="https://ogegadavis.dev">PORTFOLIO</a>
+      <a class="back-link" href="https://github.com/davytheprogrammer">← BACK TO README</a>
+    </div>
+    <div class="footer-ticker">STATUS: SHIPPING CODE · STACK: NEXT.JS + THREE.JS + EDGE · MODE: PRODUCTION</div>
+  </div>
+</div>
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+  }
+}
+</script>
+
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
+import { CSS2DRenderer, CSS2DObject } from 'three/addons/renderers/CSS2DRenderer.js';
+
+const bootLines = [
+  'INITIALIZING NEURAL CORE...',
+  'COMPILING REALITY.TSX...',
+  'MOUNTING TECH STACK ORBIT...',
+  'CALIBRATING BLOOM SHADERS...',
+  'READY.'
+];
+const bootEl = document.getElementById('boot-text');
+let bootI = 0;
+function typeBoot() {
+  if (bootI >= bootLines.length) {
+    setTimeout(() => {
+      const boot = document.getElementById('boot');
+      boot.style.opacity = '0';
+      setTimeout(() => boot.remove(), 650);
+    }, 350);
+    return;
+  }
+  bootEl.textContent += (bootI ? '\n' : '') + '> ' + bootLines[bootI];
+  bootI++;
+  setTimeout(typeBoot, 260);
+}
+typeBoot();
+
+function updateClock() {
+  const el = document.getElementById('clock');
+  if (el) el.textContent = new Date().toUTCString().split(' ')[4] + ' UTC';
+}
+updateClock();
+setInterval(updateClock, 1000);
+
+let renderer;
+try {
+  renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('app-canvas'), antialias: true, alpha: true, powerPreference: 'high-performance' });
+} catch (e) {
+  renderer = null;
+}
+if (!renderer || !renderer.getContext()) {
+  document.getElementById('fallback').style.display = 'flex';
+  const boot = document.getElementById('boot');
+  if (boot) boot.remove();
+} else {
+  init();
+}
+
+function init() {
+  const isMobile = window.innerWidth < 768;
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.outputColorSpace = THREE.SRGBColorSpace;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.15;
+
+  const scene = new THREE.Scene();
+  scene.fog = new THREE.FogExp2(0x030409, 0.0016);
+
+  const camera = new THREE.PerspectiveCamera(58, window.innerWidth / window.innerHeight, 0.1, 2000);
+  camera.position.set(0, 6, 46);
+
+  const labelRenderer = new CSS2DRenderer();
+  labelRenderer.setSize(window.innerWidth, window.innerHeight);
+  labelRenderer.domElement.style.position = 'fixed';
+  labelRenderer.domElement.style.top = '0';
+  labelRenderer.domElement.style.left = '0';
+  labelRenderer.domElement.style.pointerEvents = 'none';
+  labelRenderer.domElement.style.zIndex = '4';
+  document.body.appendChild(labelRenderer.domElement);
+
+  // ---- Starfield ----
+  const starCount = isMobile ? 1800 : 4200;
+  const starGeo = new THREE.BufferGeometry();
+  const starPos = new Float32Array(starCount * 3);
+  for (let i = 0; i < starCount; i++) {
+    const r = 120 + Math.random() * 380;
+    const theta = Math.random() * Math.PI * 2;
+    const phi = Math.acos((Math.random() * 2) - 1);
+    starPos[i*3] = r * Math.sin(phi) * Math.cos(theta);
+    starPos[i*3+1] = r * Math.sin(phi) * Math.sin(theta);
+    starPos[i*3+2] = r * Math.cos(phi);
+  }
+  starGeo.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
+  const starMat = new THREE.PointsMaterial({ color: 0x9fe8ff, size: 0.6, sizeAttenuation: true, transparent: true, opacity: 0.75, blending: THREE.AdditiveBlending });
+  const stars = new THREE.Points(starGeo, starMat);
+  scene.add(stars);
+
+  // ---- Core hologram ----
+  const coreGroup = new THREE.Group();
+  scene.add(coreGroup);
+
+  const coreGeo = new THREE.IcosahedronGeometry(7, 1);
+  const coreEdges = new THREE.EdgesGeometry(coreGeo);
+  const coreLines = new THREE.LineSegments(coreEdges, new THREE.LineBasicMaterial({ color: 0x00f7ff, transparent: true, opacity: 0.85 }));
+  coreGroup.add(coreLines);
+
+  const coreInner = new THREE.Mesh(
+    new THREE.IcosahedronGeometry(6.6, 1),
+    new THREE.MeshBasicMaterial({ color: 0x0a2540, transparent: true, opacity: 0.25 })
+  );
+  coreGroup.add(coreInner);
+
+  const outerGeo = new THREE.IcosahedronGeometry(10.5, 0);
+  const outerEdges = new THREE.EdgesGeometry(outerGeo);
+  const outerLines = new THREE.LineSegments(outerEdges, new THREE.LineBasicMaterial({ color: 0x7b2fff, transparent: true, opacity: 0.35 }));
+  coreGroup.add(outerLines);
+
+  // ---- Orbit rings + tech nodes ----
+  const techStack = [
+    { name: 'NEXT.JS', color: 0x00f7ff },
+    { name: 'REACT', color: 0x00f7ff },
+    { name: 'TYPESCRIPT', color: 0x00f7ff },
+    { name: 'FLUTTER', color: 0x00ff88 },
+    { name: 'PYTHON', color: 0x00ff88 },
+    { name: 'NODE.JS', color: 0x00ff88 },
+    { name: 'AWS', color: 0xff2e9a },
+    { name: 'DOCKER', color: 0xff2e9a },
+    { name: 'CLAUDE AI', color: 0xff2e9a }
+  ];
+
+  const orbitDefs = [
+    { radius: 16, tilt: 0.25, speed: 0.06, items: techStack.slice(0, 3) },
+    { radius: 22, tilt: -0.4, speed: -0.045, items: techStack.slice(3, 6) },
+    { radius: 28, tilt: 0.55, speed: 0.03, items: techStack.slice(6, 9) }
+  ];
+
+  const orbitGroups = [];
+  orbitDefs.forEach(def => {
+    const group = new THREE.Group();
+    group.rotation.x = def.tilt;
+    scene.add(group);
+
+    const ringGeo = new THREE.TorusGeometry(def.radius, 0.02, 8, 96);
+    const ringMat = new THREE.MeshBasicMaterial({ color: 0x2a4a66, transparent: true, opacity: 0.35 });
+    const ring = new THREE.Mesh(ringGeo, ringMat);
+    ring.rotation.x = Math.PI / 2;
+    group.add(ring);
+
+    def.items.forEach((tech, i) => {
+      const angle = (i / def.items.length) * Math.PI * 2 + Math.random() * 0.4;
+      const node = new THREE.Mesh(
+        new THREE.SphereGeometry(0.45, 16, 16),
+        new THREE.MeshBasicMaterial({ color: tech.color })
+      );
+      node.position.set(Math.cos(angle) * def.radius, 0, Math.sin(angle) * def.radius);
+      node.userData.angle = angle;
+      node.userData.radius = def.radius;
+      group.add(node);
+
+      const div = document.createElement('div');
+      div.className = 'tech-label';
+      div.textContent = tech.name;
+      const label = new CSS2DObject(div);
+      label.position.set(0, 0.8, 0);
+      node.add(label);
+    });
+
+    orbitGroups.push({ group, speed: def.speed });
+  });
+
+  // ---- Lights (subtle, mostly for potential future solid meshes) ----
+  scene.add(new THREE.AmbientLight(0x334466, 0.6));
+  const point = new THREE.PointLight(0x00f7ff, 1.2, 100);
+  point.position.set(20, 20, 20);
+  scene.add(point);
+
+  // ---- Controls ----
+  const controls = new OrbitControls(camera, renderer.domElement);
+  controls.enableDamping = true;
+  controls.dampingFactor = 0.06;
+  controls.enablePan = false;
+  controls.minDistance = 20;
+  controls.maxDistance = 90;
+  controls.autoRotate = true;
+  controls.autoRotateSpeed = 0.6;
+
+  // ---- Mouse parallax (subtle, blends with orbit controls) ----
+  const mouse = { x: 0, y: 0 };
+  window.addEventListener('pointermove', (e) => {
+    mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+    mouse.y = (e.clientY / window.innerHeight) * 2 - 1;
+  });
+
+  // ---- Post-processing ----
+  const composer = new EffectComposer(renderer);
+  composer.addPass(new RenderPass(scene, camera));
+  const bloom = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), isMobile ? 0.8 : 1.15, 0.55, 0.12);
+  composer.addPass(bloom);
+  composer.addPass(new OutputPass());
+
+  window.addEventListener('resize', () => {
+    const w = window.innerWidth, h = window.innerHeight;
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+    renderer.setSize(w, h);
+    labelRenderer.setSize(w, h);
+    composer.setSize(w, h);
+  });
+
+  const clock = new THREE.Clock();
+  function animate() {
+    requestAnimationFrame(animate);
+    const t = clock.getElapsedTime();
+
+    coreGroup.rotation.y = t * 0.18;
+    coreGroup.rotation.x = Math.sin(t * 0.15) * 0.15;
+    outerLines.rotation.y = -t * 0.1;
+
+    orbitGroups.forEach(({ group, speed }) => {
+      group.rotation.y += speed * 0.016;
+    });
+
+    stars.rotation.y = t * 0.005;
+
+    camera.position.x += (mouse.x * 4 - camera.position.x * 0.06) * 0.02;
+    camera.position.y += (6 - mouse.y * 3 - camera.position.y) * 0.01 + 0;
+
+    controls.update();
+    composer.render();
+    labelRenderer.render(scene, camera);
+  }
+  animate();
+}
+</script>
+</body>
+</html>

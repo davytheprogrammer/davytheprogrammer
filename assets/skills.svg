@@ -1,0 +1,106 @@
+<svg viewBox="0 0 980 300" xmlns="http://www.w3.org/2000/svg" font-family="Consolas, 'Courier New', monospace">
+  <defs>
+    <linearGradient id="fillA" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#00f7ff"/>
+      <stop offset="100%" stop-color="#7b2fff"/>
+    </linearGradient>
+    <linearGradient id="fillB" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#00ff88"/>
+      <stop offset="100%" stop-color="#00f7ff"/>
+    </linearGradient>
+    <linearGradient id="fillC" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#ff2e9a"/>
+      <stop offset="100%" stop-color="#7b2fff"/>
+    </linearGradient>
+    <linearGradient id="trackBevel" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1c2436"/>
+      <stop offset="100%" stop-color="#080a10"/>
+    </linearGradient>
+    <linearGradient id="sheen" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#ffffff" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3.4" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <style>
+      <![CDATA[
+        .bar { transform-box: fill-box; transform-origin: left; animation: grow 1.4s cubic-bezier(.2,.9,.25,1) forwards; }
+        @keyframes grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+        .shine { animation: shineMove 3.5s ease-in-out infinite; }
+        @keyframes shineMove {
+          0% { transform: translateX(-140px); opacity: 0; }
+          10% { opacity: .8; }
+          50% { opacity: .8; }
+          100% { transform: translateX(760px); opacity: 0; }
+        }
+        .label { fill: #d8f6ff; font-size: 15px; letter-spacing: 2px; }
+        .pct { fill: #eafcff; font-size: 15px; font-weight: 700; }
+        text.mono { font-family: Consolas, 'Courier New', monospace; }
+      ]]>
+    </style>
+  </defs>
+
+  <rect width="980" height="300" fill="#05070d"/>
+
+  <!-- rows: label, track, fill -->
+  <g transform="translate(40,26)">
+    <!-- Row template repeated -->
+    <g transform="translate(0,0)">
+      <text class="label mono" x="0" y="14">NEXT.JS / REACT</text>
+      <text class="pct mono" x="900" y="14" text-anchor="end">100%</text>
+      <rect x="0" y="24" width="900" height="16" rx="8" fill="url(#trackBevel)" stroke="#1f2a3d"/>
+      <clipPath id="clip1"><rect x="0" y="24" width="900" height="16" rx="8"/></clipPath>
+      <g clip-path="url(#clip1)">
+        <rect class="bar" x="0" y="24" width="900" height="16" fill="url(#fillA)" filter="url(#glow)" style="animation-delay:.05s"/>
+        <rect class="shine" x="0" y="24" width="70" height="16" fill="url(#sheen)" style="animation-delay:.3s"/>
+      </g>
+    </g>
+
+    <g transform="translate(0,56)">
+      <text class="label mono" x="0" y="14">MOBILE (FLUTTER)</text>
+      <text class="pct mono" x="900" y="14" text-anchor="end">95%</text>
+      <rect x="0" y="24" width="900" height="16" rx="8" fill="url(#trackBevel)" stroke="#1f2a3d"/>
+      <clipPath id="clip2"><rect x="0" y="24" width="855" height="16" rx="8"/></clipPath>
+      <g clip-path="url(#clip2)">
+        <rect class="bar" x="0" y="24" width="855" height="16" fill="url(#fillB)" filter="url(#glow)" style="animation-delay:.15s"/>
+        <rect class="shine" x="0" y="24" width="70" height="16" fill="url(#sheen)" style="animation-delay:.9s"/>
+      </g>
+    </g>
+
+    <g transform="translate(0,112)">
+      <text class="label mono" x="0" y="14">AI / ML SYSTEMS</text>
+      <text class="pct mono" x="900" y="14" text-anchor="end">85%</text>
+      <rect x="0" y="24" width="900" height="16" rx="8" fill="url(#trackBevel)" stroke="#1f2a3d"/>
+      <clipPath id="clip3"><rect x="0" y="24" width="765" height="16" rx="8"/></clipPath>
+      <g clip-path="url(#clip3)">
+        <rect class="bar" x="0" y="24" width="765" height="16" fill="url(#fillC)" filter="url(#glow)" style="animation-delay:.25s"/>
+        <rect class="shine" x="0" y="24" width="70" height="16" fill="url(#sheen)" style="animation-delay:1.5s"/>
+      </g>
+    </g>
+
+    <g transform="translate(0,168)">
+      <text class="label mono" x="0" y="14">BACKEND / APIs</text>
+      <text class="pct mono" x="900" y="14" text-anchor="end">80%</text>
+      <rect x="0" y="24" width="900" height="16" rx="8" fill="url(#trackBevel)" stroke="#1f2a3d"/>
+      <clipPath id="clip4"><rect x="0" y="24" width="720" height="16" rx="8"/></clipPath>
+      <g clip-path="url(#clip4)">
+        <rect class="bar" x="0" y="24" width="720" height="16" fill="url(#fillA)" filter="url(#glow)" style="animation-delay:.35s"/>
+        <rect class="shine" x="0" y="24" width="70" height="16" fill="url(#sheen)" style="animation-delay:2.1s"/>
+      </g>
+    </g>
+
+    <g transform="translate(0,224)">
+      <text class="label mono" x="0" y="14">CLOUD / EDGE</text>
+      <text class="pct mono" x="900" y="14" text-anchor="end">85%</text>
+      <rect x="0" y="24" width="900" height="16" rx="8" fill="url(#trackBevel)" stroke="#1f2a3d"/>
+      <clipPath id="clip5"><rect x="0" y="24" width="765" height="16" rx="8"/></clipPath>
+      <g clip-path="url(#clip5)">
+        <rect class="bar" x="0" y="24" width="765" height="16" fill="url(#fillB)" filter="url(#glow)" style="animation-delay:.45s"/>
+        <rect class="shine" x="0" y="24" width="70" height="16" fill="url(#sheen)" style="animation-delay:2.7s"/>
+      </g>
+    </g>
+  </g>
+</svg>

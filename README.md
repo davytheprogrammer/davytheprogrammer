@@ -1,13 +1,17 @@
 <div align="center">
-  <img src="https://raw.githubusercontent.com/davytheprogrammer/davytheprogrammer/main/assets/cosmic-gateway.gif" width="100%"/>
-
-  [![Typing SVG](https://readme-typing-svg.demolab.com?font=Orbitron&weight=900&size=32&duration=4500&pause=1000&color=00F7FF&center=true&vCenter=true&width=900&lines=DAVIS+OGEGA;NEXT.JS+ARCHITECT;CERTIFIED+PROMPT+ENGINEER;PROFESSIONAL+VIBE+CΦDER;APP+INNOVATION+SPECIALIST)](https://github.com/davytheprogrammer)
+  <img src="assets/hero.svg" width="100%" alt="Davis Ogega — Next-Gen Code Architect"/>
 </div>
 
 <div align="center">
-  <p align="center">
-    <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=20&duration=3500&pause=1000&color=00FF88&width=600&lines=Crafting+the+future+with+code%2C+one+vibe+at+a+time" alt="Vibe Coder Tagline"/>
-  </p>
+  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=18&duration=3200&pause=1200&color=00FF88&center=true&vCenter=true&width=680&lines=Crafting+the+future+with+code%2C+one+vibe+at+a+time;AI-augmented+builder+%3A%3A+shipping+systems+to+the+edge;Currently+orbiting%3A+Next.js+15+%2B+React+19" alt="tagline"/>
+</div>
+
+<div align="center">
+
+  <a href="https://davytheprogrammer.github.io/davytheprogrammer/">
+    <img src="https://img.shields.io/badge/🌌_LAUNCH_3D_COMMAND_CENTER-05070d?style=for-the-badge&logo=threedotjs&logoColor=00F7FF&labelColor=05070d" alt="Launch 3D Command Center"/>
+  </a>
+
 </div>
 
 <div align="center">
@@ -33,17 +37,7 @@
 ## ⚡ Core Arsenal
 
 <div align="center">
-
-### 🎖️ **Unlocked Proficiencies**
-
-```
-Next.js   ━━━━━━━━━━━━ 100% ████████████████████
-Mobile    ━━━━━━━━━━━━ 95%  ███████████████████▌
-AI/ML     ━━━━━━━━━━━━ 85%  █████████████████▌
-Backend   ━━━━━━━━━━━━ 80%  █████████████████▌
-Cloud     ━━━━━━━━━━━━ 85%  █████████████████▌
-```
-
+  <img src="assets/skills.svg" width="100%" alt="Proficiency levels"/>
 </div>
 
 ---
@@ -53,7 +47,6 @@ Cloud     ━━━━━━━━━━━━ 85%  █████████�
 <div align="center">
 
 ### **Primary Stack**
-<div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
 
 <img src="https://img.shields.io/badge/Next.js-000000?style=flat-square&logo=next.js&logoColor=white" />
 <img src="https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=react&logoColor=black" />
@@ -63,9 +56,8 @@ Cloud     ━━━━━━━━━━━━ 85%  █████████�
 <img src="https://img.shields.io/badge/Dart-0175C2?style=flat-square&logo=dart&logoColor=white" />
 <img src="https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white" />
 <img src="https://img.shields.io/badge/Node.js-339933?style=flat-square&logo=node.js&logoColor=white" />
+<img src="https://img.shields.io/badge/Three.js-000000?style=flat-square&logo=three.js&logoColor=white" />
 <img src="https://img.shields.io/badge/Vercel-000000?style=flat-square&logo=vercel&logoColor=white" />
-
-</div>
 
 ### **Infrastructure & AI**
 
@@ -88,13 +80,23 @@ Cloud     ━━━━━━━━━━━━ 85%  █████████�
 
 ### **Contribution Flow**
 
-<img src="https://github-readme-activity-graph.vercel.app/graph?username=davytheprogrammer&theme=react-dark&hide_border=true&bg_color=0d1117&color=00F7FF&line=00F7FF&point=ffffff&area=true" width="100%" alt="Contribution Graph"/>
+<img src="https://github-readme-activity-graph.vercel.app/graph?username=davytheprogrammer&theme=react-dark&hide_border=true&bg_color=05070d&color=00F7FF&line=00F7FF&point=ffffff&area=true&area_color=00F7FF" width="100%" alt="Contribution Graph"/>
 
-<br/>
+<br/><br/>
 
-| [![GitHub Stats](https://github-readme-stats.vercel.app/api?username=davytheprogrammer&show_icons=true&theme=dark&hide_border=true)](https://github.com/davytheprogrammer) | [![GitHub Streak](https://github-readme-streak-stats.herokuapp.com/?user=davytheprogrammer&theme=dark&hide_border=true)](https://github.com/davytheprogrammer) | [![Top Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=davytheprogrammer&layout=compact&theme=dark&hide_border=true)](https://github.com/davytheprogrammer) |
-| :--: | :--: | :--: |
-| **📈 Stats Card** | **🔥 Streak** | **💻 Top Languages** |
+### **The Snake That Eats My Commits**
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/davytheprogrammer/davytheprogrammer/output/snake-dark.svg" />
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/davytheprogrammer/davytheprogrammer/output/snake.svg" />
+  <img alt="contribution snake animation" src="https://raw.githubusercontent.com/davytheprogrammer/davytheprogrammer/output/snake.svg" width="100%"/>
+</picture>
+
+<br/><br/>
+
+### **Live Stats — self-hosted, no third-party downtime**
+
+<img src="https://raw.githubusercontent.com/davytheprogrammer/davytheprogrammer/output/stats.svg" width="100%" alt="Live GitHub stats"/>
 
 </div>
 
@@ -108,7 +110,7 @@ Cloud     ━━━━━━━━━━━━ 85%  █████████�
 class CodeArchitect {
   constructor(
     public alias: string = "davytheprogrammer",
-    public version: string = "2025.12",
+    public version: string = "2026.07",
     public mode: string = "production"
   ) {}
 
@@ -116,7 +118,8 @@ class CodeArchitect {
     const architecture = this.designNextJSArchitecture(productIdea);
     const ui = this.vibeCodeInterface(architecture);
     const api = this.generateEdgeAPIs(architecture);
-    const deployed = this.deployToVercel(ui, api);
+    const scene = this.renderThreeJSExperience(architecture);
+    const deployed = this.deployToVercel(ui, api, scene);
 
     return {
       deployed,
@@ -126,8 +129,8 @@ class CodeArchitect {
     };
   }
 
-  private vibeCodeInterface(architecture: any): string {
-    return `AI-accelerated UI deployed in ${Date.now() - architecture}ms`;
+  private renderThreeJSExperience(architecture: any): WebGLScene {
+    return new WebGLScene({ bloom: true, dimension: 3, realityLevel: "next-gen" });
   }
 }
 
@@ -149,6 +152,7 @@ console.log(`🚀 ${nextProject.vibes.toUpperCase()} - ${nextProject.performance
 | **Speed** | ⚡ Ludicrous Mode |
 | **AI Augmentation** | Claude Code |
 | **Deploy Target** | Vercel Edge |
+| **3D Command Center** | 🟢 ONLINE — [launch it →](https://davytheprogrammer.github.io/davytheprogrammer/) |
 | **Status** | **🔥 SHIPPING CODE** |
 
 </div>
@@ -167,6 +171,7 @@ Next.js Ecosystem         →  Edge Computing
 Full-Stack Apps           →  Distributed Apps
 ML/DL Models             →  Custom LLMs
 Mobile Development       →  AR/VR Experiences
+2D Interfaces             →  Real-Time 3D/WebGL
 ```
 
 </div>
@@ -186,10 +191,12 @@ Mobile Development       →  AR/VR Experiences
 <a href="https://ogegadavis.dev">
   <img src="https://img.shields.io/badge/portfolio-ff6b6b?style=for-the-badge&logo=dev.to&logoColor=white" />
 </a>
+<a href="https://davytheprogrammer.github.io/davytheprogrammer/">
+  <img src="https://img.shields.io/badge/3D_command_center-00f7ff?style=for-the-badge&logo=threedotjs&logoColor=black" />
+</a>
 
 <br/><br/>
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&height=80&section=footer&text=CODE%20IS%20ART&fontColor=ffffff&fontAlignY=70" width="100%" alt="Footer"/>
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:05070d,50:7b2fff,100:00f7ff&height=90&section=footer&text=CODE%20IS%20ART&fontColor=ffffff&fontAlignY=75&animation=fadeIn" width="100%" alt="Footer"/>
 
 </div>
-
