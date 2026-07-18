@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>DAVIS OGEGA :: PORTFOLIO WORLD</title>
-<meta name="description" content="Drivable 3D portfolio world — Davis Ogega, Next-Gen Code Architect"/>
+<meta name="description" content="Scroll-driven 3D portfolio — Davis Ogega, Next-Gen Code Architect"/>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='40' fill='none' stroke='%2300f7ff' stroke-width='8'/%3E%3C/svg%3E">
 <style>
   :root {
@@ -13,16 +13,17 @@
     --purple: #7b2fff;
     --green: #00ff88;
   }
-  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; user-select: none; }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html {
+    overscroll-behavior-y: none;
+  }
   html, body {
-    margin: 0; padding: 0; width: 100%; height: 100%;
+    margin: 0; padding: 0; width: 100%;
     background: #020204;
     color: #dff8ff;
     font-family: 'Consolas', 'SFMono-Regular', 'Courier New', monospace;
-    overflow: hidden;
-    overscroll-behavior: none;
   }
-  #app-canvas { position: fixed; inset: 0; display: block; touch-action: none; }
+  #app-canvas { position: fixed; inset: 0; display: block; z-index: 0; }
 
   .vignette {
     position: fixed; inset: 0; pointer-events: none; z-index: 5;
@@ -34,7 +35,7 @@
   }
 
   .hud { position: fixed; inset: 0; z-index: 10; pointer-events: none; }
-  .hud a, .hud button { pointer-events: auto; }
+  .hud a { pointer-events: auto; }
 
   .hud-top {
     position: absolute; top: 14px; left: 14px; right: 14px;
@@ -48,9 +49,7 @@
   }
   @keyframes dotPulse { 0%,100% { opacity: 1; } 50% { opacity: .35; } }
 
-  .corner-nav {
-    display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; max-width: 46vw;
-  }
+  .corner-nav { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; max-width: 46vw; }
   .corner-nav a {
     text-decoration: none; color: var(--cyan);
     border: 1px solid rgba(0,247,255,0.35);
@@ -61,6 +60,22 @@
   .corner-nav a:hover { background: rgba(0,247,255,0.15); }
   .corner-nav .back-link { color: var(--green) !important; border-color: rgba(0,255,136,0.4) !important; }
 
+  /* ---- Scroll progress rail ---- */
+  #progress-rail {
+    position: fixed; right: 14px; top: 50%; transform: translateY(-50%);
+    width: 3px; height: 42vh; background: rgba(0,247,255,0.15);
+    border-radius: 2px; z-index: 10;
+  }
+  #progress-fill {
+    position: absolute; bottom: 0; left: 0; width: 100%; height: 0%;
+    background: linear-gradient(to top, var(--cyan), var(--purple));
+    border-radius: 2px; box-shadow: 0 0 8px rgba(0,247,255,0.6);
+  }
+  #progress-pct {
+    position: fixed; right: 22px; top: calc(50% + 42vh/2 + 10px);
+    font-size: 9px; letter-spacing: 1px; color: var(--cyan); opacity: .7; z-index: 10;
+  }
+
   /* ---- Boot ---- */
   #boot {
     position: fixed; inset: 0; z-index: 100;
@@ -70,18 +85,29 @@
     transition: opacity .6s ease;
   }
   #boot pre { margin: 0; white-space: pre-wrap; text-align: left; max-width: 90vw; }
-  @keyframes blink { 50% { opacity: 0; } }
 
-  /* ---- Start gate ---- */
-  #start-gate {
-    position: fixed; inset: 0; z-index: 90;
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    text-align: center; opacity: 0; pointer-events: none;
-    transition: opacity .8s ease;
+  /* ---- Scroll content ---- */
+  #scroll-content { position: relative; z-index: 2; }
+  .beat {
+    min-height: 100vh; display: flex; align-items: center;
+    padding: 0 7vw; position: relative;
   }
-  #start-gate.visible { opacity: 1; pointer-events: auto; }
+  .beat.align-left { justify-content: flex-start; }
+  .beat.align-right { justify-content: flex-end; }
+  .beat.align-center { justify-content: center; text-align: center; }
+
+  .card {
+    max-width: 500px; background: rgba(5,7,13,0.74);
+    border: 1px solid rgba(0,247,255,0.3); border-radius: 14px;
+    padding: 28px 30px; backdrop-filter: blur(8px);
+    opacity: 0; transform: translateY(36px);
+    transition: opacity .9s cubic-bezier(.2,.9,.25,1), transform .9s cubic-bezier(.2,.9,.25,1);
+  }
+  .card.in-view { opacity: 1; transform: translateY(0); }
+
+  .hero-card { max-width: 720px; background: none; border: none; padding: 0; backdrop-filter: none; }
   .glitch-name {
-    font-size: clamp(26px, 6vw, 60px);
+    font-size: clamp(30px, 7vw, 72px);
     font-weight: 800; letter-spacing: 6px;
     color: #eafcff; position: relative; margin: 0;
     text-shadow: 0 0 18px rgba(0,247,255,0.55);
@@ -105,102 +131,52 @@
     96% { transform: translate(2px,0); opacity: 0; }
   }
   .subtitle {
-    margin-top: 12px; font-size: clamp(11px, 1.6vw, 14px);
+    margin-top: 14px; font-size: clamp(11px, 1.6vw, 15px);
     letter-spacing: 3px; color: var(--green);
     text-shadow: 0 0 10px rgba(0,255,136,.6);
   }
-  #start-btn {
-    margin-top: 34px; pointer-events: auto; cursor: pointer;
-    font-family: inherit; font-size: 13px; letter-spacing: 3px; font-weight: 700;
-    color: #020204; background: linear-gradient(135deg, var(--cyan), var(--purple));
-    border: none; padding: 14px 30px; border-radius: 6px;
-    box-shadow: 0 0 24px rgba(0,247,255,0.45);
-    animation: btnPulse 2s ease-in-out infinite;
+  .scroll-hint {
+    margin-top: 40px; font-size: 10px; letter-spacing: 2px; color: #7fd9ff; opacity: .7;
+    animation: bob 2s ease-in-out infinite;
   }
-  @keyframes btnPulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.04); } }
-  .start-hint { margin-top: 16px; font-size: 10px; letter-spacing: 2px; color: #7fd9ff; opacity: .65; }
+  @keyframes bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
 
-  /* ---- Driving HUD ---- */
-  #drive-hud { position: fixed; inset: 0; z-index: 10; pointer-events: none; opacity: 0; transition: opacity .8s ease; }
-  #drive-hud.visible { opacity: 1; }
+  .eyebrow { font-size: 10.5px; letter-spacing: 3px; color: var(--green); opacity: .85; margin: 0 0 10px; }
+  .card h2 { margin: 0 0 12px; font-size: 20px; letter-spacing: 2px; color: #eafcff; }
+  .card p { font-size: 13px; line-height: 1.75; color: #b9e7f5; margin: 0 0 14px; }
 
-  #minimap-wrap {
-    position: absolute; top: 46px; right: 14px; width: 140px; height: 140px;
-    border-radius: 50%; border: 1px solid rgba(0,247,255,0.4);
-    background: rgba(3,10,20,0.55); overflow: hidden;
+  .chip-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+  .chip-row span {
+    font-size: 9.5px; letter-spacing: 1px; color: #7fd9ff;
+    border: 1px solid rgba(127,217,255,0.35); padding: 4px 9px; border-radius: 4px;
   }
-  #minimap { width: 100%; height: 100%; }
 
-  #control-hint {
-    position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
-    font-size: 10px; letter-spacing: 2px; color: #7fd9ff; opacity: .75;
-    text-align: center; transition: opacity .6s ease; white-space: nowrap;
-  }
-  #control-hint.faded { opacity: 0; }
-
-  #speed-hud {
-    position: absolute; bottom: 20px; right: 14px; text-align: right;
-  }
-  #speed-value { font-size: 26px; font-weight: 800; color: #eafcff; text-shadow: 0 0 12px rgba(0,247,255,.6); }
-  #speed-unit { font-size: 10px; letter-spacing: 2px; color: var(--cyan); opacity: .8; }
-  #boost-label { font-size: 9px; letter-spacing: 2px; color: var(--magenta); opacity: 0; margin-top: 2px; transition: opacity .2s ease; }
-  #boost-label.active { opacity: 1; }
-
-  #proximity-hint {
-    position: absolute; bottom: 96px; left: 50%; transform: translateX(-50%);
-    font-size: 11px; letter-spacing: 2px; color: var(--green); opacity: 0;
-    transition: opacity .3s ease; text-shadow: 0 0 8px rgba(0,255,136,.7);
-  }
-  #proximity-hint.visible { opacity: 1; }
-
-  /* ---- Project detail panel ---- */
-  #project-panel {
-    position: absolute; left: 50%; bottom: 0; transform: translate(-50%, 100%);
-    width: min(560px, 92vw);
-    background: rgba(5,7,13,0.92); border: 1px solid rgba(0,247,255,0.35);
-    border-bottom: none; border-radius: 12px 12px 0 0;
-    padding: 18px 22px 20px; backdrop-filter: blur(6px);
-    transition: transform .45s cubic-bezier(.2,.9,.25,1);
-    pointer-events: auto;
-  }
-  #project-panel.visible { transform: translate(-50%, 0); }
-  #project-panel .cat-dot {
-    display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 8px;
+  .project-card h3 { margin: 0 0 4px; font-size: 17px; letter-spacing: 3px; color: #eafcff; display: flex; align-items: center; }
+  .project-card .cat-dot {
+    display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 9px;
     box-shadow: 0 0 8px currentColor;
   }
-  #project-panel h3 { margin: 0 0 4px; font-size: 16px; letter-spacing: 3px; color: #eafcff; display: flex; align-items: center; }
-  #project-panel .tag { font-size: 9.5px; letter-spacing: 2px; opacity: .8; margin: 0 0 10px 16px; }
-  #project-panel p { font-size: 12px; line-height: 1.6; color: #b9e7f5; margin: 0 0 14px; }
-  #project-panel .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
-  #project-panel .tags span {
+  .project-card .tag { font-size: 9.5px; letter-spacing: 2px; opacity: .8; margin: 0 0 12px 17px; }
+  .project-card .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+  .project-card .tags span {
     font-size: 9px; letter-spacing: 1px; color: #7fd9ff;
     border: 1px solid rgba(127,217,255,0.3); padding: 3px 7px; border-radius: 3px;
   }
-  #project-panel a.visit {
+  .project-card a.visit {
     display: inline-block; text-decoration: none; font-size: 11px; letter-spacing: 2px; font-weight: 700;
-    color: #020204; background: var(--cyan); padding: 9px 16px; border-radius: 5px;
+    color: #020204; background: var(--cyan); padding: 10px 18px; border-radius: 5px;
+  }
+  .project-card .index {
+    position: absolute; top: -34px; left: 2px; font-size: 11px; letter-spacing: 2px;
+    color: rgba(223,248,255,0.35);
   }
 
-  /* ---- Mobile joystick ---- */
-  #touch-controls { position: absolute; inset: 0; display: none; }
-  #touch-controls.active { display: block; }
-  #joystick-zone {
-    position: absolute; left: 22px; bottom: 22px; width: 116px; height: 116px;
-    border-radius: 50%; border: 1px solid rgba(0,247,255,0.35); background: rgba(3,10,20,0.4);
-    pointer-events: auto; transition: bottom .3s ease;
+  .outro-card .nav-links { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 18px; }
+  .outro-card .nav-links a {
+    text-decoration: none; color: var(--cyan); border: 1px solid rgba(0,247,255,0.4);
+    background: rgba(0,20,30,0.35); padding: 10px 16px; font-size: 11px; letter-spacing: 2px; border-radius: 5px;
   }
-  #joystick-nub {
-    position: absolute; left: 38px; top: 38px; width: 40px; height: 40px; border-radius: 50%;
-    background: rgba(0,247,255,0.35); border: 1px solid rgba(0,247,255,0.7);
-  }
-  #boost-btn {
-    position: absolute; right: 22px; bottom: 30px; width: 76px; height: 76px; border-radius: 50%;
-    background: rgba(255,46,154,0.18); border: 1px solid rgba(255,46,154,0.55);
-    color: var(--magenta); font-size: 10px; letter-spacing: 1.5px; font-family: inherit; font-weight: 700;
-    pointer-events: auto; transition: bottom .3s ease;
-  }
-  #touch-controls.panel-open #joystick-zone { bottom: 232px; }
-  #touch-controls.panel-open #boost-btn { bottom: 240px; }
+  .outro-card .nav-links a:hover { background: rgba(0,247,255,0.15); box-shadow: 0 0 14px rgba(0,247,255,0.5); }
 
   #fallback {
     position: fixed; inset: 0; z-index: 200; display: none;
@@ -210,9 +186,11 @@
   }
   #fallback a { color: var(--green); }
 
-  @media (max-width: 640px) {
-    .corner-nav { max-width: 44vw; }
-    #minimap-wrap { width: 100px; height: 100px; top: 82px; }
+  @media (max-width: 780px) {
+    .beat { padding: 0 6vw; }
+    .beat.align-left, .beat.align-right { justify-content: center; }
+    .card { max-width: 100%; }
+    #progress-rail, #progress-pct { display: none; }
   }
 </style>
 </head>
@@ -229,7 +207,7 @@
 <div id="fallback">
   <div>
     ⚠ WEBGL CORE OFFLINE<br/><br/>
-    Your device can't render the portfolio world.<br/>
+    Your device can't render the 3D portfolio.<br/>
     <a href="https://github.com/davytheprogrammer">← Return to the profile README</a>
   </div>
 </div>
@@ -246,33 +224,43 @@
   </div>
 </div>
 
-<div id="start-gate">
-  <h1 class="glitch-name" data-text="DAVIS OGEGA">DAVIS OGEGA</h1>
-  <div class="subtitle">INTERACTIVE PORTFOLIO WORLD // 8 PROJECTS TO EXPLORE</div>
-  <button id="start-btn">▶ START ENGINE</button>
-  <div class="start-hint">DRIVE UP TO EACH MONUMENT TO SEE THE PROJECT</div>
-</div>
+<div id="progress-rail"><div id="progress-fill"></div></div>
+<div id="progress-pct">0%</div>
 
-<div id="drive-hud">
-  <div id="minimap-wrap"><canvas id="minimap" width="140" height="140"></canvas></div>
-  <div id="control-hint">WASD / ARROWS TO DRIVE · SHIFT TO BOOST · TOUCH JOYSTICK ON MOBILE</div>
-  <div id="proximity-hint">◆ PROJECT NEARBY</div>
-  <div id="speed-hud">
-    <div id="speed-value">0</div>
-    <div id="speed-unit">KM/H</div>
-    <div id="boost-label">▲ BOOST</div>
-  </div>
-  <div id="project-panel">
-    <h3><span class="cat-dot" id="panel-dot"></span><span id="panel-name"></span></h3>
-    <div class="tag" id="panel-tag"></div>
-    <p id="panel-desc"></p>
-    <div class="tags" id="panel-tags"></div>
-    <a class="visit" id="panel-link" href="#" target="_blank" rel="noopener">OPEN PROJECT →</a>
-  </div>
-  <div id="touch-controls">
-    <div id="joystick-zone"><div id="joystick-nub"></div></div>
-    <button id="boost-btn">BOOST</button>
-  </div>
+<div id="scroll-content">
+  <section class="beat align-center" data-beat="0">
+    <div class="card hero-card in-view">
+      <h1 class="glitch-name" data-text="DAVIS OGEGA">DAVIS OGEGA</h1>
+      <div class="subtitle">NEXT-GEN CODE ARCHITECT // AI-AUGMENTED SYSTEMS BUILDER</div>
+      <div class="scroll-hint">SCROLL TO EXPLORE ▾</div>
+    </div>
+  </section>
+
+  <section class="beat align-left" data-beat="1">
+    <div class="card">
+      <div class="eyebrow">// ABOUT</div>
+      <h2>BUILDING ACROSS THE STACK</h2>
+      <p>I design and ship full-stack products end to end — web, mobile, AI, and the infrastructure underneath. This world holds eight things I've actually shipped, from AI platforms to security research tools.</p>
+      <div class="chip-row" id="skills-chips"></div>
+    </div>
+  </section>
+
+  <!-- project sections injected by JS -->
+
+  <section class="beat align-center" data-beat="10">
+    <div class="card outro-card">
+      <div class="eyebrow">// END OF TOUR</div>
+      <h2>LET'S BUILD SOMETHING</h2>
+      <p>That's the world. Reach out on any of these, or head back to the profile.</p>
+      <div class="nav-links">
+        <a href="https://github.com/davytheprogrammer">GITHUB</a>
+        <a href="https://linkedin.com/in/davismachinogega">LINKEDIN</a>
+        <a href="https://twitter.com/ogega_ogega">TWITTER / X</a>
+        <a href="https://ogegadavis.dev">PORTFOLIO</a>
+        <a href="https://github.com/davytheprogrammer">← BACK TO README</a>
+      </div>
+    </div>
+  </section>
 </div>
 
 <script type="importmap">
@@ -291,37 +279,6 @@ import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
 import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
 import { CSS2DRenderer, CSS2DObject } from 'three/addons/renderers/CSS2DRenderer.js';
-
-/* ---------------------------------------------------------------- */
-/* Boot sequence                                                     */
-/* ---------------------------------------------------------------- */
-const bootLines = [
-  'INITIALIZING NEURAL CORE...',
-  'GENERATING TERRAIN GRID...',
-  'PLACING PROJECT MONUMENTS...',
-  'CALIBRATING VEHICLE PHYSICS...',
-  'READY.'
-];
-const bootEl = document.getElementById('boot-text');
-let bootI = 0;
-let started = false;
-function typeBoot() {
-  if (bootI >= bootLines.length) {
-    setTimeout(() => {
-      const boot = document.getElementById('boot');
-      boot.style.opacity = '0';
-      setTimeout(() => {
-        boot.remove();
-        if (!started) document.getElementById('start-gate').classList.add('visible');
-      }, 650);
-    }, 300);
-    return;
-  }
-  bootEl.textContent += (bootI ? '\n' : '') + '> ' + bootLines[bootI];
-  bootI++;
-  setTimeout(typeBoot, 240);
-}
-typeBoot();
 
 /* ---------------------------------------------------------------- */
 /* Project data                                                      */
@@ -356,6 +313,68 @@ const PROJECTS = [
 const SKILLS = ['NEXT.JS', 'REACT', 'TYPESCRIPT', 'FLUTTER', 'PYTHON', 'THREE.JS', 'AWS', 'CLAUDE AI'];
 
 /* ---------------------------------------------------------------- */
+/* Build project + skill DOM sections                                */
+/* ---------------------------------------------------------------- */
+const skillsChipsEl = document.getElementById('skills-chips');
+SKILLS.forEach((s) => {
+  const span = document.createElement('span');
+  span.textContent = s;
+  skillsChipsEl.appendChild(span);
+});
+
+const outroSection = document.querySelector('[data-beat="10"]');
+PROJECTS.forEach((p, i) => {
+  const section = document.createElement('section');
+  section.className = `beat ${i % 2 === 0 ? 'align-right' : 'align-left'}`;
+  section.dataset.beat = String(2 + i);
+  section.innerHTML = `
+    <div class="card project-card" style="position:relative;">
+      <div class="index">PROJECT ${String(i + 1).padStart(2, '0')} / ${String(PROJECTS.length).padStart(2, '0')}</div>
+      <h3><span class="cat-dot" style="color:${p.color}"></span>${p.name}</h3>
+      <div class="tag">${p.tag}</div>
+      <p>${p.desc}</p>
+      <div class="tags">${p.tags.map((t) => `<span>${t}</span>`).join('')}</div>
+      <a class="visit" href="${p.link}" target="_blank" rel="noopener">OPEN PROJECT →</a>
+    </div>`;
+  outroSection.parentElement.insertBefore(section, outroSection);
+});
+
+/* ---------------------------------------------------------------- */
+/* Reveal-on-scroll for cards                                        */
+/* ---------------------------------------------------------------- */
+const io = new IntersectionObserver((entries) => {
+  entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add('in-view'); });
+}, { threshold: 0.35 });
+document.querySelectorAll('.card:not(.in-view)').forEach((el) => io.observe(el));
+
+/* ---------------------------------------------------------------- */
+/* Boot sequence                                                     */
+/* ---------------------------------------------------------------- */
+const bootLines = [
+  'INITIALIZING NEURAL CORE...',
+  'GENERATING TERRAIN GRID...',
+  'PLACING PROJECT MONUMENTS...',
+  'MAPPING SCROLL TIMELINE...',
+  'READY.'
+];
+const bootEl = document.getElementById('boot-text');
+let bootI = 0;
+function typeBoot() {
+  if (bootI >= bootLines.length) {
+    setTimeout(() => {
+      const boot = document.getElementById('boot');
+      boot.style.opacity = '0';
+      setTimeout(() => boot.remove(), 650);
+    }, 300);
+    return;
+  }
+  bootEl.textContent += (bootI ? '\n' : '') + '> ' + bootLines[bootI];
+  bootI++;
+  setTimeout(typeBoot, 240);
+}
+typeBoot();
+
+/* ---------------------------------------------------------------- */
 /* Renderer setup                                                    */
 /* ---------------------------------------------------------------- */
 let renderer;
@@ -374,8 +393,6 @@ if (!renderer || !renderer.getContext()) {
 
 function init() {
   const isMobile = window.innerWidth < 820 || matchMedia('(pointer: coarse)').matches;
-  const qa = new URLSearchParams(location.search).has('qa'); // test-only fast-forward, harmless in normal use
-  if (isMobile) document.getElementById('touch-controls').classList.add('active');
 
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1.6 : 2));
   renderer.setSize(window.innerWidth, window.innerHeight);
@@ -385,14 +402,14 @@ function init() {
   renderer.shadowMap.enabled = false;
 
   const scene = new THREE.Scene();
-  scene.fog = new THREE.FogExp2(0x03040a, 0.0058);
+  scene.fog = new THREE.FogExp2(0x03040a, 0.0042);
   scene.background = new THREE.Color(0x03040a);
 
-  const camera = new THREE.PerspectiveCamera(62, window.innerWidth / window.innerHeight, 0.1, 900);
+  const camera = new THREE.PerspectiveCamera(58, window.innerWidth / window.innerHeight, 0.1, 900);
 
   const labelRenderer = new CSS2DRenderer();
   labelRenderer.setSize(window.innerWidth, window.innerHeight);
-  Object.assign(labelRenderer.domElement.style, { position: 'fixed', top: '0', left: '0', pointerEvents: 'none', zIndex: '4' });
+  Object.assign(labelRenderer.domElement.style, { position: 'fixed', top: '0', left: '0', pointerEvents: 'none', zIndex: '1' });
   document.body.appendChild(labelRenderer.domElement);
 
   /* ---- Lighting ---- */
@@ -449,7 +466,7 @@ function init() {
   edgeRing.rotation.x = Math.PI / 2;
   scene.add(edgeRing);
 
-  /* ---- Central spawn hub ---- */
+  /* ---- Central hub ---- */
   const hub = new THREE.Group();
   scene.add(hub);
   const hubCoreGeo = new THREE.IcosahedronGeometry(6, 1);
@@ -461,9 +478,8 @@ function init() {
   hub.add(hubBase);
 
   const nameDiv = document.createElement('div');
-  nameDiv.className = 'tech-label';
-  nameDiv.style.cssText = 'font-size:12px;letter-spacing:2px;color:#eafcff;background:rgba(3,10,20,0.6);border:1px solid rgba(0,247,255,0.4);padding:5px 10px;border-radius:4px;text-shadow:0 0 8px rgba(0,247,255,.8);';
-  nameDiv.textContent = 'DAVIS OGEGA — SPAWN HUB';
+  nameDiv.style.cssText = 'font-size:12px;letter-spacing:2px;color:#eafcff;background:rgba(3,10,20,0.6);border:1px solid rgba(0,247,255,0.4);padding:5px 10px;border-radius:4px;text-shadow:0 0 8px rgba(0,247,255,.8);white-space:nowrap;';
+  nameDiv.textContent = 'DAVIS OGEGA — CORE';
   const nameLabel = new CSS2DObject(nameDiv);
   nameLabel.position.set(0, 15, 0);
   hub.add(nameLabel);
@@ -477,8 +493,7 @@ function init() {
     node.position.set(Math.cos(angle) * radius, 10, Math.sin(angle) * radius);
     skillsGroup.add(node);
     const div = document.createElement('div');
-    div.className = 'tech-label';
-    div.style.cssText = 'font-size:9.5px;letter-spacing:1px;color:#00ff88;background:rgba(3,10,20,0.55);border:1px solid rgba(0,255,136,0.35);padding:3px 6px;border-radius:3px;';
+    div.style.cssText = 'font-size:9.5px;letter-spacing:1px;color:#00ff88;background:rgba(3,10,20,0.55);border:1px solid rgba(0,255,136,0.35);padding:3px 6px;border-radius:3px;white-space:nowrap;';
     div.textContent = s;
     const label = new CSS2DObject(div);
     label.position.set(0, 0.9, 0);
@@ -515,8 +530,7 @@ function init() {
     group.add(gemEdges);
 
     const div = document.createElement('div');
-    div.className = 'tech-label';
-    div.style.cssText = `font-size:11px;letter-spacing:1.5px;color:#eafcff;background:rgba(3,10,20,0.65);border:1px solid ${p.color};padding:4px 9px;border-radius:4px;text-shadow:0 0 8px ${p.color};`;
+    div.style.cssText = `font-size:11px;letter-spacing:1.5px;color:#eafcff;background:rgba(3,10,20,0.65);border:1px solid ${p.color};padding:4px 9px;border-radius:4px;text-shadow:0 0 8px ${p.color};white-space:nowrap;`;
     div.textContent = p.name;
     const label = new CSS2DObject(div);
     label.position.set(0, 11, 0);
@@ -525,223 +539,56 @@ function init() {
     monuments.push({ group, pos, data: p, gem });
   });
 
-  /* ---- Vehicle ---- */
-  const car = new THREE.Group();
-  car.position.set(0, 0, 26);
-  if (qa) car.position.copy(monuments[2].group.position).add(new THREE.Vector3(0, 0, -8));
-  if (qa) window.__car = car;
-  scene.add(car);
+  /* ---------------------------------------------------------------- */
+  /* Scroll-driven camera path                                         */
+  /* ---------------------------------------------------------------- */
+  const UP = new THREE.Vector3(0, 1, 0);
+  const waypoints = [];
+  waypoints.push({ pos: new THREE.Vector3(0, 95, 235), look: new THREE.Vector3(0, 15, 0) }); // 0 hero
+  waypoints.push({ pos: new THREE.Vector3(0, 15, 42), look: new THREE.Vector3(0, 11, 0) });  // 1 about/hub
 
-  const bodyMat = new THREE.MeshStandardMaterial({ color: 0x0d1420, roughness: 0.35, metalness: 0.6 });
-  const trimMat = new THREE.MeshBasicMaterial({ color: 0x00f7ff });
-
-  const chassis = new THREE.Mesh(new THREE.BoxGeometry(2.2, 0.5, 4), bodyMat);
-  chassis.position.y = 0.55;
-  car.add(chassis);
-  const cabinShape = new THREE.Mesh(new THREE.BoxGeometry(1.5, 0.55, 2), bodyMat);
-  cabinShape.position.set(0, 1.05, -0.2);
-  car.add(cabinShape);
-  const trimFront = new THREE.Mesh(new THREE.BoxGeometry(2.24, 0.08, 0.1), trimMat);
-  trimFront.position.set(0, 0.55, -2);
-  car.add(trimFront);
-  const trimBack = new THREE.Mesh(new THREE.BoxGeometry(2.24, 0.08, 0.1), new THREE.MeshBasicMaterial({ color: 0xff2e9a }));
-  trimBack.position.set(0, 0.55, 2);
-  car.add(trimBack);
-
-  const thrusterGeo = new THREE.CylinderGeometry(0.28, 0.28, 0.2, 12);
-  const thrusterMat = new THREE.MeshBasicMaterial({ color: 0x00f7ff });
-  const thrusterPositions = [[-0.9, 0.2, -1.5], [0.9, 0.2, -1.5], [-0.9, 0.2, 1.5], [0.9, 0.2, 1.5]];
-  thrusterPositions.forEach(([x, y, z]) => {
-    const t = new THREE.Mesh(thrusterGeo, thrusterMat);
-    t.position.set(x, y, z);
-    car.add(t);
+  monuments.forEach((m, i) => {
+    const angle = (i / monuments.length) * Math.PI * 2;
+    const camPos = new THREE.Vector3(Math.cos(angle) * (monRadius + 30), 13, Math.sin(angle) * (monRadius + 30));
+    const lookAt = m.group.position.clone().add(new THREE.Vector3(0, 8, 0));
+    waypoints.push({ pos: camPos, look: lookAt });
   });
 
-  const headlight = new THREE.PointLight(0xbfefff, 1.4, 22);
-  headlight.position.set(0, 0.8, -2.4);
-  car.add(headlight);
+  waypoints.push({ pos: new THREE.Vector3(0, 130, 4), look: new THREE.Vector3(0, 0, 0) }); // 10 outro — top-down overview
 
-  /* ---- Vehicle physics (kinematic arcade model) ---- */
-  const input = { fwd: 0, turn: 0, boost: false };
-  const vehicle = { speed: 0, heading: 0 };
-  const MAX_SPEED = 34, MAX_BOOST = 54, MAX_REVERSE = -14, ACCEL = 26, BRAKE = 46, FRICTION = 14, TURN_RATE = 2.1;
+  const numSegments = waypoints.length - 1;
 
-  const keys = {};
-  window.addEventListener('keydown', (e) => {
-    keys[e.key.toLowerCase()] = true;
-    if (['arrowup','arrowdown','arrowleft','arrowright',' '].includes(e.key.toLowerCase())) e.preventDefault();
-  });
-  window.addEventListener('keyup', (e) => { keys[e.key.toLowerCase()] = false; });
+  function smoothstep(t) { return t * t * (3 - 2 * t); }
 
-  function readKeyboard() {
-    let fwd = 0, turn = 0;
-    if (keys['w'] || keys['arrowup']) fwd += 1;
-    if (keys['s'] || keys['arrowdown']) fwd -= 1;
-    if (keys['a'] || keys['arrowleft']) turn += 1;
-    if (keys['d'] || keys['arrowright']) turn -= 1;
-    input.fwd = fwd;
-    input.turn = turn;
-    input.boost = !!keys['shift'];
+  function getScrollFrac() {
+    const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+    if (scrollable <= 0) return 0;
+    return THREE.MathUtils.clamp(window.scrollY / scrollable, 0, 1);
   }
 
-  /* touch joystick */
-  const joyZone = document.getElementById('joystick-zone');
-  const joyNub = document.getElementById('joystick-nub');
-  let joyActive = false, joyId = null;
-  const joyCenter = { x: 58, y: 58 };
-  function handleJoyMove(clientX, clientY) {
-    const rect = joyZone.getBoundingClientRect();
-    let dx = clientX - (rect.left + rect.width / 2);
-    let dy = clientY - (rect.top + rect.height / 2);
-    const max = rect.width / 2;
-    const dist = Math.min(Math.hypot(dx, dy), max);
-    const ang = Math.atan2(dy, dx);
-    dx = Math.cos(ang) * dist; dy = Math.sin(ang) * dist;
-    joyNub.style.left = (joyCenter.x - 20 + dx) + 'px';
-    joyNub.style.top = (joyCenter.y - 20 + dy) + 'px';
-    input.fwd = THREE.MathUtils.clamp(-dy / max, -1, 1);
-    input.turn = THREE.MathUtils.clamp(-dx / max, -1, 1);
-  }
-  function resetJoy() {
-    joyActive = false; joyId = null;
-    joyNub.style.left = '38px'; joyNub.style.top = '38px';
-    input.fwd = 0; input.turn = 0;
-  }
-  joyZone.addEventListener('pointerdown', (e) => { joyActive = true; joyId = e.pointerId; joyZone.setPointerCapture(e.pointerId); handleJoyMove(e.clientX, e.clientY); });
-  joyZone.addEventListener('pointermove', (e) => { if (joyActive && e.pointerId === joyId) handleJoyMove(e.clientX, e.clientY); });
-  joyZone.addEventListener('pointerup', resetJoy);
-  joyZone.addEventListener('pointercancel', resetJoy);
+  const tmpPos = new THREE.Vector3();
+  const tmpLook = new THREE.Vector3();
+  function updateCameraFromScroll(t) {
+    const frac = getScrollFrac();
+    const p = frac * numSegments;
+    let idx = Math.floor(p);
+    idx = THREE.MathUtils.clamp(idx, 0, numSegments - 1);
+    const localT = smoothstep(THREE.MathUtils.clamp(p - idx, 0, 1));
 
-  const boostBtn = document.getElementById('boost-btn');
-  boostBtn.addEventListener('pointerdown', () => { input.boost = true; });
-  boostBtn.addEventListener('pointerup', () => { input.boost = false; });
-  boostBtn.addEventListener('pointercancel', () => { input.boost = false; });
+    const a = waypoints[idx], b = waypoints[idx + 1];
+    tmpPos.lerpVectors(a.pos, b.pos, localT);
+    tmpLook.lerpVectors(a.look, b.look, localT);
 
-  function updateVehicle(dt) {
-    if (!isMobile) readKeyboard();
-    const maxFwd = input.boost ? MAX_BOOST : MAX_SPEED;
+    tmpPos.y += Math.sin(t * 0.5) * 0.5;
 
-    if (input.fwd > 0) vehicle.speed += ACCEL * dt;
-    else if (input.fwd < 0) vehicle.speed -= BRAKE * dt;
-    else vehicle.speed -= Math.sign(vehicle.speed) * FRICTION * dt;
+    camera.position.copy(tmpPos);
+    camera.lookAt(tmpLook);
 
-    vehicle.speed = THREE.MathUtils.clamp(vehicle.speed, MAX_REVERSE, maxFwd);
-    if (Math.abs(vehicle.speed) < 0.05 && input.fwd === 0) vehicle.speed = 0;
-
-    const speedFrac = THREE.MathUtils.clamp(Math.abs(vehicle.speed) / MAX_SPEED, 0, 1);
-    vehicle.heading += input.turn * TURN_RATE * speedFrac * dt * Math.sign(vehicle.speed || 1);
-
-    const dir = new THREE.Vector3(Math.sin(vehicle.heading), 0, Math.cos(vehicle.heading));
-    car.position.addScaledVector(dir, vehicle.speed * dt);
-
-    const distFromCenter = Math.hypot(car.position.x, car.position.z);
-    if (distFromCenter > WORLD_RADIUS) {
-      const clampPos = car.position.clone().setY(0).normalize().multiplyScalar(WORLD_RADIUS);
-      car.position.x = clampPos.x; car.position.z = clampPos.z;
-      vehicle.speed *= 0.4;
-    }
-
-    car.rotation.y = vehicle.heading;
-    const targetRoll = -input.turn * speedFrac * 0.18;
-    car.rotation.z = THREE.MathUtils.lerp(car.rotation.z, targetRoll, 0.15);
-
-    document.getElementById('speed-value').textContent = Math.round(Math.abs(vehicle.speed) * 6);
-    document.getElementById('boost-label').classList.toggle('active', input.boost && vehicle.speed > MAX_SPEED * 0.8);
-  }
-
-  /* ---- Camera (chase cam) ---- */
-  const camOffset = new THREE.Vector3(0, 5.2, 11);
-  const camLookOffset = new THREE.Vector3(0, 1.2, -6);
-  let cameraEngaged = false;
-
-  function updateCamera(dt) {
-    const dir = new THREE.Vector3(Math.sin(vehicle.heading), 0, Math.cos(vehicle.heading));
-    const desired = car.position.clone().addScaledVector(dir, -camOffset.z).add(new THREE.Vector3(0, camOffset.y, 0));
-    camera.position.lerp(desired, 1 - Math.pow(0.001, dt));
-    const lookAt = car.position.clone().addScaledVector(dir, camLookOffset.z).add(new THREE.Vector3(0, camLookOffset.y, 0));
-    const currentLook = camera.getWorldDirection(new THREE.Vector3()).add(camera.position);
-    const smoothLook = currentLook.lerp(lookAt, 1 - Math.pow(0.0005, dt));
-    camera.lookAt(smoothLook);
-  }
-
-  /* ---- Intro flythrough ---- */
-  let introT = 0;
-  const introDuration = qa ? 0.05 : 3.2;
-  function updateIntro(dt) {
-    introT += dt;
-    const t = Math.min(introT / introDuration, 1);
-    const ease = 1 - Math.pow(1 - t, 3);
-    const angle = -Math.PI * 0.6 + ease * Math.PI * 0.9;
-    const r = 150 - ease * 30;
-    camera.position.set(Math.cos(angle) * r, 70 - ease * 45, Math.sin(angle) * r);
-    camera.lookAt(0, 5, 0);
-    if (t >= 1) {
-      cameraEngaged = true;
-      camera.position.copy(car.position).add(new THREE.Vector3(0, camOffset.y, camOffset.z));
-    }
-  }
-
-  /* ---- Proximity / project panel ---- */
-  const panel = document.getElementById('project-panel');
-  const proximityHint = document.getElementById('proximity-hint');
-  let activeProject = null;
-  const PROX_RADIUS = 15;
-
-  function updateProximity() {
-    let nearest = null, nearestDist = Infinity;
-    for (const m of monuments) {
-      const d = car.position.distanceTo(m.group.position);
-      if (d < PROX_RADIUS && d < nearestDist) { nearest = m; nearestDist = d; }
-    }
-    if (nearest && nearest !== activeProject) {
-      activeProject = nearest;
-      const p = nearest.data;
-      document.getElementById('panel-dot').style.color = p.color;
-      document.getElementById('panel-name').textContent = p.name;
-      document.getElementById('panel-tag').textContent = p.tag;
-      document.getElementById('panel-desc').textContent = p.desc;
-      document.getElementById('panel-link').href = p.link;
-      const tagsEl = document.getElementById('panel-tags');
-      tagsEl.innerHTML = '';
-      p.tags.forEach((t) => { const s = document.createElement('span'); s.textContent = t; tagsEl.appendChild(s); });
-      panel.classList.add('visible');
-      proximityHint.classList.add('visible');
-      document.getElementById('touch-controls').classList.add('panel-open');
-    } else if (!nearest && activeProject) {
-      activeProject = null;
-      panel.classList.remove('visible');
-      proximityHint.classList.remove('visible');
-      document.getElementById('touch-controls').classList.remove('panel-open');
-    }
-  }
-
-  /* ---- Minimap ---- */
-  const mmCanvas = document.getElementById('minimap');
-  const mmCtx = mmCanvas.getContext('2d');
-  function drawMinimap() {
-    const w = mmCanvas.width, h = mmCanvas.height, cx = w / 2, cy = h / 2;
-    const scale = (w / 2 - 8) / WORLD_RADIUS;
-    mmCtx.clearRect(0, 0, w, h);
-    mmCtx.fillStyle = 'rgba(3,10,20,0.4)';
-    mmCtx.beginPath(); mmCtx.arc(cx, cy, w / 2, 0, Math.PI * 2); mmCtx.fill();
-    mmCtx.strokeStyle = 'rgba(0,247,255,0.5)';
-    mmCtx.beginPath(); mmCtx.arc(cx, cy, WORLD_RADIUS * scale, 0, Math.PI * 2); mmCtx.stroke();
-
-    monuments.forEach((m) => {
-      mmCtx.fillStyle = m.data.color;
-      mmCtx.beginPath();
-      mmCtx.arc(cx + m.group.position.x * scale, cy + m.group.position.z * scale, 3, 0, Math.PI * 2);
-      mmCtx.fill();
-    });
-
-    mmCtx.save();
-    mmCtx.translate(cx + car.position.x * scale, cy + car.position.z * scale);
-    mmCtx.rotate(vehicle.heading);
-    mmCtx.fillStyle = '#eafcff';
-    mmCtx.beginPath();
-    mmCtx.moveTo(0, -6); mmCtx.lineTo(4, 5); mmCtx.lineTo(-4, 5); mmCtx.closePath();
-    mmCtx.fill();
-    mmCtx.restore();
+    const progressPct = Math.round(frac * 100);
+    const fill = document.getElementById('progress-fill');
+    const pctLabel = document.getElementById('progress-pct');
+    if (fill) fill.style.height = progressPct + '%';
+    if (pctLabel) pctLabel.textContent = progressPct + '%';
   }
 
   /* ---- Post-processing ---- */
@@ -760,21 +607,10 @@ function init() {
     composer.setSize(w, h);
   });
 
-  /* ---- Start gate ---- */
-  document.getElementById('start-btn').addEventListener('click', () => {
-    if (started) return;
-    started = true;
-    document.getElementById('start-gate').classList.remove('visible');
-    document.getElementById('drive-hud').classList.add('visible');
-    setTimeout(() => document.getElementById('control-hint').classList.add('faded'), 6000);
-  });
-
   /* ---- Main loop ---- */
   const clock = new THREE.Clock();
-  let frame = 0;
   function animate() {
     requestAnimationFrame(animate);
-    const dt = Math.min(clock.getDelta(), 0.05);
     const t = clock.elapsedTime;
 
     hub.rotation.y = t * 0.1;
@@ -785,18 +621,7 @@ function init() {
     });
     stars.rotation.y = t * 0.003;
 
-    if (!started) {
-      camera.position.set(Math.cos(t * 0.05) * 150, 70, Math.sin(t * 0.05) * 150);
-      camera.lookAt(0, 8, 0);
-    } else if (!cameraEngaged) {
-      updateIntro(dt);
-    } else {
-      updateVehicle(dt);
-      updateCamera(dt);
-      updateProximity();
-      frame++;
-      if (frame % 2 === 0) drawMinimap();
-    }
+    updateCameraFromScroll(t);
 
     composer.render();
     labelRenderer.render(scene, camera);
