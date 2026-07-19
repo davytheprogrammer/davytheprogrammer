@@ -283,8 +283,8 @@ import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
 import { BokehPass } from 'three/addons/postprocessing/BokehPass.js';
 import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
 
-const HELMET_URL = 'https://cdn.jsdelivr.net/gh/KhronosGroup/glTF-Sample-Models@main/2.0/DamagedHelmet/glTF-Binary/DamagedHelmet.glb';
-const HDRI_URL = 'https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/neon_photostudio_1k.hdr';
+const ARTIFACT_URL = 'assets/moon_rock_01/moon_rock_01.gltf';
+const HDRI_URL = 'assets/kloofendal_48d_partly_cloudy_puresky_1k.hdr';
 
 /* ---------------------------------------------------------------- */
 /* Project data                                                      */
@@ -439,14 +439,14 @@ function init() {
 
   const camera = new THREE.PerspectiveCamera(36, window.innerWidth / window.innerHeight, 0.05, 200);
 
-  /* ---- Lighting: neutral fill + brand-colored rim lights ---- */
-  scene.add(new THREE.HemisphereLight(0x1c2a44, 0x040608, 0.5));
-  const keyLight = new THREE.PointLight(0x66d9ff, 1.6, 30, 2);
-  keyLight.position.set(-3.2, 3.5, 3.2);
-  scene.add(keyLight);
-  const rimLight = new THREE.PointLight(0xff2e9a, 1.2, 30, 2);
-  rimLight.position.set(3.5, 1.8, -3);
-  scene.add(rimLight);
+  /* ---- Lighting: natural daylight fill, true material color ---- */
+  scene.add(new THREE.HemisphereLight(0x9db4d0, 0x2b2620, 0.6));
+  const sunLight = new THREE.DirectionalLight(0xfff3e0, 1.1);
+  sunLight.position.set(-4, 6, 3.5);
+  scene.add(sunLight);
+  const fillLight = new THREE.PointLight(0xcfe0ff, 0.4, 30, 2);
+  fillLight.position.set(3.5, 1.8, -3);
+  scene.add(fillLight);
 
   /* ---- Starfield (distant, dim) ---- */
   const starCount = isMobile ? 900 : 1800;
@@ -511,11 +511,10 @@ function init() {
   }
   composer.addPass(new OutputPass());
 
-  /* ---- Load HDRI + helmet ---- */
-  let helmetLoaded = false, hdriLoaded = false;
-  const helmetGroup = new THREE.Group();
-  helmetGroup.position.set(0, 1.35, 0);
-  scene.add(helmetGroup);
+  /* ---- Load HDRI + artifact ---- */
+  let artifactLoaded = false, hdriLoaded = false;
+  const artifactGroup = new THREE.Group();
+  scene.add(artifactGroup);
 
   const rgbeLoader = new RGBELoader();
   const pmrem = new THREE.PMREMGenerator(renderer);
@@ -529,33 +528,47 @@ function init() {
       hdriTex.dispose();
       pmrem.dispose();
       hdriLoaded = true;
-      if (helmetLoaded) finishBoot();
+      if (artifactLoaded) finishBoot();
     },
     (xhr) => { if (xhr.total) setLoadProgress((xhr.loaded / xhr.total) * 50); },
-    () => { hdriLoaded = true; if (helmetLoaded) finishBoot(); }
+    (err) => { console.error('HDRI load failed:', err); hdriLoaded = true; if (artifactLoaded) finishBoot(); }
   );
 
   const gltfLoader = new GLTFLoader();
   gltfLoader.load(
-    HELMET_URL,
+    ARTIFACT_URL,
     (gltf) => {
       const model = gltf.scene;
-      model.rotation.y = Math.PI * 0.15;
       model.traverse((child) => {
-        if (child.isMesh && child.material) child.material.envMapIntensity = 1.3;
+        if (child.isMesh && child.material) child.material.envMapIntensity = 1.1;
       });
-      helmetGroup.add(model);
-      helmetLoaded = true;
+
+      // Normalize scale/position: fit to a consistent on-screen size and rest it on the floor.
+      const box = new THREE.Box3().setFromObject(model);
+      const size = box.getSize(new THREE.Vector3());
+      const maxDim = Math.max(size.x, size.y, size.z) || 1;
+      const scale = 2.6 / maxDim;
+      model.scale.setScalar(scale);
+
+      const box2 = new THREE.Box3().setFromObject(model);
+      const center = box2.getCenter(new THREE.Vector3());
+      model.position.x -= center.x;
+      model.position.z -= center.z;
+      model.position.y -= box2.min.y;
+
+      artifactGroup.add(model);
+      cameraTarget.y = (box2.max.y - box2.min.y) * 0.42;
+      artifactLoaded = true;
       if (hdriLoaded) finishBoot();
     },
     (xhr) => { if (xhr.total) setLoadProgress(50 + (xhr.loaded / xhr.total) * 50); },
-    () => { helmetLoaded = true; if (hdriLoaded) finishBoot(); }
+    (err) => { console.error('Artifact load failed:', err); artifactLoaded = true; if (hdriLoaded) finishBoot(); }
   );
 
   /* ---------------------------------------------------------------- */
   /* Scroll-driven camera orbit around the artifact                    */
   /* ---------------------------------------------------------------- */
-  const target = new THREE.Vector3(0, 1.35, 0);
+  const cameraTarget = new THREE.Vector3(0, 1.1, 0);
   const waypoints = [];
   const numBeats = 11; // hero, about, 8 projects, outro
   const startAngle = -0.6, totalSweep = 4.9; // radians, ~280 degrees total
@@ -593,7 +606,7 @@ function init() {
 
     tmpPos.y += Math.sin(t * 0.4) * 0.04;
     camera.position.copy(tmpPos);
-    camera.lookAt(target);
+    camera.lookAt(cameraTarget);
 
     if (bokeh) bokeh.uniforms['focus'].value = radius;
 
@@ -620,7 +633,7 @@ function init() {
     const t = clock.getElapsedTime();
     const rotT = revealTime !== null ? Math.max(0, t - revealTime) : 0;
 
-    helmetGroup.rotation.y = rotT * 0.12;
+    artifactGroup.rotation.y = rotT * 0.12;
     motes.rotation.y = t * 0.02;
     stars.rotation.y = t * 0.004;
     floorRing.material.opacity = 0.35 + Math.sin(t * 1.4) * 0.15;
@@ -632,7 +645,7 @@ function init() {
   animate();
 
   // Safety net: if assets take unusually long, don't leave the visitor stuck on the boot screen forever.
-  setTimeout(() => { if (!(helmetLoaded && hdriLoaded)) finishBoot(); }, 20000);
+  setTimeout(() => { if (!(artifactLoaded && hdriLoaded)) finishBoot(); }, 20000);
 }
 </script>
 </body>
