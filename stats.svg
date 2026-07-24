@@ -1,0 +1,79 @@
+<svg viewBox="0 0 940 415" xmlns="http://www.w3.org/2000/svg" font-family="Consolas, 'Courier New', monospace">
+  <defs>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="2.5" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <style><![CDATA[
+      @keyframes grow0 { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes grow1 { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes grow2 { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes grow3 { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes grow4 { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+    ]]></style>
+  </defs>
+  <rect width="940" height="415" rx="14" fill="#05070d"/>
+  <g transform="translate(20,20)">
+    
+    <g transform="translate(0,0)">
+      <rect width="286" height="120" rx="10" fill="#0b0f1a" stroke="#00f7ff" stroke-opacity="0.35"/>
+      <text x="20" y="34" font-size="11" letter-spacing="2" fill="#00f7ff" opacity="0.85">TOTAL CONTRIBUTIONS (365d)</text>
+      <text x="20" y="80" font-size="34" font-weight="800" fill="#eafcff" filter="url(#glow)">4644</text>
+    </g>
+    
+    <g transform="translate(306,0)">
+      <rect width="286" height="120" rx="10" fill="#0b0f1a" stroke="#00ff88" stroke-opacity="0.35"/>
+      <text x="20" y="34" font-size="11" letter-spacing="2" fill="#00ff88" opacity="0.85">CURRENT / LONGEST STREAK</text>
+      <text x="20" y="80" font-size="34" font-weight="800" fill="#eafcff" filter="url(#glow)">12d / 31d</text>
+    </g>
+    
+    <g transform="translate(612,0)">
+      <rect width="286" height="120" rx="10" fill="#0b0f1a" stroke="#ff2e9a" stroke-opacity="0.35"/>
+      <text x="20" y="34" font-size="11" letter-spacing="2" fill="#ff2e9a" opacity="0.85">STARS EARNED</text>
+      <text x="20" y="80" font-size="34" font-weight="800" fill="#eafcff" filter="url(#glow)">53</text>
+    </g>
+  </g>
+  <g transform="translate(20,155)" font-size="11" letter-spacing="2" fill="#7fd9ff" opacity="0.8">
+    <text x="0" y="0">PUBLIC REPOS: 42   ·   FOLLOWERS: 19</text>
+  </g>
+  <g transform="translate(20,185)">
+    <text x="0" y="0" font-size="12" letter-spacing="2" fill="#00f7ff" opacity="0.9">TOP LANGUAGES</text>
+    <g transform="translate(0,20)">
+      
+    <g transform="translate(0,0)">
+      <text x="0" y="12" font-size="12" fill="#d8f6ff">Dart</text>
+      <text x="720" y="12" font-size="12" fill="#8be9ff" text-anchor="end">35%</text>
+      <rect x="0" y="20" width="720" height="10" rx="5" fill="#111826"/>
+      <rect x="0" y="20" width="251.99999999999997" height="10" rx="5" fill="#00B4AB" style="animation: grow0 1.2s ease forwards; transform-box: fill-box; transform-origin: left;"/>
+    </g>
+
+    <g transform="translate(0,38)">
+      <text x="0" y="12" font-size="12" fill="#d8f6ff">Python</text>
+      <text x="720" y="12" font-size="12" fill="#8be9ff" text-anchor="end">24%</text>
+      <rect x="0" y="20" width="720" height="10" rx="5" fill="#111826"/>
+      <rect x="0" y="20" width="172.79999999999998" height="10" rx="5" fill="#3572A5" style="animation: grow1 1.2s ease forwards; transform-box: fill-box; transform-origin: left;"/>
+    </g>
+
+    <g transform="translate(0,76)">
+      <text x="0" y="12" font-size="12" fill="#d8f6ff">TypeScript</text>
+      <text x="720" y="12" font-size="12" fill="#8be9ff" text-anchor="end">12%</text>
+      <rect x="0" y="20" width="720" height="10" rx="5" fill="#111826"/>
+      <rect x="0" y="20" width="86.39999999999999" height="10" rx="5" fill="#3178c6" style="animation: grow2 1.2s ease forwards; transform-box: fill-box; transform-origin: left;"/>
+    </g>
+
+    <g transform="translate(0,114)">
+      <text x="0" y="12" font-size="12" fill="#d8f6ff">HTML</text>
+      <text x="720" y="12" font-size="12" fill="#8be9ff" text-anchor="end">6%</text>
+      <rect x="0" y="20" width="720" height="10" rx="5" fill="#111826"/>
+      <rect x="0" y="20" width="43.199999999999996" height="10" rx="5" fill="#e34c26" style="animation: grow3 1.2s ease forwards; transform-box: fill-box; transform-origin: left;"/>
+    </g>
+
+    <g transform="translate(0,152)">
+      <text x="0" y="12" font-size="12" fill="#d8f6ff">Kotlin</text>
+      <text x="720" y="12" font-size="12" fill="#8be9ff" text-anchor="end">6%</text>
+      <rect x="0" y="20" width="720" height="10" rx="5" fill="#111826"/>
+      <rect x="0" y="20" width="43.199999999999996" height="10" rx="5" fill="#A97BFF" style="animation: grow4 1.2s ease forwards; transform-box: fill-box; transform-origin: left;"/>
+    </g>
+    </g>
+  </g>
+</svg>
