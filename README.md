@@ -8,9 +8,19 @@
 
 <br/>
 
+I build and ship full-stack products across web, mobile, AI, and the infrastructure behind them. Here are a few projects from the flight log; the command center has the full tour.
+
+### ◈ Featured builds // verified open repos
+
+- **CyberAudit** — an educational vulnerability scanner and exploit-chain simulator. [Open project →](https://github.com/davytheprogrammer/web-vulnerability-scanner)
+- **Hotspot Manager** — a Linux Wi-Fi hotspot manager with a GTK interface, system tray, and CLI. [Open project →](https://github.com/davytheprogrammer/hotspot-manager)
+- **Flutter Modern Template** — a Material 3 starter for cross-platform Flutter apps. [Open project →](https://github.com/davytheprogrammer/flutter-modern-template)
+
 <div align="center">
   <a href="https://davytheprogrammer.github.io/davytheprogrammer/"><img src="assets/badge-3d.svg" height="58" alt="Launch 3D Command Center"/></a>
 </div>
+
+<br/>
 
 <div align="center">
   <img src="https://komarev.com/ghpvc/?username=davytheprogrammer&label=PROFILE+VIEWS&color=00c8ff&style=for-the-badge&labelColor=0d1117" alt="Profile views" />
