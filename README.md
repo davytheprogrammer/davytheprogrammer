@@ -21,14 +21,6 @@
 
 <br/>
 
-<div align="center"><img src="assets/title-core-arsenal.svg" alt="Core Arsenal"/></div>
-<br/>
-<div align="center">
-  <img src="assets/skills.svg" width="100%" alt="Proficiency levels"/>
-</div>
-
-<br/>
-
 <div align="center"><img src="assets/title-technology-dna.svg" alt="Technology DNA"/></div>
 <br/>
 <div align="center">
