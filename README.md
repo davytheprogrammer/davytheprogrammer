@@ -1,26 +1,10 @@
 <div align="center">
-  <img src="assets/hero.svg" width="100%" alt="Davis Ogega — Next-Gen Code Architect"/>
+  <img src="assets/hero.svg" width="100%" alt="Davis Ogega — Full-Stack Systems Builder"/>
 </div>
 
 <div align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=18&duration=3200&pause=1200&color=00FF88&center=true&vCenter=true&width=680&lines=Crafting+the+future+with+code%2C+one+vibe+at+a+time;AI-augmented+builder+%3A%3A+shipping+systems+to+the+edge;Currently+orbiting%3A+Next.js+15+%2B+React+19" alt="tagline"/>
+  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=18&duration=3200&pause=1200&color=00FF88&center=true&vCenter=true&width=680&lines=Building+across+web%2C+mobile%2C+AI+and+infrastructure;Designing+systems+from+the+first+commit+to+production;Current+focus%3A+Next.js+and+Flutter" alt="tagline"/>
 </div>
-
-<br/>
-
-I build and ship full-stack products across web, mobile, AI, and the infrastructure behind them. Here are a few projects from the flight log; the command center has the full tour.
-
-### ◈ Featured builds // verified open repos
-
-- **CyberAudit** — an educational vulnerability scanner and exploit-chain simulator. [Open project →](https://github.com/davytheprogrammer/web-vulnerability-scanner)
-- **Hotspot Manager** — a Linux Wi-Fi hotspot manager with a GTK interface, system tray, and CLI. [Open project →](https://github.com/davytheprogrammer/hotspot-manager)
-- **Flutter Modern Template** — a Material 3 starter for cross-platform Flutter apps. [Open project →](https://github.com/davytheprogrammer/flutter-modern-template)
-
-<div align="center">
-  <a href="https://davytheprogrammer.github.io/davytheprogrammer/"><img src="assets/badge-3d.svg" height="58" alt="Launch 3D Command Center"/></a>
-</div>
-
-<br/>
 
 <div align="center">
   <img src="https://komarev.com/ghpvc/?username=davytheprogrammer&label=PROFILE+VIEWS&color=00c8ff&style=for-the-badge&labelColor=0d1117" alt="Profile views" />
@@ -49,6 +33,38 @@ I build and ship full-stack products across web, mobile, AI, and the infrastruct
 <br/>
 <div align="center">
   <img src="assets/tech-stack.svg" width="100%" alt="Technology stack"/>
+</div>
+
+<br/>
+
+<div align="center">
+  <img src="assets/title-featured-builds.svg" width="100%" alt="Project dossier — selected builds and public source links"/>
+</div>
+
+<table>
+  <tbody>
+    <tr>
+      <td width="33%" valign="top">
+        <p><strong><code>01 / CYBERAUDIT</code></strong><br/><sub>SECURITY LAB · FASTAPI + TAURI</sub></p>
+        <p>Educational vulnerability scanner with a visual exploit-chain simulator.</p>
+        <a href="https://github.com/davytheprogrammer/web-vulnerability-scanner">↗ INSPECT SOURCE</a>
+      </td>
+      <td width="33%" valign="top">
+        <p><strong><code>02 / HOTSPOT MANAGER</code></strong><br/><sub>LINUX SYSTEMS · GTK + CLI</sub></p>
+        <p>Linux hotspot control with a desktop interface, system tray, and hardware detection.</p>
+        <a href="https://github.com/davytheprogrammer/hotspot-manager">↗ INSPECT SOURCE</a>
+      </td>
+      <td width="33%" valign="top">
+        <p><strong><code>03 / FLUTTER STARTER</code></strong><br/><sub>CROSS-PLATFORM · MATERIAL 3</sub></p>
+        <p>A reusable Flutter foundation for building polished apps across platforms.</p>
+        <a href="https://github.com/davytheprogrammer/flutter-modern-template">↗ INSPECT SOURCE</a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<div align="center">
+  <a href="https://davytheprogrammer.github.io/davytheprogrammer/"><img src="assets/badge-3d.svg" height="58" alt="Launch 3D Command Center"/></a>
 </div>
 
 <br/>

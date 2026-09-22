@@ -166,8 +166,8 @@
       <text class="glitch-cyan" x="0" y="0" font-size="54" font-weight="800" letter-spacing="4" fill="#00f7ff">DAVIS OGEGA</text>
       <text class="glitch-pink" x="0" y="0" font-size="54" font-weight="800" letter-spacing="4" fill="#ff2e9a">DAVIS OGEGA</text>
 
-      <text x="3" y="42" font-size="18" letter-spacing="3" fill="#00ff88" filter="url(#softGlow)">NEXT-GEN CODE ARCHITECT</text>
-      <text x="3" y="70" font-size="14" letter-spacing="2" fill="#7fd9ff" opacity="0.85">AI-augmented builder :: shipping systems from idea to edge</text>
+      <text x="3" y="42" font-size="18" letter-spacing="3" fill="#00ff88" filter="url(#softGlow)">FULL-STACK SYSTEMS BUILDER</text>
+      <text x="3" y="70" font-size="14" letter-spacing="2" fill="#7fd9ff" opacity="0.85">WEB · MOBILE · AI · INFRASTRUCTURE</text>
 
       <g transform="translate(3,96)" font-size="13" fill="#8be9ff" opacity="0.9">
         <text x="0" y="0">root@davis:~$ deploy --target=production</text>
